@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="kubectl 学习笔记思考：kubectl 和docker命令源码的设计思想类似。 docker中启动了服务器接受请求注册api, 而kubectl发送命令给apiserver请求数据或者创建资源。 Cmds是kubectl中的命令集合，所有命令都会整理在里面。 Cmd 是命令的实体，其中主要是具体执行用户命令。每个cmd负责一个命令执行类型(describe,get…)。 Builder 是c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Saar&#39;s Blog">
+<meta property="og:url" content="http://www.mydreamdll.xyz/categories/index.html">
+<meta property="og:site_name" content="Saar&#39;s Blog">
+<meta property="og:description" content="kubectl 学习笔记思考：kubectl 和docker命令源码的设计思想类似。 docker中启动了服务器接受请求注册api, 而kubectl发送命令给apiserver请求数据或者创建资源。 Cmds是kubectl中的命令集合，所有命令都会整理在里面。 Cmd 是命令的实体，其中主要是具体执行用户命令。每个cmd负责一个命令执行类型(describe,get…)。 Builder 是c">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-16T09:40:52.498Z">
+<meta property="article:modified_time" content="2020-01-16T09:39:25.000Z">
+<meta property="article:author" content="Saar">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.mydreamdll.xyz/categories/"/>
+
+
+
+
+
+  <title> | Saar's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+    <div class="top-scroll-bar"></div>
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Saar's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心 方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h2 id="kubectl-学习笔记"><a href="#kubectl-学习笔记" class="headerlink" title="kubectl 学习笔记"></a>kubectl 学习笔记</h2><p>思考：kubectl 和docker命令源码的设计思想类似。</p>
+<p>docker中启动了服务器接受请求注册<em>api</em>, 而kubectl发送命令给apiserver请求数据或者创建资源。</p>
+<p>Cmds是kubectl中的命令集合，所有命令都会整理在里面。</p>
+<p>Cmd 是命令的实体，其中主要是具体执行用户命令。每个cmd负责一个命令执行类型(describe,get…)。</p>
+<p>Builder 是cmd执行操作时的辅助工具，主要是负责封装与Apiserver交互的底层操作，和将Apiserver的返回数据转化为统一数据结构。</p>
+<p>Kubectl 依赖于<a href="https://github.com/spf13/cobra" target="_blank" rel="noopener">cobra</a>包构建命令行支持，该包是支持通用的命令行构建库。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Cmds(命令集合)&lt;---Cmd(命令obj)</span><br><span class="line">       |          |</span><br><span class="line">       |          |</span><br><span class="line">       |          | </span><br><span class="line">       |        Builder</span><br><span class="line">       |          |</span><br><span class="line">       |          |  </span><br><span class="line">       |----------Cmd(命令obj)</span><br></pre></td></tr></table></figure>
+
+<p>Kubectl 的执行流程分析以describe命令分析。</p>
+<ol>
+<li>用户发起请求</li>
+<li>根据用户执行动作分发给处理对应动作的Cmd (Cmd是执行用户命令的实体)</li>
+<li>解析用户命令</li>
+<li>向Apiserver获取数据</li>
+<li>整理返回为通用的数据集合</li>
+<li>找到解释查询类型数据的句柄</li>
+<li>使用具柄对整理出的数据集合进行打印输出</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe node node1</span><br></pre></td></tr></table></figure>
+
+<p>如下, NewKubectlCommand 方法中cobra会根据命令动作将请求分配给describe注册的cmd。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">groups :&#x3D; templates.CommandGroups&#123;</span><br><span class="line">        &#x2F;&#x2F;...</span><br><span class="line">        &#123;</span><br><span class="line">            Message: &quot;Troubleshooting and Debugging Commands:&quot;,</span><br><span class="line">            Commands: []*cobra.Command&#123;</span><br><span class="line">                NewCmdDescribe(f, out, err),    &#x2F;&#x2F;&lt;------describe操作的cmd</span><br><span class="line">                NewCmdLogs(f, out),</span><br><span class="line">                NewCmdAttach(f, in, out, err),</span><br><span class="line">                NewCmdExec(f, in, out, err),</span><br><span class="line">                NewCmdPortForward(f, out, err),</span><br><span class="line">                NewCmdProxy(f, out),</span><br><span class="line">                NewCmdCp(f, out, err),</span><br><span class="line">                auth.NewCmdAuth(f, out, err),</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            Message: &quot;Advanced Commands:&quot;,</span><br><span class="line">            Commands: []*cobra.Command&#123;</span><br><span class="line">                NewCmdApply(&quot;kubectl&quot;, f, out, err),</span><br><span class="line">                NewCmdPatch(f, out),</span><br><span class="line">                NewCmdReplace(f, out),</span><br><span class="line">                NewCmdConvert(f, out),</span><br><span class="line">            &#125;,</span><br><span class="line">        &#125;,</span><br><span class="line">        &#x2F;&#x2F; ...</span><br><span class="line">    &#125;</span><br><span class="line">    groups.Add(cmds)</span><br></pre></td></tr></table></figure>
+
+<p>Cmd会对获取用户输入数据， 并检查正确性然后使用Run函数处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">func NewCmdDescribe(f cmdutil.Factory, out, cmdErr io.Writer) *cobra.Command &#123;</span><br><span class="line">    options :&#x3D; &amp;resource.FilenameOptions&#123;&#125;</span><br><span class="line">    describerSettings :&#x3D; &amp;printers.DescriberSettings&#123;&#125;</span><br><span class="line"></span><br><span class="line">    validArgs :&#x3D; printersinternal.DescribableResources()</span><br><span class="line">    argAliases :&#x3D; kubectl.ResourceAliases(validArgs)</span><br><span class="line"></span><br><span class="line">    cmd :&#x3D; &amp;cobra.Command&#123;</span><br><span class="line">        Use:     &quot;describe (-f FILENAME | TYPE [NAME_PREFIX | -l label] | TYPE&#x2F;NAME)&quot;,</span><br><span class="line">        Short:   i18n.T(&quot;Show details of a specific resource or group of resources&quot;),</span><br><span class="line">        Long:    describeLong + &quot;\n\n&quot; + cmdutil.ValidResourceTypeList(f),</span><br><span class="line">        Example: describeExample,</span><br><span class="line">        Run: func(cmd *cobra.Command, args []string) &#123;   &#x2F;&#x2F; &lt;------处理回调函数</span><br><span class="line">            err :&#x3D; RunDescribe(f, out, cmdErr, cmd, args, options, describerSettings)</span><br><span class="line">            cmdutil.CheckErr(err)</span><br><span class="line">        &#125;,</span><br><span class="line">        ValidArgs:  validArgs,     &#x2F;&#x2F;&lt;-----------------合法性检查 </span><br><span class="line">        ArgAliases: argAliases,</span><br><span class="line">    &#125;</span><br><span class="line">    usage :&#x3D; &quot;containing the resource to describe&quot;</span><br><span class="line">    cmdutil.AddFilenameOptionFlags(cmd, options, usage)</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; 下面主要是输入参数检查 </span><br><span class="line">    </span><br><span class="line">    cmd.Flags().StringP(&quot;selector&quot;, &quot;l&quot;, &quot;&quot;, &quot;Selector (label query) to filter on, supports &#39;&#x3D;&#39;, &#39;&#x3D;&#x3D;&#39;, and &#39;!&#x3D;&#39;.(e.g. -l key1&#x3D;value1,key2&#x3D;value2)&quot;)</span><br><span class="line">    cmd.Flags().Bool(&quot;all-namespaces&quot;, false, &quot;If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.&quot;)</span><br><span class="line">    cmd.Flags().BoolVar(&amp;describerSettings.ShowEvents, &quot;show-events&quot;, true, &quot;If true, display events related to the described object.&quot;)</span><br><span class="line">    cmdutil.AddInclude3rdPartyFlags(cmd)</span><br><span class="line">    cmdutil.AddIncludeUninitializedFlag(cmd)</span><br><span class="line">    return cmd</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下, 在 RunDescribe 中时对该命令的具体处理</p>
+<ul>
+<li>Builder(), Unstructured(), ContinueOnError().<br> NamespaceParam(), FilenameParam(), LabelSelectorParam() … Flatten() 的链式调用流程主要是为执行命令做准备。</li>
+<li>Do() 函数是注册具体向Apiserver请求数据，和讲返回数据转化为通用结构的方法。</li>
+<li>最后的 describer.Describe（） 函数是将提取出的返回数据 打印出来做可视化接口。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">func RunDescribe(f cmdutil.Factory, out, cmdErr io.Writer, cmd *cobra.Command, args []string, options *resource.FilenameOptions, describerSettings *printers.DescriberSettings) error &#123;</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; ...</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; include the uninitialized objects by default</span><br><span class="line">    &#x2F;&#x2F; unless user explicitly set --include-uninitialized&#x3D;false</span><br><span class="line">    includeUninitialized :&#x3D; cmdutil.ShouldIncludeUninitialized(cmd, true)</span><br><span class="line">    r :&#x3D; f.NewBuilder().</span><br><span class="line">        Unstructured().</span><br><span class="line">        ContinueOnError().</span><br><span class="line">        NamespaceParam(cmdNamespace).DefaultNamespace().AllNamespaces(allNamespaces).</span><br><span class="line">        FilenameParam(enforceNamespace, options).</span><br><span class="line">        LabelSelectorParam(selector).    &#x2F;&#x2F; 设置用户的标签选择</span><br><span class="line">        IncludeUninitialized(includeUninitialized).</span><br><span class="line">        ResourceTypeOrNameArgs(true, args...). &#x2F;&#x2F; 提取用户选择操作的对象类型</span><br><span class="line">        Flatten().                             &#x2F;&#x2F;决定以何种方式从K8s的返回数据中提取信息                     </span><br><span class="line">        Do()                                   &#x2F;&#x2F;执行命令获取数据</span><br><span class="line">    </span><br><span class="line">    &#x2F;&#x2F; ...</span><br><span class="line">    </span><br><span class="line">    infos, err :&#x3D; r.Infos()                     </span><br><span class="line">    if err !&#x3D; nil &#123;</span><br><span class="line">        if apierrors.IsNotFound(err) &amp;&amp; len(args) &#x3D;&#x3D; 2 &#123;</span><br><span class="line">            return DescribeMatchingResources(f, cmdNamespace, args[0], args[1], describerSettings, out, err)</span><br><span class="line">        &#125;</span><br><span class="line">        allErrs &#x3D; append(allErrs, err)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    errs :&#x3D; sets.NewString()</span><br><span class="line">    first :&#x3D; true</span><br><span class="line">    for _, info :&#x3D; range infos &#123;</span><br><span class="line">        mapping :&#x3D; info.ResourceMapping()</span><br><span class="line">        describer, err :&#x3D; f.Describer(mapping)</span><br><span class="line">        if err !&#x3D; nil &#123;</span><br><span class="line">            if errs.Has(err.Error()) &#123;</span><br><span class="line">                continue</span><br><span class="line">            &#125;</span><br><span class="line">            allErrs &#x3D; append(allErrs, err)</span><br><span class="line">            errs.Insert(err.Error())</span><br><span class="line">            continue</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 下面通过describe 方法将提取到的数据 打印出来</span><br><span class="line">        s, err :&#x3D; describer.Describe(info.Namespace, info.Name, *describerSettings)</span><br><span class="line">        if err !&#x3D; nil &#123;</span><br><span class="line">            if errs.Has(err.Error()) &#123;</span><br><span class="line">                continue</span><br><span class="line">            &#125;</span><br><span class="line">            allErrs &#x3D; append(allErrs, err)</span><br><span class="line">            errs.Insert(err.Error())</span><br><span class="line">            continue</span><br><span class="line">        &#125;</span><br><span class="line">        if first &#123;</span><br><span class="line">            first &#x3D; false</span><br><span class="line">            fmt.Fprint(out, s)</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            fmt.Fprintf(out, &quot;\n\n%s&quot;, s)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return utilerrors.NewAggregate(allErrs)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面具体分析获取数据的流程，获取数据包括从Apiserver请求数据以及从返回信息中提取有用数据两个操作。</p>
+<p>RetrieveLazy 中注册了从Apiserver获取数据的操作。<br>NewDecoratedVisitor 中注册了从获取到的数据结构中转化出通用数据的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; inputs are consumed by the first execution - use Infos() or Object() on the Result to capture a list</span><br><span class="line">&#x2F;&#x2F; for further iteration.</span><br><span class="line">func (b *Builder) Do() *Result &#123;</span><br><span class="line">    r :&#x3D; b.visitorResult()</span><br><span class="line">    &#x2F;&#x2F;... </span><br><span class="line">    </span><br><span class="line">    helpers :&#x3D; []VisitorFunc&#123;&#125;</span><br><span class="line">    &#x2F;&#x2F;注册获取数据前的动作</span><br><span class="line">    if b.defaultNamespace &#123;</span><br><span class="line">        helpers &#x3D; append(helpers, SetNamespace(b.namespace))</span><br><span class="line">    &#125;</span><br><span class="line">    if b.requireNamespace &#123;</span><br><span class="line">        helpers &#x3D; append(helpers, RequireNamespace(b.namespace))</span><br><span class="line">    &#125;</span><br><span class="line">    helpers &#x3D; append(helpers, FilterNamespace)</span><br><span class="line">    if b.requireObject &#123;</span><br><span class="line">        &#x2F;&#x2F;注册从Apiserver获取数据的方法</span><br><span class="line">        helpers &#x3D; append(helpers, RetrieveLazy) </span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;注册从返回数据中提取信息的方法</span><br><span class="line">    r.visitor &#x3D; NewDecoratedVisitor(r.visitor, helpers...)</span><br><span class="line">    if b.continueOnError &#123;</span><br><span class="line">        r.visitor &#x3D; ContinueOnErrorVisitor&#123;r.visitor&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return r</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; RetrieveLazy updates the object if it has not been loaded yet.</span><br><span class="line">func RetrieveLazy(info *Info, err error) error &#123;</span><br><span class="line">    if err !&#x3D; nil &#123;</span><br><span class="line">        return err</span><br><span class="line">    &#125;</span><br><span class="line">    if info.Object &#x3D;&#x3D; nil &#123;</span><br><span class="line">        return info.Get()     &#x2F;&#x2F;从Apiserver获取数据</span><br><span class="line">    &#125;</span><br><span class="line">    return nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而 NewDecoratedVisitor 方法注册了数据处理的关键函数 Visit， 这个函数可以使用户可以将来自Apiserver的数据转化为通用数据集合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; NewDecoratedVisitor will create a visitor that invokes the provided visitor functions before</span><br><span class="line">&#x2F;&#x2F; the user supplied visitor function is invoked, giving them the opportunity to mutate the Info</span><br><span class="line">&#x2F;&#x2F; object or terminate early with an error.</span><br><span class="line">func NewDecoratedVisitor(v Visitor, fn ...VisitorFunc) Visitor &#123;</span><br><span class="line">    if len(fn) &#x3D;&#x3D; 0 &#123;</span><br><span class="line">        return v</span><br><span class="line">    &#125;</span><br><span class="line">    return DecoratedVisitor&#123;v, fn&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Visit implements Visitor</span><br><span class="line">func (v DecoratedVisitor) Visit(fn VisitorFunc) error &#123;</span><br><span class="line">    return v.visitor.Visit(func(info *Info, err error) error &#123;</span><br><span class="line">        if err !&#x3D; nil &#123;</span><br><span class="line">            return err</span><br><span class="line">        &#125;</span><br><span class="line">        for i :&#x3D; range v.decorators &#123;</span><br><span class="line">            if err :&#x3D; v.decorators[i](info, nil); err !&#x3D; nil &#123;</span><br><span class="line">                return err</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return fn(info, nil)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打印提取到的数据主要是调用注册的describe方法，会根据用户的请求如下获取对应的describe</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">describer, err :&#x3D; f.Describer(mapping)</span><br></pre></td></tr></table></figure>
+
+<p>Describe 集合中注册了 对K8s各种数据的打印方法(针对visit转化后的通用数据)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func init() &#123;</span><br><span class="line">    d :&#x3D; &amp;Describers&#123;&#125;</span><br><span class="line">    err :&#x3D; d.Add(</span><br><span class="line">        describeLimitRange,</span><br><span class="line">        describeQuota,</span><br><span class="line">        describePod,</span><br><span class="line">        describeService,</span><br><span class="line">        describeReplicationController,</span><br><span class="line">        describeDaemonSet,</span><br><span class="line">        describeNode,              &#x2F;&#x2F;打印节点</span><br><span class="line">        describeNamespace,</span><br><span class="line">    )</span><br><span class="line">    if err !&#x3D; nil &#123;</span><br><span class="line">        glog.Fatalf(&quot;Cannot register describers: %v&quot;, err)</span><br><span class="line">    &#125;</span><br><span class="line">    DefaultObjectDescriber &#x3D; d</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用获取到的对应的Describe作打印</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;遍历整理出的返回信息</span><br><span class="line">for _, info :&#x3D; range infos &#123;</span><br><span class="line">        &#x2F;&#x2F; 执行打印操作</span><br><span class="line">        s, err :&#x3D; describer.Describe(info.Namespace, info.Name, *describerSettings)</span><br><span class="line">        &#x2F;&#x2F; ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Saar" />
+            
+              <p class="site-author-name" itemprop="name">Saar</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/fu4ck" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#kubectl-学习笔记"><span class="nav-number">1.</span> <span class="nav-text">kubectl 学习笔记</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Saar</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/custom/custom.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
