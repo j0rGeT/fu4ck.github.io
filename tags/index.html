@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>gotips | Saar&#39;s Blog</title>
+  <title>tags | Saar&#39;s Blog</title>
   
   
 
@@ -49,10 +49,10 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover post half'>
+    <cover class='cover page half'>
       
         
-  <h1 class='title'>Demo</h1>
+  <h1 class='title'>Saar's Blog</h1>
 
 
   <div class="m_search">
@@ -90,9 +90,9 @@
 
       
     </cover>
-    <header class="l_header pure">
+    <header class="l_header material">
   <div id="loading-bar-wrapper">
-    <div id="loading-bar" class="pure"></div>
+    <div id="loading-bar" class="material"></div>
   </div>
 
 	<div class='wrapper'>
@@ -198,7 +198,7 @@
       <div class='l_main'>
   
 
-  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+  <article id="page" class="post white-box article-type-page" itemscope itemprop="blogPost">
     
 
 
@@ -210,8 +210,8 @@
         
   
     <h1 class="title">
-      <a href="/2020/01/17/gotips/">
-        gotips
+      <a href="/tags/index.html">
+        tags
       </a>
     </h1>
   
@@ -292,86 +292,10 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h2 id="golang超时问题"><a href="#golang超时问题" class="headerlink" title="golang超时问题"></a>golang超时问题</h2><p>golang中http请求经常遇到的问题，本人也遇到过超时的情况。写个笔记记录下。</p>
-<p>当在编写一个Go语言的HTTP服务端或者是客户端时，超时是最容易同时也是最敏感的错误，有很多选择，一个错误可以导致很长时间没有结果，知道网络出现故障，或者进程宕掉。</p>
-<p>在分析过程中，发现服务之间调用有EOF的问题，一般情况下是两个服务之间的readtimeout和writetimeout设置超时导致的。当然也有一个keepalive超时的问题。需要保证服务A调用服务B的时候，服务A的keepalive大于服务B的keepalive。</p>
-<p>python服务器gunicon在设置keepalive的时候，之前遇到过默认情况的keepalive时间给了5s钟，遇到服务A的keepalive时间大于60s的时候，可能服务B的连接已经断开了，但是服务A还维持的会话，当获取数据的时候发现读取数据失败返回EOF问题了。</p>
-<p>建议保证：服务B的Keepalive时间 &gt; 服务A的keepalive时间</p>
-<p><img src="http://img.kuqin.com/upimg/allimg/160720/2036151E2-0.png" alt="HTTP server phases"></p>
-<p><img src="http://img.kuqin.com/upimg/allimg/160720/2036154434-1.png" alt="HTTP Client phases"></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://studygolang.com/articles/7692" target="_blank" rel="noopener">https://studygolang.com/articles/7692</a></p>
-
+        
       </div>
       
-        <br>
-        <center>这是文章页脚，可以设置打赏图片：<br><fancybox>![](https://img.vim-cn.com/4a/5f8244a7c6e1e069a781b84ed11008e7955e16.png)</fancybox></center>
       
-      
-        <br>
-        
-
-
-  <section class='meta' id="footer-meta">
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-17T02:15:04+00:00">
-  <a class='notlink'>
-    <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年1月17日</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-
-        
-      
-    </div>
-  </section>
-
-
-      
-      
-          <div class="prev-next">
-              
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                          <h4>
-                              <a href="/2020/01/17/influxdb1/" rel="prev" title="influxdb1">
-                                
-                                    influxdb1
-                                
-                              </a>
-                          </h4>
-                          
-                      </span>
-                  </section>
-              
-              
-                  <section class="next">
-                      <span class="art-item-right" aria-hidden="true">
-                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
-                          <h4>
-                              <a href="/2020/01/16/monit%E5%AD%A6%E4%B9%A0/" rel="prev" title="monit学习">
-                                  
-                                      monit学习
-                                  
-                              </a>
-                          </h4>
-                          
-                      </span>
-                  </section>
-              
-          </div>
       
     </section>
   </article>
@@ -393,13 +317,6 @@
 
 
 
-  <script>
-    window.subData = {
-      title: 'gotips',
-      tools: true
-    }
-  </script>
-
 
 </div>
 <aside class='l_side'>
@@ -413,7 +330,7 @@
           
             
               <section class='widget author'>
-  <div class='content pure'>
+  <div class='content material'>
     
       <div class='avatar'>
         <img class='avatar' src='/images/avatar.jpg'/>
@@ -468,31 +385,9 @@
           
           
         
-          
-          
-        
       
         
           
-          
-        
-          
-          
-            
-              <section class='widget plain'>
-  
-<header class='pure'>
-  <div><i class="fas fa-file fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文本部件</div>
-  
-</header>
-
-  <div class='content pure'>
-    <p>这是一段支持markdown的文本<br><img src="https://img.vim-cn.com/4e/3c87a2fd28fd0b9c2f27ce3f83f1e9275d0488.png" alt=""></p>
-
-  </div>
-</section>
-
-            
           
         
           
@@ -508,9 +403,6 @@
           
         
       
-        
-          
-          
         
           
           
@@ -519,20 +411,6 @@
           
             
               
-  <section class='widget toc-wrapper'>
-    
-<header class='pure'>
-  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
-  
-    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
-  
-</header>
-
-    <div class='content pure'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#golang超时问题"><span class="toc-text">golang超时问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
-    </div>
-  </section>
-
 
             
           
@@ -547,9 +425,6 @@
           
         
       
-        
-          
-          
         
           
           
@@ -562,12 +437,12 @@
             
               <section class='widget grid'>
   
-<header class='pure'>
+<header class='material'>
   <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
   
 </header>
 
-  <div class='content pure'>
+  <div class='content material'>
     <ul class="grid navgation">
       
         <li><a class="flat-box" title="/" href="/"
@@ -618,11 +493,37 @@
         
           
           
-        
-          
-          
             
               
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/categories/"
+    title="blog/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
 
             
           
@@ -646,11 +547,29 @@
         
           
           
-        
-          
-          
             
               
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/influxdb/" style="font-size: 14px; color: #999">influxdb</a> <a href="/tags/k8s/" style="font-size: 14px; color: #999">k8s</a>
+    </div>
+  </section>
+
 
             
           
@@ -672,13 +591,7 @@
           
           
         
-          
-          
-        
       
-        
-          
-          
         
           
           
@@ -803,16 +716,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
     <script type="text/javascript">
       $(function(){
-        if ('.cover') {
-          $('.cover').backstretch(
-          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
           {
             duration: "6000",
             fade: "2500"
           });
         } else {
           $.backstretch(
-          ["https://img.vim-cn.com/29/91197b04c13f512f734a76d4ac422d89dbe229.jpg"],
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
           {
             duration: "6000",
             fade: "2500"

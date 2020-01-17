@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.mydreamdll.xyz/2020/01/17/influxdb1/</loc>
+    <loc>http://www.mydreamdll.xyz/2017/05/26/kubectl/</loc>
     
-    <lastmod>2020-01-17T06:58:55.000Z</lastmod>
+    <lastmod>2020-01-17T08:25:53.716Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.mydreamdll.xyz/2020/01/17/gotips/</loc>
+    <loc>http://www.mydreamdll.xyz/2020/01/17/influxdb1/</loc>
     
-    <lastmod>2020-01-17T02:15:04.000Z</lastmod>
+    <lastmod>2020-01-17T08:25:39.621Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.mydreamdll.xyz/tags/index.html</loc>
+    
+    <lastmod>2020-01-17T08:25:11.473Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.mydreamdll.xyz/2017/05/26/gotips/</loc>
+    
+    <lastmod>2020-01-17T08:24:06.384Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.mydreamdll.xyz/categories/index.html</loc>
+    
+    <lastmod>2020-01-17T08:18:23.968Z</lastmod>
     
   </url>
   
@@ -26,20 +47,6 @@
     <loc>http://www.mydreamdll.xyz/2020/01/16/monit%E5%AD%A6%E4%B9%A0/</loc>
     
     <lastmod>2020-01-16T10:19:25.146Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.mydreamdll.xyz/monitor/monit%E5%AD%A6%E4%B9%A0.html</loc>
-    
-    <lastmod>2020-01-16T09:44:38.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.mydreamdll.xyz/categories/index.html</loc>
-    
-    <lastmod>2020-01-16T09:39:25.000Z</lastmod>
     
   </url>
   
