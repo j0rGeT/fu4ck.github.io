@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Tag: k8s | Saar&#39;s Blog</title>
+  <title>CNN学习笔记 | Saar&#39;s Blog</title>
   
   
 
@@ -49,7 +49,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>Saar's Blog</h1>
@@ -164,25 +164,11 @@
 
   <div class="l_body">
     <div class='body-wrapper'>
-      
-<div class='l_main'>
+      <div class='l_main'>
   
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
     
-      
-  <section class="post-list">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
 
 
   <section class='meta'>
@@ -191,11 +177,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2017/05/26/kubectl/">
-      kubectl 学习笔记
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2020/01/19/CNN%E5%AD%A6%E4%B9%A0/">
+        CNN学习笔记
+      </a>
+    </h1>
+  
 
 
       
@@ -223,7 +211,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-05-26</p>
+    <p>2020-01-19</p>
   </a>
 </div>
 
@@ -233,11 +221,29 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/k8s/' rel="nofollow">
+    <a href='/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>k8s</p>
+      <p>深度学习</p>
     </a>
   </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
 
 
           
@@ -261,44 +267,140 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="CNN学习笔记"><a href="#CNN学习笔记" class="headerlink" title="CNN学习笔记"></a>CNN学习笔记</h2><p><strong>从神经网络到卷积神经网络（CNN）</strong></p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430194200912-687300437.jpg" alt="img"></p>
+<p><strong>卷积神经网络的层级结构</strong><br>   • 数据输入层/ Input layer<br>　• 卷积计算层/ CONV layer<br>　• ReLU激励层 / ReLU layer<br>　• 池化层 / Pooling layer<br>　• 全连接层 / FC layer</p>
+<h3 id="数据输入层"><a href="#数据输入层" class="headerlink" title="数据输入层"></a><strong>数据输入层</strong></h3><p>该层要做的处理主要是对原始图像数据进行预处理，其中包括：</p>
+<p>去均值：把输入数据各个维度都中心化为0，如下图所示，其目的就是把样本的中心拉回到坐标系原点上。</p>
+<p> 归一化：幅度归一化到同样的范围，如下所示，即减少各维度数据取值范围的差异而带来的干扰，比如，我们有两个维度的特征A和B，A范围是0到10，而B范围是0到10000，如果直接使用这两个特征是有问题的，好的做法就是归一化，即A和B的数据都变为0到1的范围。</p>
+<p>PCA/白化：用PCA降维；白化是对数据各个特征轴上的幅度归一化</p>
+<p>去均值与归一化效果图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430194338194-1949897491.jpg" alt="img"></p>
+<p>去相关与白化效果图：</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430194357553-1200745791.jpg" alt="img"></p>
+<h3 id="卷积计算层"><a href="#卷积计算层" class="headerlink" title="卷积计算层"></a><strong>卷积计算层</strong></h3><p>局部关联。每个神经元看做一个滤波器(filter)</p>
+<p>窗口(receptive field)滑动， filter对局部数据计算</p>
+<p>深度/depth</p>
+<p>步长/stride （窗口一次滑动的长度）</p>
+<p>填充值/zero-padding</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430194425147-845167791.png" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/1093303/201901/1093303-20190120113539659-455066516.gif" alt="img"></p>
+<p><strong>参数共享机制</strong></p>
+<p>在卷积层中每个神经元连接数据窗的权重是固定的，每个神经元只关注一个特性。神经元就是图像处理中的滤波器，比如边缘检测专用的Sobel滤波器，即卷积层的每个滤波器都会有自己所关注一个图像特征，比如垂直边缘，水平边缘，颜色，纹理等等，这些所有神经元加起来就好比就是整张图像的特征提取器集合。</p>
+<p>一组固定的权重和不同窗口内数据做内积: 卷积</p>
+<h3 id="激励层"><a href="#激励层" class="headerlink" title="激励层"></a><strong>激励层</strong></h3><p>把卷积层输出结果做非线性映射。</p>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430194934006-705271151.jpg" alt="img"></p>
+<p>CNN采用的激励函数一般为ReLU(The Rectified Linear Unit/修正线性单元)                 </p>
+<p>激励层的实践经验：<br>不要用sigmoid！不要用sigmoid！不要用sigmoid！<br>首先试RELU，因为快，但要小心点<br>如果2失效，请用Leaky ReLU或者Maxout<br>某些情况下tanh倒是有不错的结果，但是很少</p>
+<h3 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a><strong>池化层</strong></h3><p>池化层夹在连续的卷积层中间， 用于压缩数据和参数的量，减小过拟合。<br>简而言之，如果输入是图像的话，那么池化层的最主要作用就是压缩图像。</p>
+<ol>
+<li>特征不变性，也就是我们在图像处理中经常提到的特征的尺度不变性，池化操作就是图像的resize，平时一张狗的图像被缩小了一倍我们还能认出这是一张狗的照片，这说明这张图像中仍保留着狗最重要的特征，我们一看就能判断图像中画的是一只狗，图像压缩时去掉的信息只是一些无关紧要的信息，而留下的信息则是具有尺度不变性的特征，是最能表达图像的特征。</li>
+<li>特征降维，我们知道一幅图像含有的信息是很大的，特征也很多，但是有些信息对于我们做图像任务时没有太多用途或者有重复，我们可以把这类冗余信息去除，把最重要的特征抽取出来，这也是池化操作的一大作用。</li>
+<li>在一定程度上防止过拟合，更方便优化。</li>
+</ol>
+<p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430195028600-318072954.jpg" alt="img"></p>
+<p>池化层用的方法有Max pooling 和 average pooling，而实际用的较多的是Max pooling。</p>
+<p>Max pooling：</p>
+<p>对于每个2<em>2的窗口选出最大的数作为输出矩阵的相应元素的值，比如输入矩阵第一个2</em>2窗口中最大的数是6，那么输出矩阵的第一个元素就是6，如此类推。</p>
+<h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a><strong>全连接层</strong></h3><p><img src="https://images2015.cnblogs.com/blog/1093303/201704/1093303-20170430195130772-454262568.jpg" alt="img"></p>
+<p><strong>一般CNN结构依次为</strong><br>　　1. INPUT<br>　　2. [[CONV -&gt; RELU]<em>N -&gt; POOL?]</em>M<br>　　3. [FC -&gt; RELU]*K<br>　　4. FC</p>
+<p><strong>卷积神经网络之优缺点</strong>：</p>
+<p>优点：<br>共享卷积核，对高维数据处理无压力<br>无需手动选取特征，训练好权重，即得特征分类效果好<br>缺点：<br>需要调参，需要大样本量，训练最好要GPU<br>物理含义不明确</p>
+<p><strong>总结</strong><br>卷积网络在本质上是一种输入到输出的映射，它能够学习大量的输入与输出之间的映射关系，而不需要任何输入和输出之间的精确的数学表达式，只要用已知的模式对卷积网络加以训练，网络就具有输入输出对之间的映射能力。</p>
+
+      </div>
       
       
-        <div class="readmore">
-          <a href="/2017/05/26/kubectl/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-19T12:43:20+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年1月19日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>深度学习</p></a></div>
+
+
+        
+      
+        
+          
+
+        
       
     </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/k8s/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> k8s</a>
-        
-      </div>
-    
   </section>
-</article>
 
-          </div>
-        
+
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/01/17/monit%E5%AD%A6%E4%B9%A0/" rel="prev" title="monit代码分析">
+                                  
+                                      monit代码分析
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/monitor/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> monitor</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
 
   
 
 
-    
-  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'CNN学习笔记',
+      tools: true
+    }
+  </script>
+
+
 </div>
 <aside class='l_side'>
   
@@ -389,6 +491,25 @@
           
         
           
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CNN学习笔记"><span class="toc-text">CNN学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据输入层"><span class="toc-text">数据输入层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#卷积计算层"><span class="toc-text">卷积计算层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#激励层"><span class="toc-text">激励层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#池化层"><span class="toc-text">池化层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#全连接层"><span class="toc-text">全连接层</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
           
         
           
@@ -552,6 +673,40 @@
 
 
             
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
           
         
       
