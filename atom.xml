@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.mydreamdll.xyz/"/>
-  <updated>2020-01-19T12:53:29.941Z</updated>
+  <updated>2020-01-20T02:40:29.000Z</updated>
   <id>http://www.mydreamdll.xyz/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>open-falcon 架构</title>
+    <link href="http://www.mydreamdll.xyz/2020/01/20/open-falcon%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://www.mydreamdll.xyz/2020/01/20/open-falcon%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/</id>
+    <published>2020-01-20T02:41:27.993Z</published>
+    <updated>2020-01-20T02:40:29.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="open-falcon-架构"><a href="#open-falcon-架构" class="headerlink" title="open-falcon 架构"></a>open-falcon 架构</h2><p>open-falcon 主要架构图：</p><p><img src="/image/func_intro_1.png" alt="open-falcon architecture"></p><p>各个模块说明：</p><p>agent 组件：</p><p>目前 agent 服务已经覆盖公司大部分机器，一个自动采集机器指标的自动化服务。</p><p>数据上报支持三种方式: </p><ol><li><p>agent 自采集基础监控上报；</p></li><li><p>用户自定义推送数据 (数据按照指定格式推送到本地 agent 端口)；</p></li><li><p>插件采集上报。</p></li></ol><p>hbs 组件：</p><p>心跳服务器，定时从 DB 获取节点与主机对应关系、插件与节点绑定列表、模板、策略、全局策略等信息；将插件与节点绑定关系解析为插件与主机一一对应关系，并提供 rpc 接口方便所有 agent 查询；将 agent 上报的版本信息、插件信息写入 falcon 数据库；将模板、策略解析为策略与主机的关系对应表，与全局策略一起，以 rpc 方式提供给 judge 服务，方便其定时获取。</p><p>transfer 组件：</p><p>启动时维护两个一致性哈希列表，分别对应 graph 服务与 judge 服务，用于通过 endpoint 和 counter 计算得到的 MD5，定位每条监控数据应该存储到哪个 graph 实例和 judge 实例；提供数据转发功能，将 agent 通过 rpc 上报的监控数据，通过一致性哈希定位后，上报给相应的 graph 实例和 judge 实例；使用 rpc 接口提供 history 监控数据查询功能，用于绘图展示等。</p><p>graph 组件：</p><p>接入 rrdtool，用于监控数据持久化，通过 endpoint 和 counter 计算的 MD5 确定文件名；提供 rpc 接口，接收 transfer 上报的监控数据，并支持缓存，每个监控数据缓存半小时后再做数据持久化以减轻磁盘 IO 压力，提高整体吞吐量；提供索引缓存，每一个监控数据上报后，通过 endpoint、counter、step、timestamp 构建缓存，如果已存在则更新 timestamp，否则新建并上报至 graph 数据库；提供历史监控数据查询的 rpc 接口，便于 transfer 调用查询，查询时先通过索引缓存确认相应的 endpoint、counter 是否存在，如果存在则查询合并 rrd 文件中持久化数据与缓存数据并返回，否则直接返回。</p><p>judge 组件：</p><p>定时从 hbs 服务获取主机与策略的一一对应关系、以及全局策略，统称告警策略，用于告警判别；提供 rpc 接口，用于接收 transfer 上报的监控数据，收到每条数据时，遍历所有告警策略，如果符合告警条件，则将告警策略和监控数据存储到 redis 队列。</p><p>alarm 组件：</p><p>不停遍历 redis 队列，从中取出 judge 存储的告警策略和监控数据，写入报警数据库，然后依照告警策略中配置的告警组和获取告警成员的联系方式，和告警形成一一对应的关系，上报给 redis，方便 alarm 的下游服务进行告警发送。</p><p>aggregator 组件：</p><p>集群监控的本质是一个聚合功能。单台机器的监控指标难以反应整个集群的情况，我们需要把整个集群的机器（体现为 xbox 某个节点下的机器）综合起来看。比如所有机器的 qps 加和才是整个集群的 qps，所有机器的 request_fail 数量 ÷ 所有机器的 request_total 数量 = 整个集群的请求失败率。我们计算出集群的某个整体指标之后，也会有 “查看该指标的历史趋势图” “为该指标配置报警” 这种需求，故而，我们会把这个指标重新 push 回监控 server 端，于是，你就可以把她当成一个普通 counter 来对待了。</p><p>nodata 组件：</p><p>nodata 能够和 judge 一起，监测采集项的上报异常，过程为: 配置了 nodata 的采集项超时未上报数据，nodata 生成一条非法的 mock 数据；用户在 judge 上配置相应的报警策略，收到 mock 数据就产生报警。采集项上报异常检测，作为 judge 的一个必要补充，能够使 judge 的实时报警功能更加完善、可靠。nodata 只为少数重要的采集项服务，其处理的采集项的数量，应该不多于 judge 的十分之一。滥用 nodata，将会给 falcon 的运维管理带来很多问题。通常 nodata 按照 step 从绘图中取不到打点数据时候，当然是有一定的容错 step，一般我们控制在 2 到 3 个 step。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;open-falcon-架构&quot;&gt;&lt;a href=&quot;#open-falcon-架构&quot; class=&quot;headerlink&quot; title=&quot;open-falcon 架构&quot;&gt;&lt;/a&gt;open-falcon 架构&lt;/h2&gt;&lt;p&gt;open-falcon 主要架构图：&lt;/p&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="monitor" scheme="http://www.mydreamdll.xyz/categories/monitor/"/>
+    
+    
+      <category term="monitor" scheme="http://www.mydreamdll.xyz/tags/monitor/"/>
+    
+  </entry>
   
   <entry>
     <title>CNN学习笔记</title>
