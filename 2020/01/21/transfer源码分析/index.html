@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>open-falcon transfer 源码分析 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/01/21/transfer%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        open-falcon transfer 源码分析
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-01-21</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/monitor/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>monitor</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="open-falcon-transfer-源码分析"><a href="#open-falcon-transfer-源码分析" class="headerlink" title="open-falcon transfer 源码分析"></a>open-falcon transfer 源码分析</h2><p>transfer模块是小米监控中比较重要的环境，主要用于发送数据给graph,judge,等。</p>
+<p>主要流程在modules/transfer/main.go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	g.BinaryName = BinaryName</span><br><span class="line">	g.Version = Version</span><br><span class="line">	g.GitCommit = GitCommit</span><br><span class="line"></span><br><span class="line">	cfg := flag.String(<span class="string">"c"</span>, <span class="string">"cfg.json"</span>, <span class="string">"configuration file"</span>)</span><br><span class="line">	version := flag.Bool(<span class="string">"v"</span>, <span class="literal">false</span>, <span class="string">"show version"</span>)</span><br><span class="line">	versionGit := flag.Bool(<span class="string">"vg"</span>, <span class="literal">false</span>, <span class="string">"show version"</span>)</span><br><span class="line">	flag.Parse()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> *version &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"Open-Falcon %s version %s, build %s\n"</span>, BinaryName, Version, GitCommit)</span><br><span class="line">		os.Exit(<span class="number">0</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> *versionGit &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"Open-Falcon %s version %s, build %s\n"</span>, BinaryName, Version, GitCommit)</span><br><span class="line">		os.Exit(<span class="number">0</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// global config</span></span><br><span class="line">    <span class="comment">// 解析配置文件</span></span><br><span class="line">	g.ParseConfig(*cfg)</span><br><span class="line">	<span class="comment">// proc</span></span><br><span class="line">    <span class="comment">// 就是打印日志。。orz</span></span><br><span class="line">	proc.Start()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发送端启动</span></span><br><span class="line">	sender.Start()</span><br><span class="line">    <span class="comment">// 接收数据启动</span></span><br><span class="line">	receiver.Start()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// http</span></span><br><span class="line">    <span class="comment">//  http服务启动</span></span><br><span class="line">	http.Start()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先来看下发送端的代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化数据发送服务, 在main函数中调用</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 初始化默认参数</span></span><br><span class="line">	MinStep = g.Config().MinStep</span><br><span class="line">	<span class="keyword">if</span> MinStep &lt; <span class="number">1</span> &#123;</span><br><span class="line">		MinStep = <span class="number">30</span> <span class="comment">//默认30s</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//初始化连接池</span></span><br><span class="line">	initConnPools()</span><br><span class="line">    <span class="comment">//初始化发送队列</span></span><br><span class="line">	initSendQueues()</span><br><span class="line">	<span class="comment">//初始化hash环，用于做一致性hash分片</span></span><br><span class="line">    initNodeRings()</span><br><span class="line">	<span class="comment">// SendTasks依赖基础组件的初始化,要最后启动</span></span><br><span class="line">	startSendTasks()</span><br><span class="line">    <span class="comment">//启动发送定时任务</span></span><br><span class="line">	startSenderCron()</span><br><span class="line">	log.Println(<span class="string">"send.Start, ok"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initConnPools</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cfg := g.Config()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// judge</span></span><br><span class="line">    <span class="comment">// 读取配置文件，加载进来</span></span><br><span class="line">	judgeInstances := nset.NewStringSet()</span><br><span class="line">	<span class="keyword">for</span> _, instance := <span class="keyword">range</span> cfg.Judge.Cluster &#123;</span><br><span class="line">		judgeInstances.Add(instance)</span><br><span class="line">	&#125;</span><br><span class="line">	JudgeConnPools = backend.CreateSafeRpcConnPools(cfg.Judge.MaxConns, cfg.Judge.MaxIdle,</span><br><span class="line">		cfg.Judge.ConnTimeout, cfg.Judge.CallTimeout, judgeInstances.ToSlice())</span><br><span class="line"></span><br><span class="line">	<span class="comment">// tsdb，是否开启tsdb，初始化</span></span><br><span class="line">	<span class="keyword">if</span> cfg.Tsdb.Enabled &#123;</span><br><span class="line">		TsdbConnPoolHelper = backend.NewTsdbConnPoolHelper(cfg.Tsdb.Address, cfg.Tsdb.MaxConns, cfg.Tsdb.MaxIdle, cfg.Tsdb.ConnTimeout, cfg.Tsdb.CallTimeout)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// graph</span></span><br><span class="line">    <span class="comment">// graph地址初始化</span></span><br><span class="line">	graphInstances := nset.NewSafeSet()</span><br><span class="line">	<span class="keyword">for</span> _, nitem := <span class="keyword">range</span> cfg.Graph.ClusterList &#123;</span><br><span class="line">		<span class="keyword">for</span> _, addr := <span class="keyword">range</span> nitem.Addrs &#123;</span><br><span class="line">			graphInstances.Add(addr)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	GraphConnPools = backend.CreateSafeRpcConnPools(cfg.Graph.MaxConns, cfg.Graph.MaxIdle,</span><br><span class="line">		cfg.Graph.ConnTimeout, cfg.Graph.CallTimeout, graphInstances.ToSlice())</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化发送队列：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initSendQueues</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cfg := g.Config()</span><br><span class="line">    <span class="comment">// 对每个judge节点构建一个队列</span></span><br><span class="line">	<span class="keyword">for</span> node := <span class="keyword">range</span> cfg.Judge.Cluster &#123;</span><br><span class="line">		Q := nlist.NewSafeListLimited(DefaultSendQueueMaxSize)</span><br><span class="line">		JudgeQueues[node] = Q</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 对每个graph节点构建一个队列</span></span><br><span class="line">	<span class="keyword">for</span> node, nitem := <span class="keyword">range</span> cfg.Graph.ClusterList &#123;</span><br><span class="line">		<span class="keyword">for</span> _, addr := <span class="keyword">range</span> nitem.Addrs &#123;</span><br><span class="line">			Q := nlist.NewSafeListLimited(DefaultSendQueueMaxSize)</span><br><span class="line">			GraphQueues[node+addr] = Q</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 对tsdb节点构建队列</span></span><br><span class="line">	<span class="keyword">if</span> cfg.Tsdb.Enabled &#123;</span><br><span class="line">		TsdbQueue = nlist.NewSafeListLimited(DefaultSendQueueMaxSize)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>initNodeRings构建hash环，用于一致性hash初始化。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">initNodeRings</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cfg := g.Config()</span><br><span class="line"></span><br><span class="line">	JudgeNodeRing = rings.NewConsistentHashNodesRing(<span class="keyword">int32</span>(cfg.Judge.Replicas), cutils.KeysOfMap(cfg.Judge.Cluster))</span><br><span class="line">	GraphNodeRing = rings.NewConsistentHashNodesRing(<span class="keyword">int32</span>(cfg.Graph.Replicas), cutils.KeysOfMap(cfg.Graph.Cluster))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>startSendTasks函数启动发送任务：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TODO 添加对发送任务的控制,比如stop等</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startSendTasks</span><span class="params">()</span></span> &#123;</span><br><span class="line">	cfg := g.Config()</span><br><span class="line">	<span class="comment">// init semaphore</span></span><br><span class="line">	judgeConcurrent := cfg.Judge.MaxConns</span><br><span class="line">	graphConcurrent := cfg.Graph.MaxConns</span><br><span class="line">	tsdbConcurrent := cfg.Tsdb.MaxConns</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> tsdbConcurrent &lt; <span class="number">1</span> &#123;</span><br><span class="line">		tsdbConcurrent = <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> judgeConcurrent &lt; <span class="number">1</span> &#123;</span><br><span class="line">		judgeConcurrent = <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> graphConcurrent &lt; <span class="number">1</span> &#123;</span><br><span class="line">		graphConcurrent = <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// init send go-routines</span></span><br><span class="line">	<span class="keyword">for</span> node := <span class="keyword">range</span> cfg.Judge.Cluster &#123;</span><br><span class="line">		queue := JudgeQueues[node]</span><br><span class="line">		<span class="keyword">go</span> forward2JudgeTask(queue, node, judgeConcurrent)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> node, nitem := <span class="keyword">range</span> cfg.Graph.ClusterList &#123;</span><br><span class="line">		<span class="keyword">for</span> _, addr := <span class="keyword">range</span> nitem.Addrs &#123;</span><br><span class="line">			queue := GraphQueues[node+addr]</span><br><span class="line">			<span class="keyword">go</span> forward2GraphTask(queue, node, addr, graphConcurrent)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> cfg.Tsdb.Enabled &#123;</span><br><span class="line">		<span class="keyword">go</span> forward2TsdbTask(tsdbConcurrent)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>forward2JudgeTask函数用于启动judge发送任务：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Judge定时任务, 将 Judge发送缓存中的数据 通过rpc连接池 发送到Judge</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forward2JudgeTask</span><span class="params">(Q *list.SafeListLimited, node <span class="keyword">string</span>, concurrent <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	batch := g.Config().Judge.Batch <span class="comment">// 一次发送,最多batch条数据</span></span><br><span class="line">	addr := g.Config().Judge.Cluster[node]</span><br><span class="line">	sema := nsema.NewSemaphore(concurrent)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		items := Q.PopBackBy(batch)</span><br><span class="line">		count := <span class="built_in">len</span>(items)</span><br><span class="line">		<span class="keyword">if</span> count == <span class="number">0</span> &#123;</span><br><span class="line">			time.Sleep(DefaultSendTaskSleepInterval)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		judgeItems := <span class="built_in">make</span>([]*cmodel.JudgeItem, count)</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; count; i++ &#123;</span><br><span class="line">			judgeItems[i] = items[i].(*cmodel.JudgeItem)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//	同步Call + 有限并发 进行发送</span></span><br><span class="line">		sema.Acquire()</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(addr <span class="keyword">string</span>, judgeItems []*cmodel.JudgeItem, count <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> sema.Release()</span><br><span class="line"></span><br><span class="line">			resp := &amp;cmodel.SimpleRpcResponse&#123;&#125;</span><br><span class="line">			<span class="keyword">var</span> err error</span><br><span class="line">			sendOk := <span class="literal">false</span></span><br><span class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123; <span class="comment">//最多重试3次</span></span><br><span class="line">                <span class="comment">// 调用judge rpc send接口发送数据</span></span><br><span class="line">				err = JudgeConnPools.Call(addr, <span class="string">"Judge.Send"</span>, judgeItems, resp)</span><br><span class="line">				<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">					sendOk = <span class="literal">true</span></span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">				time.Sleep(time.Millisecond * <span class="number">10</span>)</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// statistics</span></span><br><span class="line">			<span class="keyword">if</span> !sendOk &#123;</span><br><span class="line">				log.Printf(<span class="string">"send judge %s:%s fail: %v"</span>, node, addr, err)</span><br><span class="line">				proc.SendToJudgeFailCnt.IncrBy(<span class="keyword">int64</span>(count))</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				proc.SendToJudgeCnt.IncrBy(<span class="keyword">int64</span>(count))</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;(addr, judgeItems, count)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>forward2GraphTask启动发送存档数据：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Graph定时任务, 将 Graph发送缓存中的数据 通过rpc连接池 发送到Graph</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forward2GraphTask</span><span class="params">(Q *list.SafeListLimited, node <span class="keyword">string</span>, addr <span class="keyword">string</span>, concurrent <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	batch := g.Config().Graph.Batch <span class="comment">// 一次发送,最多batch条数据</span></span><br><span class="line">	sema := nsema.NewSemaphore(concurrent)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		items := Q.PopBackBy(batch) <span class="comment">//从队列中pop指定大小的数据</span></span><br><span class="line">		count := <span class="built_in">len</span>(items)</span><br><span class="line">		<span class="keyword">if</span> count == <span class="number">0</span> &#123;</span><br><span class="line">			time.Sleep(DefaultSendTaskSleepInterval)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		graphItems := <span class="built_in">make</span>([]*cmodel.GraphItem, count)</span><br><span class="line">		<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; count; i++ &#123;</span><br><span class="line">			graphItems[i] = items[i].(*cmodel.GraphItem)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		sema.Acquire()</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(addr <span class="keyword">string</span>, graphItems []*cmodel.GraphItem, count <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> sema.Release()</span><br><span class="line"></span><br><span class="line">			resp := &amp;cmodel.SimpleRpcResponse&#123;&#125;</span><br><span class="line">			<span class="keyword">var</span> err error</span><br><span class="line">			sendOk := <span class="literal">false</span></span><br><span class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">3</span>; i++ &#123; <span class="comment">//最多重试3次</span></span><br><span class="line">                <span class="comment">// 给graph接口发送数据</span></span><br><span class="line">				err = GraphConnPools.Call(addr, <span class="string">"Graph.Send"</span>, graphItems, resp)</span><br><span class="line">				<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">					sendOk = <span class="literal">true</span></span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">				time.Sleep(time.Millisecond * <span class="number">10</span>)</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="comment">// statistics</span></span><br><span class="line">            <span class="comment">//   统计数据，方便后续排查当前队列中发送失败和成功数据量</span></span><br><span class="line">			<span class="keyword">if</span> !sendOk &#123;</span><br><span class="line">				log.Printf(<span class="string">"send to graph %s:%s fail: %v"</span>, node, addr, err)</span><br><span class="line">				proc.SendToGraphFailCnt.IncrBy(<span class="keyword">int64</span>(count))</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				proc.SendToGraphCnt.IncrBy(<span class="keyword">int64</span>(count))</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;(addr, graphItems, count)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果有使用tsdb的话，启动tsdb发送task，这边不说了，基本流程类似。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Tsdb定时任务, 将数据通过api发送到tsdb</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">forward2TsdbTask</span><span class="params">(concurrent <span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">	batch := g.Config().Tsdb.Batch <span class="comment">// 一次发送,最多batch条数据</span></span><br><span class="line">	retry := g.Config().Tsdb.MaxRetry</span><br><span class="line">	sema := nsema.NewSemaphore(concurrent)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		items := TsdbQueue.PopBackBy(batch)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(items) == <span class="number">0</span> &#123;</span><br><span class="line">			time.Sleep(DefaultSendTaskSleepInterval)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//  同步Call + 有限并发 进行发送</span></span><br><span class="line">		sema.Acquire()</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(itemList []<span class="keyword">interface</span>&#123;&#125;)</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> sema.Release()</span><br><span class="line"></span><br><span class="line">			<span class="keyword">var</span> tsdbBuffer bytes.Buffer</span><br><span class="line">			count := <span class="built_in">len</span>(itemList)</span><br><span class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; count; i++ &#123;</span><br><span class="line">				tsdbItem := itemList[i].(*cmodel.TsdbItem)</span><br><span class="line">				tsdbBuffer.WriteString(tsdbItem.TsdbString())</span><br><span class="line">				tsdbBuffer.WriteString(<span class="string">"\n"</span>)</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">var</span> err error</span><br><span class="line">			<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; retry; i++ &#123;</span><br><span class="line">				err = TsdbConnPoolHelper.Send(tsdbBuffer.Bytes())</span><br><span class="line">				<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">					proc.SendToTsdbCnt.IncrBy(<span class="keyword">int64</span>(<span class="built_in">len</span>(itemList)))</span><br><span class="line">					<span class="keyword">break</span></span><br><span class="line">				&#125;</span><br><span class="line">				time.Sleep(<span class="number">100</span> * time.Millisecond)</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				proc.SendToTsdbFailCnt.IncrBy(<span class="keyword">int64</span>(<span class="built_in">len</span>(itemList)))</span><br><span class="line">				log.Println(err)</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;(items)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来函数startSenderCron函数中：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// send_cron程序入口</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">startSenderCron</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> startProcCron()  <span class="comment">//发送队列统计</span></span><br><span class="line">	<span class="keyword">go</span> startLogCron()    <span class="comment">//打印日志</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送队列统计数据</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">calcSendCacheSize</span><span class="params">(mapList <span class="keyword">map</span>[<span class="keyword">string</span>]*list.SafeListLimited)</span> <span class="title">int64</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> cnt <span class="keyword">int64</span> = <span class="number">0</span></span><br><span class="line">	<span class="keyword">for</span> _, list := <span class="keyword">range</span> mapList &#123;</span><br><span class="line">		<span class="keyword">if</span> list != <span class="literal">nil</span> &#123;</span><br><span class="line">			cnt += <span class="keyword">int64</span>(list.Len())</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> cnt</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接收数据函数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> rpc.StartRpc()                <span class="comment">// rpc接口数据，接收数据</span></span><br><span class="line">	<span class="keyword">go</span> socket.StartSocket()          <span class="comment">// tcp方式推送数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 主要看rpc接口，因为socket方式也是小米提供的，底层传输的方法一样。</p>
+<p>rpc update接口用于更新数据并打到缓存队列中去，update方法最终调用RecvMetricValues函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// process new metric values</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">RecvMetricValues</span><span class="params">(args []*cmodel.MetricValue, reply *cmodel.TransferResponse, from <span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	start := time.Now()</span><br><span class="line">	reply.Invalid = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">	items := []*cmodel.MetaData&#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> args &#123;</span><br><span class="line">		<span class="keyword">if</span> v == <span class="literal">nil</span> &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 历史遗留问题.</span></span><br><span class="line">		<span class="comment">// 老版本agent上报的metric=kernel.hostname的数据,其取值为string类型,现在已经不支持了;所以,这里硬编码过滤掉</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 很多的过滤策略。</span></span><br><span class="line">		<span class="keyword">if</span> v.Metric == <span class="string">"kernel.hostname"</span> &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> v.Metric == <span class="string">""</span> || v.Endpoint == <span class="string">""</span> &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> v.Type != g.COUNTER &amp;&amp; v.Type != g.GAUGE &amp;&amp; v.Type != g.DERIVE &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> v.Value == <span class="string">""</span> &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> v.Step &lt;= <span class="number">0</span> &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(v.Metric)+<span class="built_in">len</span>(v.Tags) &gt; <span class="number">510</span> &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// TODO 呵呵,这里需要再优雅一点</span></span><br><span class="line">		now := start.Unix()</span><br><span class="line">		<span class="keyword">if</span> v.Timestamp &lt;= <span class="number">0</span> || v.Timestamp &gt; now*<span class="number">2</span> &#123;</span><br><span class="line">			v.Timestamp = now</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		fv := &amp;cmodel.MetaData&#123;</span><br><span class="line">			Metric:      v.Metric,</span><br><span class="line">			Endpoint:    v.Endpoint,</span><br><span class="line">			Timestamp:   v.Timestamp,</span><br><span class="line">			Step:        v.Step,</span><br><span class="line">			CounterType: v.Type,</span><br><span class="line">			Tags:        cutils.DictedTagstring(v.Tags), <span class="comment">//TODO tags键值对的个数,要做一下限制</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		valid := <span class="literal">true</span></span><br><span class="line">		<span class="keyword">var</span> vv <span class="keyword">float64</span></span><br><span class="line">		<span class="keyword">var</span> err error</span><br><span class="line"></span><br><span class="line">		<span class="keyword">switch</span> cv := v.Value.(<span class="keyword">type</span>) &#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="keyword">string</span>:</span><br><span class="line">			vv, err = strconv.ParseFloat(cv, <span class="number">64</span>)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				valid = <span class="literal">false</span></span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> <span class="keyword">float64</span>:</span><br><span class="line">			vv = cv</span><br><span class="line">		<span class="keyword">case</span> <span class="keyword">int64</span>:</span><br><span class="line">			vv = <span class="keyword">float64</span>(cv)</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			valid = <span class="literal">false</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> !valid &#123;</span><br><span class="line">			reply.Invalid += <span class="number">1</span></span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		fv.Value = vv</span><br><span class="line">		items = <span class="built_in">append</span>(items, fv)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// statistics</span></span><br><span class="line">	cnt := <span class="keyword">int64</span>(<span class="built_in">len</span>(items))</span><br><span class="line">	proc.RecvCnt.IncrBy(cnt)</span><br><span class="line">    <span class="comment">// 统计</span></span><br><span class="line">	<span class="keyword">if</span> from == <span class="string">"rpc"</span> &#123;</span><br><span class="line">		proc.RpcRecvCnt.IncrBy(cnt)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> from == <span class="string">"http"</span> &#123;</span><br><span class="line">		proc.HttpRecvCnt.IncrBy(cnt)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	cfg := g.Config()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//   打到对应的缓存队列中去。</span></span><br><span class="line">	<span class="keyword">if</span> cfg.Graph.Enabled &#123;</span><br><span class="line">		sender.Push2GraphSendQueue(items)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> cfg.Judge.Enabled &#123;</span><br><span class="line">		sender.Push2JudgeSendQueue(items)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> cfg.Tsdb.Enabled &#123;</span><br><span class="line">		sender.Push2TsdbSendQueue(items)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	reply.Message = <span class="string">"ok"</span></span><br><span class="line">	reply.Total = <span class="built_in">len</span>(args)</span><br><span class="line">	reply.Latency = (time.Now().UnixNano() - start.UnixNano()) / <span class="number">1000000</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数push2GraphSendQueue函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将数据 打入 某个Graph的发送缓存队列, 具体是哪一个Graph 由一致性哈希 决定</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Push2GraphSendQueue</span><span class="params">(items []*cmodel.MetaData)</span></span> &#123;</span><br><span class="line">	cfg := g.Config().Graph</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, item := <span class="keyword">range</span> items &#123;</span><br><span class="line">        <span class="comment">// 转换数据</span></span><br><span class="line">		graphItem, err := convert2GraphItem(item)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"E:"</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		pk := item.PK()</span><br><span class="line"></span><br><span class="line">		<span class="comment">// statistics. 为了效率,放到了这里,因此只有graph是enbale时才能trace</span></span><br><span class="line">		proc.RecvDataTrace.Trace(pk, item)</span><br><span class="line">		proc.RecvDataFilter.Filter(pk, item.Value, item)</span><br><span class="line">		<span class="comment">// 得到对应的一致性hash分片节点</span></span><br><span class="line">		node, err := GraphNodeRing.GetNode(pk)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"E:"</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		cnode := cfg.ClusterList[node]</span><br><span class="line">		errCnt := <span class="number">0</span></span><br><span class="line">		<span class="keyword">for</span> _, addr := <span class="keyword">range</span> cnode.Addrs &#123;</span><br><span class="line">			Q := GraphQueues[node+addr]</span><br><span class="line">             <span class="comment">// 获取队列并推送到缓存队列中去</span></span><br><span class="line">			<span class="keyword">if</span> !Q.PushFront(graphItem) &#123;</span><br><span class="line">				errCnt += <span class="number">1</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// statistics</span></span><br><span class="line">		<span class="keyword">if</span> errCnt &gt; <span class="number">0</span> &#123;</span><br><span class="line">			proc.SendToGraphDropCnt.Incr()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他两个函数基本类似，都是使用这种方式来将数据推送的内存队列中，然后使用send task 任务发送出去。队列不会堆积，因为发送的时候会出队，不过这样如果发送三次还是失败，这个数据就丢失了。。只能通过统计数据来定位了。</p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-21T09:06:33+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年1月21日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/monitor/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>monitor</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/01/21/judge%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="prev" title="open-falcon judge 源码分析">
+                                  
+                                      open-falcon judge 源码分析
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/monitor/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> monitor</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'open-falcon transfer 源码分析',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#open-falcon-transfer-源码分析"><span class="toc-text">open-falcon transfer 源码分析</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/golang/" style="font-size: 14px; color: #999">golang</a> <a href="/tags/influxdb/" style="font-size: 14px; color: #999">influxdb</a> <a href="/tags/k8s/" style="font-size: 14px; color: #999">k8s</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 19px; color: #777">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

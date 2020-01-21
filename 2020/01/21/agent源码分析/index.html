@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>open-falcon agent源码分析 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/01/21/agent%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        open-falcon agent源码分析
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-01-21</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/monitor/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>monitor</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="open-falcon-agent源码分析"><a href="#open-falcon-agent源码分析" class="headerlink" title="open-falcon agent源码分析"></a>open-falcon agent源码分析</h2><p>因为工作需要，将这个open-falcon代码逻辑需要整理清楚。有些部分需要定制修改。</p>
+<p>本篇文章主要是针对open-falcon 中agent模块进行分析。</p>
+<p>主流程再module/agent/module中</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	g.BinaryName = BinaryName</span><br><span class="line">	g.Version = Version</span><br><span class="line">	g.GitCommit = GitCommit</span><br><span class="line"></span><br><span class="line">	cfg := flag.String(<span class="string">"c"</span>, <span class="string">"cfg.json"</span>, <span class="string">"configuration file"</span>)</span><br><span class="line">	version := flag.Bool(<span class="string">"v"</span>, <span class="literal">false</span>, <span class="string">"show version"</span>)</span><br><span class="line">	check := flag.Bool(<span class="string">"check"</span>, <span class="literal">false</span>, <span class="string">"check collector"</span>)</span><br><span class="line">	<span class="comment">//解析参数</span></span><br><span class="line">	flag.Parse()</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> *version &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"Open-Falcon %s version %s, build %s\n"</span>, BinaryName, Version, GitCommit)</span><br><span class="line">		os.Exit(<span class="number">0</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> *check &#123;</span><br><span class="line">        <span class="comment">// 检查当前系统磁盘cpu等信息，有问题就退出</span></span><br><span class="line">		funcs.CheckCollector()</span><br><span class="line">		os.Exit(<span class="number">0</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//解析配置文件</span></span><br><span class="line">	g.ParseConfig(*cfg)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> g.Config().Debug &#123;</span><br><span class="line">		g.InitLog(<span class="string">"debug"</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		g.InitLog(<span class="string">"info"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 初始化root目录</span></span><br><span class="line">	g.InitRootDir()</span><br><span class="line">    <span class="comment">// localip初始化其实就是检查hbs服务是否启动能够连接。同时根据hbs来获取本地ip</span></span><br><span class="line">	g.InitLocalIp()</span><br><span class="line">    <span class="comment">// 初始化rpc客户端</span></span><br><span class="line">	g.InitRpcClients()</span><br><span class="line">	<span class="comment">// 构建需要抓取的指标数据</span></span><br><span class="line">	funcs.BuildMappers()</span><br><span class="line">	<span class="comment">// 定时更新cpu和disk状态历史数据</span></span><br><span class="line">	<span class="keyword">go</span> cron.InitDataHistory()</span><br><span class="line">	<span class="comment">// 定时给hbs报告agent本机状态</span></span><br><span class="line">	cron.ReportAgentStatus()</span><br><span class="line">    <span class="comment">//同步插件，没咋用过</span></span><br><span class="line">	cron.SyncMinePlugins()</span><br><span class="line">    <span class="comment">//调用hbs rpc接口BuiltinMetrics来获取BuiltinMetrics数据。同步监控端口、路径、进程和URL</span></span><br><span class="line">	cron.SyncBuiltinMetrics()</span><br><span class="line">    <span class="comment">//定时检查信任ip</span></span><br><span class="line">	cron.SyncTrustableIps()</span><br><span class="line">    <span class="comment">//定时收集指标数据</span></span><br><span class="line">	cron.Collect()</span><br><span class="line">	<span class="comment">//启动http接口方便查询</span></span><br><span class="line">	<span class="keyword">go</span> http.Start()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">select</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先来看下配置文件：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"debug"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"hostname"</span>: <span class="string">""</span>,         </span><br><span class="line">    <span class="attr">"ip"</span>: <span class="string">""</span>,</span><br><span class="line">    "plugin": &#123;               # 插件</span><br><span class="line">        "enabled": false,</span><br><span class="line">        "dir": "./plugin",</span><br><span class="line">        "git": "https://github.com/open-falcon/plugin.git",</span><br><span class="line">        "logs": "./logs"</span><br><span class="line">    &#125;,</span><br><span class="line">    "heartbeat": &#123;            # 心跳</span><br><span class="line">        "enabled": true,</span><br><span class="line">        "addr": "127.0.0.1:6030",</span><br><span class="line">        "interval": 60,</span><br><span class="line">        "timeout": 1000</span><br><span class="line">    &#125;,</span><br><span class="line">    "transfer": &#123;             # 传输地址</span><br><span class="line">        "enabled": true,</span><br><span class="line">        "addrs": [</span><br><span class="line">            "127.0.0.1:8433",</span><br><span class="line">            <span class="string">"127.0.0.1:8433"</span></span><br><span class="line">        ],</span><br><span class="line">        "interval": 60,</span><br><span class="line">        "timeout": 1000</span><br><span class="line">    &#125;,</span><br><span class="line">    "http": &#123;                # http</span><br><span class="line">        "enabled": true,</span><br><span class="line">        "listen": ":1988",</span><br><span class="line">        "backdoor": false</span><br><span class="line">    &#125;,</span><br><span class="line">    "collector": &#123;          # 收集接口数据</span><br><span class="line">        "ifacePrefix": ["eth", "em"],</span><br><span class="line">        "mountPoint": []</span><br><span class="line">    &#125;,</span><br><span class="line">    "default_tags": &#123;</span><br><span class="line">    &#125;,</span><br><span class="line">    "ignore": &#123;                    </span><br><span class="line">        "cpu.busy": true,</span><br><span class="line">        "df.bytes.free": true,</span><br><span class="line">        "df.bytes.total": true,</span><br><span class="line">        "df.bytes.used": true,</span><br><span class="line">        "df.bytes.used.percent": true,</span><br><span class="line">        "df.inodes.total": true,</span><br><span class="line">        "df.inodes.free": true,</span><br><span class="line">        "df.inodes.used": true,</span><br><span class="line">        "df.inodes.used.percent": true,</span><br><span class="line">        "mem.memtotal": true,</span><br><span class="line">        "mem.memused": true,</span><br><span class="line">        "mem.memused.percent": true,</span><br><span class="line">        "mem.memfree": true,</span><br><span class="line">        "mem.swaptotal": true,</span><br><span class="line">        "mem.swapused": true,</span><br><span class="line">        "mem.swapfree": true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先来看看InitRootDir函数，主要获取了根目录，为了后续启动http拼接路径。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitRootDir</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> err error</span><br><span class="line">	Root, err = os.Getwd()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalln(<span class="string">"getwd fail:"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取函数InitLocalIp，该函数获取hbs连接。获取本地localip地址，主要为了能够后续给hbs发送心跳报告。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitLocalIp</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> Config().Heartbeat.Enabled &#123;</span><br><span class="line">		conn, err := net.DialTimeout(<span class="string">"tcp"</span>, Config().Heartbeat.Addr, time.Second*<span class="number">10</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"get local addr failed !"</span>)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			LocalIp = strings.Split(conn.LocalAddr().String(), <span class="string">":"</span>)[<span class="number">0</span>]</span><br><span class="line">			conn.Close()</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		log.Println(<span class="string">"hearbeat is not enabled, can't get localip"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始化hbs的rpc客户端连接：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitRpcClients</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> Config().Heartbeat.Enabled &#123;</span><br><span class="line">		HbsClient = &amp;SingleConnRpcClient&#123;</span><br><span class="line">			RpcServer: Config().Heartbeat.Addr,</span><br><span class="line">			Timeout:   time.Duration(Config().Heartbeat.Timeout) * time.Millisecond,</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数BuildMappers，构建指标函数，类似于将所有的指标函数注册到map中去。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">BuildMappers</span><span class="params">()</span></span> &#123;</span><br><span class="line">	interval := g.Config().Transfer.Interval</span><br><span class="line">	Mappers = []FuncsAndInterval&#123;</span><br><span class="line">		&#123;</span><br><span class="line">			Fs: []<span class="function"><span class="keyword">func</span><span class="params">()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span></span>&#123;</span><br><span class="line">				AgentMetrics,</span><br><span class="line">				CpuMetrics,</span><br><span class="line">				NetMetrics,</span><br><span class="line">				KernelMetrics,</span><br><span class="line">				LoadAvgMetrics,</span><br><span class="line">				MemMetrics,</span><br><span class="line">				DiskIOMetrics,</span><br><span class="line">				IOStatsMetrics,</span><br><span class="line">				NetstatMetrics,</span><br><span class="line">				ProcMetrics,</span><br><span class="line">				UdpMetrics,</span><br><span class="line">			&#125;,</span><br><span class="line">			Interval: interval,</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			Fs: []<span class="function"><span class="keyword">func</span><span class="params">()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span></span>&#123;</span><br><span class="line">				DeviceMetrics,</span><br><span class="line">			&#125;,</span><br><span class="line">			Interval: interval,</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			Fs: []<span class="function"><span class="keyword">func</span><span class="params">()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span></span>&#123;</span><br><span class="line">				PortMetrics,</span><br><span class="line">				SocketStatSummaryMetrics,</span><br><span class="line">			&#125;,</span><br><span class="line">			Interval: interval,</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			Fs: []<span class="function"><span class="keyword">func</span><span class="params">()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span></span>&#123;</span><br><span class="line">				DuMetrics,</span><br><span class="line">			&#125;,</span><br><span class="line">			Interval: interval,</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			Fs: []<span class="function"><span class="keyword">func</span><span class="params">()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span></span>&#123;</span><br><span class="line">				UrlMetrics,</span><br><span class="line">			&#125;,</span><br><span class="line">			Interval: interval,</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			Fs: []<span class="function"><span class="keyword">func</span><span class="params">()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span></span>&#123;</span><br><span class="line">				GpuMetrics,</span><br><span class="line">			&#125;,</span><br><span class="line">			Interval: interval,</span><br><span class="line">		&#125;,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数InitDataHistory：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">InitDataHistory</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		funcs.UpdateCpuStat()  <span class="comment">//更新cpu状态信息   方便后续统计的时候用到了。</span></span><br><span class="line">		funcs.UpdateDiskStats()  <span class="comment">// 更新disk状态信息</span></span><br><span class="line">		time.Sleep(g.COLLECT_INTERVAL)  <span class="comment">// 间隔</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数reportAgentStatus函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ReportAgentStatus</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> g.Config().Heartbeat.Enabled &amp;&amp; g.Config().Heartbeat.Addr != <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">go</span> reportAgentStatus(time.Duration(g.Config().Heartbeat.Interval) * time.Second)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ReportAgentStatus函数调用reportAgentStatus函数来类似做了一层公共方法转私有分封装：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">reportAgentStatus</span><span class="params">(interval time.Duration)</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		hostname, err := g.Hostname()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			hostname = fmt.Sprintf(<span class="string">"error:%s"</span>, err.Error())</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		req := model.AgentReportRequest&#123;</span><br><span class="line">			Hostname:      hostname,</span><br><span class="line">			IP:            g.IP(),</span><br><span class="line">			AgentVersion:  g.VersionMsg(),</span><br><span class="line">			PluginVersion: g.GetCurrPluginVersion(),</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> resp model.SimpleRpcResponse</span><br><span class="line">        <span class="comment">// 调用hbs rpc接口reportStatus上传当前agent状态信息，问题如果agent节点挂了，那么后续可能是通过mock数据去检查了</span></span><br><span class="line">		err = g.HbsClient.Call(<span class="string">"Agent.ReportStatus"</span>, req, &amp;resp)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> || resp.Code != <span class="number">0</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"call Agent.ReportStatus fail:"</span>, err, <span class="string">"Request:"</span>, req, <span class="string">"Response:"</span>, resp)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		time.Sleep(interval)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似的SyncMinPlugins函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SyncMinePlugins</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> !g.Config().Plugin.Enabled &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !g.Config().Heartbeat.Enabled &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> g.Config().Heartbeat.Addr == <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">go</span> syncMinePlugins()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用函数syncMinePlugins：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">syncMinePlugins</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> (</span><br><span class="line">		timestamp  <span class="keyword">int64</span> = <span class="number">-1</span></span><br><span class="line">		pluginDirs []<span class="keyword">string</span></span><br><span class="line">	)</span><br><span class="line"></span><br><span class="line">	duration := time.Duration(g.Config().Heartbeat.Interval) * time.Second</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		time.Sleep(duration)</span><br><span class="line"></span><br><span class="line">		hostname, err := g.Hostname()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		req := model.AgentHeartbeatRequest&#123;</span><br><span class="line">			Hostname: hostname,</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> resp model.AgentPluginsResponse</span><br><span class="line">        <span class="comment">// hbs rpc接口MinePlugins，用来获取MinePlugin插件信息</span></span><br><span class="line">		err = g.HbsClient.Call(<span class="string">"Agent.MinePlugins"</span>, req, &amp;resp)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"call Agent.MinePlugin fail:"</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> resp.Timestamp &lt;= timestamp &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		pluginDirs = resp.Plugins</span><br><span class="line">		timestamp = resp.Timestamp</span><br><span class="line">		<span class="comment">// 后续就是根据获取的插件信息目录等，启动相关的插件脚本，如果有自定义的插件需要抓取数据等，其实可以再这边写。</span></span><br><span class="line">		<span class="keyword">if</span> g.Config().Debug &#123;</span><br><span class="line">			log.Printf(<span class="string">"call Agent.MinePlugin:%v\n"</span>, resp)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(pluginDirs) == <span class="number">0</span> &#123;</span><br><span class="line">			plugins.ClearAllPlugins()</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		desiredAll := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]*plugins.Plugin)</span><br><span class="line">		filefmt_scripts := [][]<span class="keyword">string</span>&#123;&#125;</span><br><span class="line">		dirfmt_scripts := []<span class="keyword">string</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> _, script_path := <span class="keyword">range</span> pluginDirs &#123;</span><br><span class="line">			<span class="comment">//script_path could be a DIR or a SCRIPT_FILE_WITH_OR_WITHOUT_ARGS</span></span><br><span class="line">			<span class="comment">//比如： sys/ntp/60_ntp.py(arg1,arg2) 或者 sys/ntp/60_ntp.py 或者 sys/ntp</span></span><br><span class="line">			<span class="comment">//1. 参数只对单个脚本文件生效，目录不支持参数</span></span><br><span class="line">			<span class="comment">//2. 如果某个目录下的某个脚本被单独绑定到某个机器，那么再次绑定该目录时，该文件会不会再次执行</span></span><br><span class="line">			<span class="keyword">var</span> args <span class="keyword">string</span> = <span class="string">""</span></span><br><span class="line"></span><br><span class="line">			re := regexp.MustCompile(<span class="string">`(.*)\((.*)\)`</span>)</span><br><span class="line">			path_args := re.FindAllStringSubmatch(script_path, <span class="number">-1</span>)</span><br><span class="line">			<span class="keyword">if</span> path_args != <span class="literal">nil</span> &#123;</span><br><span class="line">				script_path = path_args[<span class="number">0</span>][<span class="number">1</span>]</span><br><span class="line">				args = path_args[<span class="number">0</span>][<span class="number">2</span>]</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			abs_path := filepath.Join(g.Config().Plugin.Dir, script_path)</span><br><span class="line">			<span class="keyword">if</span> !file.IsExist(abs_path) &#123;</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> file.IsFile(abs_path) &#123;</span><br><span class="line">				filefmt_scripts = <span class="built_in">append</span>(filefmt_scripts, []<span class="keyword">string</span>&#123;script_path, args&#125;)</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			dirfmt_scripts = <span class="built_in">append</span>(dirfmt_scripts, script_path)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		taken := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">		<span class="keyword">for</span> _, script_file := <span class="keyword">range</span> filefmt_scripts &#123;</span><br><span class="line">			abs_path := filepath.Join(g.Config().Plugin.Dir, script_file[<span class="number">0</span>])</span><br><span class="line">			_, file_name := filepath.Split(abs_path)</span><br><span class="line">			arr := strings.Split(file_name, <span class="string">"_"</span>)</span><br><span class="line">			<span class="keyword">var</span> cycle <span class="keyword">int</span></span><br><span class="line">			<span class="keyword">var</span> err error</span><br><span class="line">			cycle, err = strconv.Atoi(arr[<span class="number">0</span>])</span><br><span class="line">			<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">				fi, _ := os.Stat(abs_path)</span><br><span class="line">				plugin := &amp;plugins.Plugin&#123;FilePath: script_file[<span class="number">0</span>], MTime: fi.ModTime().Unix(), Cycle: cycle, Args: script_file[<span class="number">1</span>]&#125;</span><br><span class="line">				desiredAll[script_file[<span class="number">0</span>]+<span class="string">"("</span>+script_file[<span class="number">1</span>]+<span class="string">")"</span>] = plugin</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//针对某个 hostgroup 绑定了单个脚本后，再绑定该脚本的目录时，会忽略目录中的该文件</span></span><br><span class="line">			taken[script_file[<span class="number">0</span>]] = <span class="keyword">struct</span>&#123;&#125;&#123;&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> _, script_path := <span class="keyword">range</span> dirfmt_scripts &#123;</span><br><span class="line">			ps := plugins.ListPlugins(strings.Trim(script_path, <span class="string">"/"</span>))</span><br><span class="line">			<span class="keyword">for</span> k, p := <span class="keyword">range</span> ps &#123;</span><br><span class="line">				<span class="keyword">if</span> _, ok := taken[k]; ok &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				desiredAll[k] = p</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		plugins.DelNoUsePlugins(desiredAll)</span><br><span class="line">		plugins.AddNewPlugins(desiredAll)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> g.Config().Debug &#123;</span><br><span class="line">			log.Printf(<span class="string">"current plugins:%v\n"</span>, plugins.Plugins)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面需要获取监控端口和路径：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SyncBuiltinMetrics</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> g.Config().Heartbeat.Enabled &amp;&amp; g.Config().Heartbeat.Addr != <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">go</span> syncBuiltinMetrics()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">syncBuiltinMetrics</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> timestamp <span class="keyword">int64</span> = <span class="number">-1</span></span><br><span class="line">	<span class="keyword">var</span> checksum <span class="keyword">string</span> = <span class="string">"nil"</span></span><br><span class="line"></span><br><span class="line">	duration := time.Duration(g.Config().Heartbeat.Interval) * time.Second</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		time.Sleep(duration)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> ports = []<span class="keyword">int64</span>&#123;&#125;</span><br><span class="line">		<span class="keyword">var</span> paths = []<span class="keyword">string</span>&#123;&#125;</span><br><span class="line">		<span class="keyword">var</span> procs = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)</span><br><span class="line">		<span class="keyword">var</span> urls = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>)</span><br><span class="line"></span><br><span class="line">		hostname, err := g.Hostname()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		req := model.AgentHeartbeatRequest&#123;</span><br><span class="line">			Hostname: hostname,</span><br><span class="line">			Checksum: checksum,</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> resp model.BuiltinMetricResponse</span><br><span class="line">        <span class="comment">// 调用rpc接口获取监控端口和路径</span></span><br><span class="line">		err = g.HbsClient.Call(<span class="string">"Agent.BuiltinMetrics"</span>, req, &amp;resp)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"ERROR:"</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> resp.Timestamp &lt;= timestamp &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> resp.Checksum == checksum &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		timestamp = resp.Timestamp</span><br><span class="line">		checksum = resp.Checksum</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> _, metric := <span class="keyword">range</span> resp.Metrics &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> metric.Metric == g.URL_CHECK_HEALTH &#123;</span><br><span class="line">				arr := strings.Split(metric.Tags, <span class="string">","</span>)</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(arr) != <span class="number">2</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				url := strings.Split(arr[<span class="number">0</span>], <span class="string">"="</span>)</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(url) != <span class="number">2</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				stime := strings.Split(arr[<span class="number">1</span>], <span class="string">"="</span>)</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(stime) != <span class="number">2</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> _, err := strconv.ParseInt(stime[<span class="number">1</span>], <span class="number">10</span>, <span class="number">64</span>); err == <span class="literal">nil</span> &#123;</span><br><span class="line">					urls[url[<span class="number">1</span>]] = stime[<span class="number">1</span>]</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					log.Println(<span class="string">"metric ParseInt timeout failed:"</span>, err)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> metric.Metric == g.NET_PORT_LISTEN &#123;</span><br><span class="line">				arr := strings.Split(metric.Tags, <span class="string">"="</span>)</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(arr) != <span class="number">2</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> port, err := strconv.ParseInt(arr[<span class="number">1</span>], <span class="number">10</span>, <span class="number">64</span>); err == <span class="literal">nil</span> &#123;</span><br><span class="line">					ports = <span class="built_in">append</span>(ports, port)</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					log.Println(<span class="string">"metrics ParseInt failed:"</span>, err)</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> metric.Metric == g.DU_BS &#123;</span><br><span class="line">				arr := strings.Split(metric.Tags, <span class="string">"="</span>)</span><br><span class="line">				<span class="keyword">if</span> <span class="built_in">len</span>(arr) != <span class="number">2</span> &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				paths = <span class="built_in">append</span>(paths, strings.TrimSpace(arr[<span class="number">1</span>]))</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> metric.Metric == g.PROC_NUM &#123;</span><br><span class="line">				arr := strings.Split(metric.Tags, <span class="string">","</span>)</span><br><span class="line"></span><br><span class="line">				tmpMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">int</span>]<span class="keyword">string</span>)</span><br><span class="line"></span><br><span class="line">				<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(arr); i++ &#123;</span><br><span class="line">					<span class="keyword">if</span> strings.HasPrefix(arr[i], <span class="string">"name="</span>) &#123;</span><br><span class="line">						tmpMap[<span class="number">1</span>] = strings.TrimSpace(arr[i][<span class="number">5</span>:])</span><br><span class="line">					&#125; <span class="keyword">else</span> <span class="keyword">if</span> strings.HasPrefix(arr[i], <span class="string">"cmdline="</span>) &#123;</span><br><span class="line">						tmpMap[<span class="number">2</span>] = strings.TrimSpace(arr[i][<span class="number">8</span>:])</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				procs[metric.Tags] = tmpMap</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		g.SetReportUrls(urls)</span><br><span class="line">		g.SetReportPorts(ports)</span><br><span class="line">		g.SetReportProcs(procs)</span><br><span class="line">		g.SetDuPaths(paths)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>获取信任IP列表：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">syncTrustableIps</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	duration := time.Duration(g.Config().Heartbeat.Interval) * time.Second</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		time.Sleep(duration)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> ips <span class="keyword">string</span></span><br><span class="line">        <span class="comment">// 调用hbs接口来获取信任ip列表，用于给http接口查询认证使用/</span></span><br><span class="line">		err := g.HbsClient.Call(<span class="string">"Agent.TrustableIps"</span>, model.NullRpcRequest&#123;&#125;, &amp;ips)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			log.Println(<span class="string">"ERROR: call Agent.TrustableIps fail"</span>, err)</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		g.SetTrustableIps(ips)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>收集指标数据collector</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Collect</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> !g.Config().Transfer.Enabled &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(g.Config().Transfer.Addrs) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> _, v := <span class="keyword">range</span> funcs.Mappers &#123;</span><br><span class="line">		<span class="keyword">go</span> collect(<span class="keyword">int64</span>(v.Interval), v.Fs)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数collect</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">collect</span><span class="params">(sec <span class="keyword">int64</span>, fns []<span class="keyword">func</span>()</span> []*<span class="title">model</span>.<span class="title">MetricValue</span>)</span> &#123;</span><br><span class="line">	t := time.NewTicker(time.Second * time.Duration(sec))</span><br><span class="line">	<span class="keyword">defer</span> t.Stop()</span><br><span class="line">    <span class="comment">// 根据获取到的map的指标的数组，去抓取数据</span></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		&lt;-t.C</span><br><span class="line">		<span class="comment">// hostname</span></span><br><span class="line">		hostname, err := g.Hostname()</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		mvs := []*model.MetricValue&#123;&#125;</span><br><span class="line">         <span class="comment">// 获取忽略指标</span></span><br><span class="line">		ignoreMetrics := g.Config().IgnoreMetrics</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> _, fn := <span class="keyword">range</span> fns &#123;</span><br><span class="line">			items := fn()</span><br><span class="line">			<span class="keyword">if</span> items == <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(items) == <span class="number">0</span> &#123;</span><br><span class="line">				<span class="keyword">continue</span></span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span> _, mv := <span class="keyword">range</span> items &#123;</span><br><span class="line">				<span class="keyword">if</span> b, ok := ignoreMetrics[mv.Metric]; ok &amp;&amp; b &#123;</span><br><span class="line">					<span class="keyword">continue</span></span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					mvs = <span class="built_in">append</span>(mvs, mv)</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		now := time.Now().Unix()</span><br><span class="line">		<span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="built_in">len</span>(mvs); j++ &#123;</span><br><span class="line">			mvs[j].Step = sec</span><br><span class="line">			mvs[j].Endpoint = hostname</span><br><span class="line">			mvs[j].Timestamp = now</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// 发送数据到transfer</span></span><br><span class="line">		g.SendToTransfer(mvs)</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>数据发送函数SendToTransfer：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SendToTransfer</span><span class="params">(metrics []*model.MetricValue)</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(metrics) == <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	dt := Config().DefaultTags</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(dt) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">var</span> buf bytes.Buffer</span><br><span class="line">		default_tags_list := []<span class="keyword">string</span>&#123;&#125;</span><br><span class="line">		<span class="keyword">for</span> k, v := <span class="keyword">range</span> dt &#123;</span><br><span class="line">			buf.Reset()</span><br><span class="line">			buf.WriteString(k)</span><br><span class="line">			buf.WriteString(<span class="string">"="</span>)</span><br><span class="line">			buf.WriteString(v)</span><br><span class="line">			default_tags_list = <span class="built_in">append</span>(default_tags_list, buf.String())</span><br><span class="line">		&#125;</span><br><span class="line">		default_tags := strings.Join(default_tags_list, <span class="string">","</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> i, x := <span class="keyword">range</span> metrics &#123;</span><br><span class="line">			buf.Reset()</span><br><span class="line">			<span class="keyword">if</span> x.Tags == <span class="string">""</span> &#123;</span><br><span class="line">				metrics[i].Tags = default_tags</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				buf.WriteString(metrics[i].Tags)</span><br><span class="line">				buf.WriteString(<span class="string">","</span>)</span><br><span class="line">				buf.WriteString(default_tags)</span><br><span class="line">				metrics[i].Tags = buf.String()</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	debug := Config().Debug</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> debug &#123;</span><br><span class="line">		log.Printf(<span class="string">"=&gt; &lt;Total=%d&gt; %v\n"</span>, <span class="built_in">len</span>(metrics), metrics[<span class="number">0</span>])</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> resp model.TransferResponse</span><br><span class="line">    <span class="comment">// 最重要的地方，发送数据</span></span><br><span class="line">	SendMetrics(metrics, &amp;resp)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> debug &#123;</span><br><span class="line">		log.Println(<span class="string">"&lt;="</span>, &amp;resp)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SendMetrics</span><span class="params">(metrics []*model.MetricValue, resp *model.TransferResponse)</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	<span class="keyword">for</span> _, i := <span class="keyword">range</span> rand.Perm(<span class="built_in">len</span>(Config().Transfer.Addrs)) &#123;</span><br><span class="line">		addr := Config().Transfer.Addrs[i]</span><br><span class="line">		<span class="comment">// 获取transfer的客户端</span></span><br><span class="line">		c := getTransferClient(addr)</span><br><span class="line">		<span class="keyword">if</span> c == <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="comment">//没有就初始化一个</span></span><br><span class="line">			c = initTransferClient(addr)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//抓取数据</span></span><br><span class="line">		<span class="keyword">if</span> updateMetrics(c, metrics, resp) &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用transfer模块的rpc接口update来更新数据：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">updateMetrics</span><span class="params">(c *SingleConnRpcClient, metrics []*model.MetricValue, resp *model.TransferResponse)</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	err := c.Call(<span class="string">"Transfer.Update"</span>, metrics, resp)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Println(<span class="string">"call Transfer.Update fail:"</span>, c, err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后启动http服务，启动服务之前需要初始化init函数:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">init</span><span class="params">()</span></span> &#123;</span><br><span class="line">	configAdminRoutes()  <span class="comment">// 初始化admin接口路由</span></span><br><span class="line">	configCpuRoutes()    <span class="comment">// 初始化cpu接口路由</span></span><br><span class="line">	configDfRoutes()     <span class="comment">// 初始化磁盘接口路由</span></span><br><span class="line">	configHealthRoutes()   <span class="comment">// 初始化健康度路由</span></span><br><span class="line">	configIoStatRoutes()   <span class="comment">//初始化io</span></span><br><span class="line">	configKernelRoutes()   <span class="comment">//初始化内核</span></span><br><span class="line">	configMemoryRoutes()   <span class="comment">//初始化memory</span></span><br><span class="line">	configPageRoutes()    <span class="comment">//初始化page</span></span><br><span class="line">	configPluginRoutes()   <span class="comment">//初始化插件</span></span><br><span class="line">	configPushRoutes()     <span class="comment">//初始化push, 可以使用push接口推送数据，通过这个接口转发到transfer</span></span><br><span class="line">	configRunRoutes()      <span class="comment">//初始化Run</span></span><br><span class="line">	configSystemRoutes()    <span class="comment">//初始化系统</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动http服务Start函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Start</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> !g.Config().Http.Enabled &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	addr := g.Config().Http.Listen</span><br><span class="line">	<span class="keyword">if</span> addr == <span class="string">""</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	s := &amp;http.Server&#123;</span><br><span class="line">		Addr:           addr,</span><br><span class="line">		MaxHeaderBytes: <span class="number">1</span> &lt;&lt; <span class="number">30</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Println(<span class="string">"listening"</span>, addr)</span><br><span class="line">	log.Fatalln(s.ListenAndServe())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>补充一点：这些接口都是开放的api，dashboard中请求的数据接口是自己实现从数据库中查询的。dashboard中接口时基于django编写了接口，然后用js来查询这些接口数据。</p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-21T09:06:43+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年1月21日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/monitor/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>monitor</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+                  <section class="prev">
+                      <span class="art-item-left">
+                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                          <h4>
+                              <a href="/2020/01/21/aggregator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="prev" title="open-falcon aggregator源码分析">
+                                
+                                    open-falcon aggregator源码分析
+                                
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/monitor/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> monitor</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/01/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/" rel="prev" title="redis 源码思维导图">
+                                  
+                                      redis 源码思维导图
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/redis/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> redis</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'open-falcon agent源码分析',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#open-falcon-agent源码分析"><span class="toc-text">open-falcon agent源码分析</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/golang/" style="font-size: 14px; color: #999">golang</a> <a href="/tags/influxdb/" style="font-size: 14px; color: #999">influxdb</a> <a href="/tags/k8s/" style="font-size: 14px; color: #999">k8s</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 19px; color: #777">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
