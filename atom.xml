@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.mydreamdll.xyz/"/>
-  <updated>2020-01-23T03:04:09.000Z</updated>
+  <updated>2020-01-24T06:56:01.000Z</updated>
   <id>http://www.mydreamdll.xyz/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux Malloc底层分配原理【翻译】</title>
+    <link href="http://www.mydreamdll.xyz/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://www.mydreamdll.xyz/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</id>
+    <published>2020-01-24T06:56:22.335Z</published>
+    <updated>2020-01-24T06:56:01.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Linux-Malloc底层分配原理【翻译】"><a href="#Linux-Malloc底层分配原理【翻译】" class="headerlink" title="Linux Malloc底层分配原理【翻译】"></a>Linux Malloc底层分配原理【翻译】</h2><p>linux中malloc函数还是通过syscall来分配内存的。通过调用brk或者mmap syscall函数来分配内存。</p><p><img src="https://docs.google.com/drawings/d/105HDvkEvIW2lsyaQjj758Lbyx6A-_K7jviheyzeAwl8/pub?w=480&h=238" alt="img"></p><p>brk函数：从内核分配内存（非0初始化）通过增加程序break位置来实现。初始化堆segment得开始与结束指向相同的位置。</p><p>如果ASLR关闭的时候，start_brk和brk将指向data/bss segment结束的位置。</p><p>如果ASLR打开的时候，start_brk和brk将等于data/bss segment结束的位置通过随机brk offset</p><p><img src="https://i2.wp.com/static.duartes.org/img/blogPosts/linuxFlexibleAddressSpaceLayout.png" alt="img"></p><p>mmap: malloc函数使用mmap来创建一个私有匿名映射segment.分配私有匿名的主要目的是分配一个新的内存（0填充的）这个新的内存将被调用进程的时候额外使用。</p><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://sploitfun.wordpress.com/2015/02/11/syscalls-used-by-malloc/" target="_blank" rel="noopener">https://sploitfun.wordpress.com/2015/02/11/syscalls-used-by-malloc/</a></p><p><a href="https://manybutfinite.com/post/anatomy-of-a-program-in-memory/" target="_blank" rel="noopener">https://manybutfinite.com/post/anatomy-of-a-program-in-memory/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Linux-Malloc底层分配原理【翻译】&quot;&gt;&lt;a href=&quot;#Linux-Malloc底层分配原理【翻译】&quot; class=&quot;headerlink&quot; title=&quot;Linux Malloc底层分配原理【翻译】&quot;&gt;&lt;/a&gt;Linux Malloc底层分配原理【翻
+      
+    
+    </summary>
+    
+    
+      <category term="malloc" scheme="http://www.mydreamdll.xyz/categories/malloc/"/>
+    
+    
+      <category term="malloc" scheme="http://www.mydreamdll.xyz/tags/malloc/"/>
+    
+  </entry>
   
   <entry>
     <title>pwn学习笔记1</title>
