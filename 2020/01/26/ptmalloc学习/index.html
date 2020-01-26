@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Tag: k8s | Saar&#39;s Blog</title>
+  <title>ptmalloc学习 | Saar&#39;s Blog</title>
   
   
 
@@ -49,7 +49,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>Saar's Blog</h1>
@@ -164,25 +164,11 @@
 
   <div class="l_body">
     <div class='body-wrapper'>
-      
-<div class='l_main'>
+      <div class='l_main'>
   
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
     
-      
-  <section class="post-list">
-    
-      
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
 
 
   <section class='meta'>
@@ -191,11 +177,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2017/05/26/kubectl/">
-      kubectl 学习笔记
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2020/01/26/ptmalloc%E5%AD%A6%E4%B9%A0/">
+        ptmalloc学习
+      </a>
+    </h1>
+  
 
 
       
@@ -223,7 +211,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-05-26</p>
+    <p>2020-01-26</p>
   </a>
 </div>
 
@@ -233,11 +221,29 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/k8s/' rel="nofollow">
+    <a href='/categories/malloc/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>k8s</p>
+      <p>malloc</p>
     </a>
   </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
 
 
           
@@ -261,44 +267,144 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="ptmalloc学习"><a href="#ptmalloc学习" class="headerlink" title="ptmalloc学习"></a>ptmalloc学习</h2><p>ptmalloc2 是linux glibc中当前使用的内存堆分配。之前使用的dlmalloc，现在逐步都被支持多线程的ptmalloc来替代了。</p>
+<p>我们之前学习过系统底层是调用的brk和mmap来实现内存分配的。</p>
+<p>ptmalloc2多线程情况下分配内存的时候，每个线程有一个独立的heap segment和freelist数据结构保持于其他堆独立。这个行为我们称作为per thread arena;</p>
+<p>需要注意的是，即使用户请求内存只有1000字节，堆内存分配的时候还是会提供132KB大小被创建。这种连续的堆内存区域我们称作为arena。主线程创建的我们称作为main arena;</p>
+<p>如果当程序超过了这个arena区域可用空寂哦哦安的时候，他能够增加通过程序break位置的方式。top chunk大小可以适配 extra space空间。类似的如果有很多可用空间在top chunk中的时候，他可以缩小。</p>
+<p>除了这个1ＭＢ的堆分配外，只有132KB的读写权限被设置，因此这个连续的内存区域被称作为thread arena;如果超过128KB（132*1024）请求大小，超过了malloc可用空间的时候，内存分配通过使用mmap系统调用来申请，无论请求来自于main arena还是thread arena; arena的限制来自于系统的cores数目；</p>
+<p>32bit: Number of arena = 2 * number of cores;</p>
+<p>63bit: Number of arena = 8 * number of cores;</p>
+<p>heap的主要信息有下面这些：</p>
+<p>heap_info： heap header信息，单线程thread arena能有多堆。</p>
+<p>malloc_state: arena header</p>
+<p>malloc_chunk:  chunk_header</p>
+<p>main arena因为没有多heap，所以没有heap_info。不像thread arena，main arena header不是sbrk的 heap segment的一部分。他是一个全局变量，因此可以在libc.so data segment找到。</p>
+<p><img src="https://docs.google.com/drawings/d/1367fdYcRTvkyfZ_s27yg6oJp5KYsVAuYqPf8szbRNc0/pub?w=960&h=720" alt="img"></p>
+<p><img src="https://docs.google.com/drawings/d/1367fdYcRTvkyfZ_s27yg6oJp5KYsVAuYqPf8szbRNc0/pub?w=960&h=720" alt="img"></p>
+<p><img src="https://docs.google.com/drawings/d/150bTi0uScQlnABDImLYS8rWyL82mmfpMxzRbx-45UKw/pub?w=960&h=720" alt="img"></p>
+<p>chunk: 一个chunk包含在一个heap segment中，包括以下几个：</p>
+<ol>
+<li><p>allocated chunk</p>
+<p><img src="https://docs.google.com/drawings/d/1eLkG-WF9U3O_ytNs6iFKHacqkjWZeY4KtLqxmd01EVs/pub?w=962&h=682" alt="img"></p>
+</li>
+<li><p>free chunk</p>
+<p><img src="https://docs.google.com/drawings/d/1YrlnGa081NpO0D3wcoaJbGvhnPi3X6bBKMc3bN4-oZQ/pub?w=940&h=669" alt="img"></p>
+<p>其中 bins是freelist的数据结构，在free chunk中被使用。</p>
+<p>fast bin, unsorted bin, small bin, large bin</p>
+<p>fastbinsY： 这个数组支持fastbins</p>
+<p>bins: bin1  unsorted bin, bin2-bin63 small bin, bin64-bin126 large bin;</p>
+<p>fastbin: chunk大小在16-80字节被称作为fast chunk;</p>
+<p><img src="https://docs.google.com/drawings/d/144diIfbLqUmOPlAWbtP45mGsZlIl3PZWJvvH-cvQziU/pub?w=960&h=720" alt="img"></p>
+<p>unsorted bin: </p>
+<p>当释放小块或大块时，而不是将它们添加到各自的容器，将他们释放的空间放入unsortedbin中。这种方式给了glibc malloc重用最近释放的chunk的机会。因此，内存分配和释放会加快一点。因为寻找合适的垃圾箱所花费的时间减少了。</p>
+<p><img src="https://docs.google.com/drawings/d/1Kf_eg7uB2mRjSOasTc4dIu5fuBpTAK0GxbnKVTkZd0Y/pub?w=1217&h=865" alt="img"></p>
+<p>small bin: chunk小于512字节的被称作为small chunk;</p>
+<p>large bin: chunk大于512字节的被称作为large chunk;</p>
+</li>
+<li><p>Top Chunk：</p>
+<p>在top边界上的arena被称作为top chunk;</p>
+</li>
+<li><p>Last Remainder Chunk：</p>
+<p>从最近的一个小请求分裂。最后的剩余块有助于改善引用的局部性，即小块的连续的malloc请求可能最终被分配到彼此接近的地方。</p>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://sploitfun.wordpress.com/2015/02/10/understanding-glibc-malloc/comment-page-1/" target="_blank" rel="noopener">https://sploitfun.wordpress.com/2015/02/10/understanding-glibc-malloc/comment-page-1/</a></p>
+<p><a href="https://www.cnblogs.com/alisecurity/p/5486458.html" target="_blank" rel="noopener">https://www.cnblogs.com/alisecurity/p/5486458.html</a></p>
+
+      </div>
       
       
-        <div class="readmore">
-          <a href="/2017/05/26/kubectl/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-01-26T11:02:04+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年1月26日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/malloc/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>malloc</p></a></div>
+
+
+        
+      
+        
+          
+
+        
       
     </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/k8s/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> k8s</a>
-        
-      </div>
-    
   </section>
-</article>
 
-          </div>
-        
+
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/" rel="prev" title="Linux Malloc底层分配原理【翻译】">
+                                  
+                                      Linux Malloc底层分配原理【翻译】
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/malloc/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> malloc</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
 
   
 
 
-    
-  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'ptmalloc学习',
+      tools: true
+    }
+  </script>
+
+
 </div>
 <aside class='l_side'>
   
@@ -389,6 +495,25 @@
           
         
           
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ptmalloc学习"><span class="toc-text">ptmalloc学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
           
         
           
@@ -558,6 +683,40 @@
 
 
             
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
           
         
       
