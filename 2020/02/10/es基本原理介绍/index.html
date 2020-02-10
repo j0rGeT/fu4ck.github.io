@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Archives: 2020 | Saar&#39;s Blog</title>
+  <title>ElasticSearch基本原理介绍 | Saar&#39;s Blog</title>
   
   
 
@@ -49,7 +49,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>Saar's Blog</h1>
@@ -165,16 +165,10 @@
   <div class="l_body">
     <div class='body-wrapper'>
       <div class='l_main'>
-	
-		
-  <section class="post-list">
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
   
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
 
 
   <section class='meta'>
@@ -183,11 +177,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2020/01/21/aggregator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
-      open-falcon aggregator源码分析
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2020/02/10/es%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/">
+        ElasticSearch基本原理介绍
+      </a>
+    </h1>
+  
 
 
       
@@ -215,7 +211,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-21</p>
+    <p>2020-02-10</p>
   </a>
 </div>
 
@@ -225,9 +221,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/monitor/' rel="nofollow">
+    <a href='/categories/ElasticSearch/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>monitor</p>
+      <p>ElasticSearch</p>
     </a>
   </div>
 
@@ -237,106 +233,17 @@
           
             
   
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/01/21/aggregator%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/monitor/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> monitor</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/21/agent%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
-      open-falcon agent源码分析
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
       </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-21</p>
-  </a>
-</div>
-
-          
-        
-          
-            
+    </div>
   
-  <div class='new-meta-item category'>
-    <a href='/categories/monitor/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>monitor</p>
-    </a>
-  </div>
 
 
           
@@ -360,596 +267,166 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/01/21/agent%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/monitor/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> monitor</a>
-        
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="ElasticSearch基本原理介绍"><a href="#ElasticSearch基本原理介绍" class="headerlink" title="ElasticSearch基本原理介绍"></a>ElasticSearch基本原理介绍</h2><h3 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h3><p>在存储结构上，由_index, _type和_id唯一标示一个文档。_index指向一个或者多个物理分片的逻辑命名空间，_type类型用于区分同一个集合中的不同的细分。_id文档标识符由系统自动生成或者使用者提供。</p>
+<h3 id="分片"><a href="#分片" class="headerlink" title="分片"></a>分片</h3><p>ES将数据副本分为主从两个部分，即主分片和副分片。主分片为权威数据，写过程先写主分片，成功之后再写副分片，恢复过程以主分片为主。 </p>
+<h3 id="集群内部原理"><a href="#集群内部原理" class="headerlink" title="集群内部原理"></a>集群内部原理</h3><p>集群节点角色：</p>
+<ol>
+<li>主节点</li>
+</ol>
+<p>主节点负责集群层面的相关操作，管理集群变更</p>
+<p>通过配置node.master:true节点具有被选举为master的资格，主节点是全局唯一的，将从有资格成为master的节点中进行选举。</p>
+<p>主节点也可以成为数据节点，但尽可能的做少量的工作，因此生产环境应尽量分离主节点和数据节点，创建独立节点的配置：</p>
+<p>node.master: true</p>
+<p>node.data: false</p>
+<p>为了防止数据丢失，每个主节点应该知道有资格成为主节点的数目，默认为1，为了避免网络分区时候出现多主的情况，配置discovery.zen.minimum_master_nodes原则上最小值应该是（master_eligible_nodes/2）+1</p>
+<ol start="2">
+<li>数据节点</li>
+</ol>
+<p>负责保存数据，执行数据相关操作，CRUD，搜索，聚合等，数据节点对CPU，内存，IO要求较高。通过配置node.data: true来使一个节点成为数据节点。也可以通过下面的配置:</p>
+<p>node.master: false</p>
+<p>node.data: true</p>
+<p>node.ingest: false</p>
+<ol start="3">
+<li>预处理节点</li>
+</ol>
+<p>预处理节点在5.0之后引入。默认情况下在所有的节点上启用ingest，如果想在某个节点上禁用ingest，则可以添加配置node.ingest: false。也可以通过下面的配置创建一个仅用于预处理的节点：</p>
+<p>node.master: false</p>
+<p>node.data: false</p>
+<p>node.ingest：false</p>
+<ol start="4">
+<li>协调节点</li>
+</ol>
+<p>客户端请求可以发送到集群的任意节点，每个节点都知道任意文档所在的位置，然后转发这些请求，收集数据并返回给客户端，处理客户端请求的节点称为协调节点。</p>
+<p>协调节点将请求转发给保存数据的数据节点。每个数据节点在本地执行请求，并将结果返回给协调节点，协调节点收集完数据之后将数据节点的结果合并为单个全局结果，对结果收集和排序的过程可能需要很多CPU和内存资源。</p>
+<p>配置：</p>
+<p>node.master: false</p>
+<p>node.data: false</p>
+<p>node.ingest: false</p>
+<ol start="5">
+<li>部落节点</li>
+</ol>
+<p>允许部落节点在多个集群之间充当联合客户端</p>
+<p>客户端的属性：</p>
+<p>node.master: false</p>
+<p>node.data: false</p>
+<p>它不做主节点，不做数据节点，仅用于路由请求，本质上是一个智能负载均衡器。</p>
+<h3 id="集群的健康度状态"><a href="#集群的健康度状态" class="headerlink" title="集群的健康度状态"></a>集群的健康度状态</h3><p>集群的健康度状态分为三种：</p>
+<ol>
+<li>Green: 主分片和副分片都正常运行</li>
+<li>Yellow: 所有的主分片都正常运行，但不是所有的副分片都正常运行，意味着有单点故障的风险。</li>
+<li>Red: 有主分片没能正常运行</li>
+</ol>
+<h3 id="集群扩容"><a href="#集群扩容" class="headerlink" title="集群扩容"></a>集群扩容</h3><p>当扩容集群，添加节点时候，分片会均衡地分配到集群的每个节点上，从而对索引和搜索过程进行负载均衡，这些都是系统自动完成。</p>
+<p>分片副本实现数据冗余，从而防止硬件故障导致的数据丢失。</p>
+<h3 id="主要内部模块介绍"><a href="#主要内部模块介绍" class="headerlink" title="主要内部模块介绍"></a>主要内部模块介绍</h3><h4 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h4><p>Cluster模块是主节点执行集群管理的我封装实现，管理集群状态，维护集群层面的配置信息。主要功能：</p>
+<ul>
+<li>管理集群状态，将新生成的集群状态发布到集群节点</li>
+<li>调用allocation模块执行分片分配，决策那些分片应该分配到哪个节点</li>
+<li>集群各节点中直接迁移分片，保持数据平衡</li>
+</ul>
+<h4 id="allocation"><a href="#allocation" class="headerlink" title="allocation"></a>allocation</h4><p>封装分片分配相关的功能和策略，包括主分片的分配和副分片的分配，本模块由主节点调用。创建新索引，集群完全重启都需要分片分配的过程</p>
+<h4 id="Discovery"><a href="#Discovery" class="headerlink" title="Discovery"></a>Discovery</h4><p>发现模块负责发现集群中的节点，以及选举主节点。当节点加入或退出集群时，主节点会采取相应的行动。</p>
+<h4 id="Gateway"><a href="#Gateway" class="headerlink" title="Gateway"></a>Gateway</h4><p>负责对收到Master广播下来的集群状态数据的持久化存储，并在集群完全重启时恢复他们。</p>
+<h4 id="Indices"><a href="#Indices" class="headerlink" title="Indices"></a>Indices</h4><p>索引模块管理全局级的索引设置，不包括索引级的，它还封装了索引数据恢复功能。集群启动阶段需要的主分片恢复和副分片恢复就是在这个模块实现。</p>
+<h4 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h4><p>HTTP模块允许通过JSON over HTTP的方式访问ES的API，HTTP模块本质上完全异步的，意味着没有阻塞线程等待响应。使用异步通信进行HTTP的好处是解决了C10k问题（10k量级的并发连接）。</p>
+<p>在部分场景中，可考虑使用HTTP keepalive来提升性能，注意，不要在客户端使用http chunking</p>
+<h4 id="Transport"><a href="#Transport" class="headerlink" title="Transport"></a>Transport</h4><p>传输模块用于集群内节点之间的内部通信，从一个节点到另一个节点的每个请求都使用传输模块。</p>
+<h4 id="Engine"><a href="#Engine" class="headerlink" title="Engine"></a>Engine</h4><p>Engine模块封装了对Lucene的操作及translog的调用，它是对一个分片读写操作的最终提供者。</p>
+<h3 id="选主算法"><a href="#选主算法" class="headerlink" title="选主算法"></a>选主算法</h3><p>bolly算法：选择ID较大的，在es中选择id较小的机器为master节点。</p>
+
       </div>
-    
-  </section>
-</article>
-
-          </div>
+      
+      
+        <br>
         
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
       
         
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/">
-      redis 源码思维导图
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
-      </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-10T01:57:41+00:00">
   <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-20</p>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年2月10日</p>
   </a>
 </div>
 
-          
         
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/redis/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>redis</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
       
-        <hr>
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/ElasticSearch/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>ElasticSearch</p></a></div>
+
+
+        
+      
+        
+          
+
+        
       
     </div>
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
       
       
-        <div class="readmore">
-          <a href="/2020/01/20/redis%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%E6%80%9D%E7%BB%B4%E5%AF%BC%E5%9B%BE/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/redis/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> redis</a>
-        
-      </div>
-    
-  </section>
-</article>
-
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/01/26/ptmalloc%E5%AD%A6%E4%B9%A0/" rel="prev" title="ptmalloc学习">
+                                  
+                                      ptmalloc学习
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/malloc/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> malloc</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
           </div>
-        
       
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
+    </section>
+  </article>
 
 
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/20/open-falcon%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/">
-      open-falcon 架构
-    </a>
-  </h2>
+
+  <!-- 显示推荐文章和评论 -->
 
 
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
-      </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-20</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/monitor/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>monitor</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/01/20/open-falcon%E6%A1%86%E6%9E%B6%E5%AD%A6%E4%B9%A0/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/monitor/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> monitor</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/19/CNN%E5%AD%A6%E4%B9%A0/">
-      CNN学习笔记
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
-      </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-19</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>深度学习</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/01/19/CNN%E5%AD%A6%E4%B9%A0/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> 深度学习</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/17/monit%E5%AD%A6%E4%B9%A0/">
-      monit代码分析
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
-      </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-17</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/monitor/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>monitor</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/01/17/monit%E5%AD%A6%E4%B9%A0/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/monitor/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> monitor</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2020/01/17/influxdb1/">
-      influxdb
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
-      </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-17</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/influxdb/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>influxdb</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/01/17/influxdb1/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/influxdb/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> influxdb</a>
-        
-      </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-    
-  </section>
-  
-    
-      <br>
-      <div class="prev-next">
-        <div class="prev-next">
-          
-            <a class="prev" rel="prev" href="/archives/2020/">
-              <section class="post prev" >
-                <i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页&nbsp;
-              </section>
-            </a>
-          
-          <p class="current">
-            2 / 2
-          </p>
-          
-        </div>
-      </div>
-
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
 
   
 
 
-	
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'ElasticSearch基本原理介绍',
+      tools: true
+    }
+  </script>
+
+
 </div>
 <aside class='l_side'>
   
@@ -1040,6 +517,25 @@
           
         
           
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ElasticSearch基本原理介绍"><span class="toc-text">ElasticSearch基本原理介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#索引结构"><span class="toc-text">索引结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分片"><span class="toc-text">分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群内部原理"><span class="toc-text">集群内部原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群的健康度状态"><span class="toc-text">集群的健康度状态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群扩容"><span class="toc-text">集群扩容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主要内部模块介绍"><span class="toc-text">主要内部模块介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cluster"><span class="toc-text">Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#allocation"><span class="toc-text">allocation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Discovery"><span class="toc-text">Discovery</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Gateway"><span class="toc-text">Gateway</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Indices"><span class="toc-text">Indices</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP"><span class="toc-text">HTTP</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Transport"><span class="toc-text">Transport</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Engine"><span class="toc-text">Engine</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选主算法"><span class="toc-text">选主算法</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
           
         
           
@@ -1214,6 +710,40 @@
           
         
       
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
     
 
   
@@ -1259,14 +789,6 @@
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
-
-
-
-
-	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-	
-
-	
 
 
       <script>setLoadingBarProgress(60);</script>
