@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>influxdb集群代码分析 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/02/17/influxdb%20%E9%9B%86%E7%BE%A4%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">
+        influxdb集群代码分析
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-02-17</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/influxdb/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>influxdb</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="influxdb集群代码分析"><a href="#influxdb集群代码分析" class="headerlink" title="influxdb集群代码分析"></a>influxdb集群代码分析</h2><p>本文主要分析下influxdb中cluster部分的代码：</p>
+<p>入口函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Server)</span> <span class="title">OpenDataServer</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> s.TSDBStore != <span class="literal">nil</span> &amp;&amp; !s.DataServicesOpened &#123;</span><br><span class="line">		s.DataServicesOpened = <span class="literal">true</span></span><br><span class="line">		<span class="comment">// Append services.</span></span><br><span class="line">		s.appendClusterService(s.config.Cluster)   <span class="comment">// 增加集群服务注册</span></span><br><span class="line">		s.appendMonitorService()</span><br><span class="line">		s.appendPrecreatorService(s.config.Precreator)</span><br><span class="line">		s.appendSnapshotterService()</span><br><span class="line">		s.appendContinuousQueryService(s.config.ContinuousQuery)</span><br><span class="line">		s.appendAntiEntropyService(s.config.AntiEntropy)</span><br><span class="line">		s.appendHTTPDService(s.config.HTTPD)</span><br><span class="line">		s.appendStorageService(s.config.Storage)</span><br><span class="line">		s.appendRetentionPolicyService(s.config.Retention)</span><br><span class="line">		<span class="keyword">for</span> _, i := <span class="keyword">range</span> s.config.GraphiteInputs &#123;</span><br><span class="line">			<span class="keyword">if</span> err := s.appendGraphiteService(i); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> _, i := <span class="keyword">range</span> s.config.CollectdInputs &#123;</span><br><span class="line">			s.appendCollectdService(i)</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> _, i := <span class="keyword">range</span> s.config.OpenTSDBInputs &#123;</span><br><span class="line">			<span class="keyword">if</span> err := s.appendOpenTSDBService(i); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">for</span> _, i := <span class="keyword">range</span> s.config.UDPInputs &#123;</span><br><span class="line">			s.appendUDPService(i)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		s.Subscriber.MetaClient = s.MetaClient</span><br><span class="line">		s.PointsWriter.MetaClient = s.MetaClient</span><br><span class="line">		s.Monitor.MetaClient = s.MetaClient</span><br><span class="line">		s.ShardWriter.MetaClient = s.MetaClient</span><br><span class="line">		s.HintedHandoff.MetaClient = s.MetaClient</span><br><span class="line"></span><br><span class="line">		s.ClusterService.Listener = s.Mux.Listen(cluster.MuxHeader)</span><br><span class="line">		s.SnapshotterService.Listener = s.Mux.Listen(snapshotter.MuxHeader)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Configure logging for all services and clients.</span></span><br><span class="line">		<span class="keyword">if</span> s.config.Meta.LoggingEnabled &#123;</span><br><span class="line">			s.MetaClient.WithLogger(s.Logger)</span><br><span class="line">		&#125;</span><br><span class="line">		s.TSDBStore.WithLogger(s.Logger)</span><br><span class="line">		<span class="keyword">if</span> s.config.Data.QueryLogEnabled &#123;</span><br><span class="line">			s.QueryExecutor.WithLogger(s.Logger)</span><br><span class="line">		&#125;</span><br><span class="line">		s.PointsWriter.WithLogger(s.Logger)</span><br><span class="line">		s.Subscriber.WithLogger(s.Logger)</span><br><span class="line">		s.HintedHandoff.WithLogger(s.Logger)</span><br><span class="line">		<span class="keyword">for</span> _, svc := <span class="keyword">range</span> s.Services &#123;</span><br><span class="line">			svc.WithLogger(s.Logger)</span><br><span class="line">		&#125;</span><br><span class="line">		s.SnapshotterService.WithLogger(s.Logger)</span><br><span class="line">		s.Monitor.WithLogger(s.Logger)</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Open TSDB store.</span></span><br><span class="line">		<span class="keyword">if</span> err := s.TSDBStore.Open(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"open tsdb store: %s"</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Open the hinted handoff service</span></span><br><span class="line">		<span class="keyword">if</span> err := s.HintedHandoff.Open(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"open hinted handoff: %s"</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Open the subscriber service</span></span><br><span class="line">		<span class="keyword">if</span> err := s.Subscriber.Open(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"open subscriber: %s"</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Open the points writer service</span></span><br><span class="line">		<span class="keyword">if</span> err := s.PointsWriter.Open(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"open points writer: %s"</span>, err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		s.PointsWriter.AddWriteSubscriber(s.Subscriber.Points())</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> _, service := <span class="keyword">range</span> s.Services &#123;</span><br><span class="line">			<span class="keyword">if</span> err := service.Open(); err != <span class="literal">nil</span> &#123;             <span class="comment">//集群服务启动</span></span><br><span class="line">				<span class="keyword">return</span> fmt.Errorf(<span class="string">"open service: %s"</span>, err)</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> s.TSDBStore == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"Data server is not enabled"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动集群服务代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Open opens the network listener and begins serving requests.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span> <span class="title">Open</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line"></span><br><span class="line">	s.Logger.Info(<span class="string">"Starting cluster service"</span>)</span><br><span class="line">	<span class="comment">// Begin serving conections.</span></span><br><span class="line">	s.wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> s.serve()   <span class="comment">//启动服务</span></span><br><span class="line"></span><br><span class="line">	s.CopyShardTaskManager.Logger = s.Logger</span><br><span class="line">	<span class="keyword">go</span> s.CopyShardTaskManager.WaitForTask()               <span class="comment">//等待task任务</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>serve函数：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// serve accepts connections from the listener and handles them.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span> <span class="title">serve</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">defer</span> s.wg.Done()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="comment">// Check if the service is shutting down.</span></span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-s.closing:</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Accept the next connection.</span></span><br><span class="line">		conn, err := s.Listener.Accept()            <span class="comment">//监听连接请求</span></span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> strings.Contains(err.Error(), <span class="string">"connection closed"</span>) &#123;</span><br><span class="line">				s.Logger.Info(<span class="string">"cluster service accept error"</span>, zap.Error(err))</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			s.Logger.Info(<span class="string">"accept error"</span>, zap.Error(err))</span><br><span class="line">			<span class="keyword">continue</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Delegate connection handling to a separate goroutine.</span></span><br><span class="line">		s.wg.Add(<span class="number">1</span>)</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">			<span class="keyword">defer</span> s.wg.Done()</span><br><span class="line">			s.handleConn(conn)             <span class="comment">//主要处理函数</span></span><br><span class="line">		&#125;()</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>handleConn函数启动：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// handleConn services an individual TCP connection.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span> <span class="title">handleConn</span><span class="params">(conn net.Conn)</span></span> &#123;</span><br><span class="line">	<span class="comment">// Ensure connection is closed when service is closed.</span></span><br><span class="line">	closing := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line">	<span class="keyword">defer</span> <span class="built_in">close</span>(closing)</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-closing:</span><br><span class="line">		<span class="keyword">case</span> &lt;-s.closing:</span><br><span class="line">		&#125;</span><br><span class="line">		conn.Close()</span><br><span class="line">	&#125;()</span><br><span class="line"></span><br><span class="line">	s.Logger.Info(<span class="string">"accept remote connection"</span>, zap.String(<span class="string">"remoteaddr"</span>, conn.RemoteAddr().String()))</span><br><span class="line">	<span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">		s.Logger.Info(<span class="string">"close remote connection"</span>, zap.String(<span class="string">"remoteaddr"</span>, conn.RemoteAddr().String()))</span><br><span class="line">	&#125;()</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="comment">// Read type-length-value.</span></span><br><span class="line">		typ, err := ReadType(conn)     <span class="comment">//读取连接的数据类型</span></span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> strings.HasSuffix(err.Error(), <span class="string">"EOF"</span>) &#123;</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			s.Logger.Info(<span class="string">"unable to read type"</span>, zap.Error(err))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// Delegate message processing by type.</span></span><br><span class="line">        <span class="comment">//处理不同数据类型</span></span><br><span class="line">		<span class="keyword">switch</span> typ &#123;</span><br><span class="line">		<span class="keyword">case</span> writeShardRequestMessage:</span><br><span class="line">			buf, err := ReadLV(conn)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				s.Logger.Error(<span class="string">"unable to read length-value"</span>, zap.Error(err))</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//处理写shared请求</span></span><br><span class="line">			atomic.AddInt64(&amp;s.stats.WriteShardReq, <span class="number">1</span>)</span><br><span class="line">			err = s.processWriteShardRequest(buf)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				s.Logger.Info(<span class="string">"process write shard error"</span>, zap.Error(err))</span><br><span class="line">			&#125;</span><br><span class="line">            <span class="comment">//处理写请求返回</span></span><br><span class="line">			s.writeShardResponse(conn, err)</span><br><span class="line">		<span class="keyword">case</span> executeStatementRequestMessage:</span><br><span class="line">			buf, err := ReadLV(conn) <span class="comment">// ReadLV reads the length-value from a TLV record.</span></span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				s.Logger.Info(<span class="string">"unable to read length-value"</span>, zap.Error(err))</span><br><span class="line">				<span class="keyword">return</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//处理执行</span></span><br><span class="line">			err = s.processExecuteStatementRequest(buf)</span><br><span class="line">			<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">				s.Logger.Info(<span class="string">"process execute statement error"</span>, zap.Error(err))</span><br><span class="line">			&#125;</span><br><span class="line">			s.writeShardResponse(conn, err)</span><br><span class="line">		<span class="keyword">case</span> createIteratorRequestMessage:</span><br><span class="line">			atomic.AddInt64(&amp;s.stats.CreateIteratorReq, <span class="number">1</span>)</span><br><span class="line">			s.processCreateIteratorRequest(conn)  <span class="comment">//创建请求的interator</span></span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">case</span> fieldDimensionsRequestMessage:</span><br><span class="line">			atomic.AddInt64(&amp;s.stats.FieldDimensionsReq, <span class="number">1</span>)</span><br><span class="line">			s.processFieldDimensionsRequest(conn)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">case</span> createIteratorCostRequestMessage:</span><br><span class="line">			s.processCreateIteratorCostRequest(conn)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">case</span> mapTypeRequestMessage:</span><br><span class="line">			s.processMapTypeRequest(conn)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">case</span> seriesKeysRequestMessage:</span><br><span class="line">			<span class="comment">//s.statMap.Add(seriesKeysReq, 1)</span></span><br><span class="line">			<span class="comment">//atomic.AddInt64(&amp;s.stats.FieldDimensionsReq, 1)</span></span><br><span class="line">			<span class="comment">//s.processSeriesKeysRequest(conn)</span></span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">case</span> copyShardRequestMessage:</span><br><span class="line">			s.processCopyShardRequest(conn)   <span class="comment">//处理copy shared分片请求</span></span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			s.Logger.Info(<span class="string">"cluster service message type not found"</span>, zap.Binary(<span class="string">"type"</span>, []<span class="keyword">byte</span>&#123;typ&#125;))</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>processWriteShardRequest函数处理请求写操作，将数据写入shared分片中。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span> <span class="title">processWriteShardRequest</span><span class="params">(buf []<span class="keyword">byte</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">// Build request</span></span><br><span class="line">	<span class="keyword">var</span> req WriteShardRequest</span><br><span class="line">	<span class="keyword">if</span> err := req.UnmarshalBinary(buf); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	points := req.Points()</span><br><span class="line">	atomic.AddInt64(&amp;s.stats.WriteShardPointsReq, <span class="keyword">int64</span>(<span class="built_in">len</span>(points)))</span><br><span class="line">	err := s.TSDBStore.WriteToShard(req.ShardID(), points)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// We may have received a write for a shard that we don't have locally because the</span></span><br><span class="line">	<span class="comment">// sending node may have just created the shard (via the metastore) and the write</span></span><br><span class="line">	<span class="comment">// arrived before the local store could create the shard.  In this case, we need</span></span><br><span class="line">	<span class="comment">// to check the metastore to determine what database and retention policy this</span></span><br><span class="line">	<span class="comment">// shard should reside within.</span></span><br><span class="line">	<span class="keyword">if</span> err == tsdb.ErrShardNotFound &#123;</span><br><span class="line">		db, rp := req.Database(), req.RetentionPolicy()</span><br><span class="line">		<span class="keyword">if</span> db == <span class="string">""</span> || rp == <span class="string">""</span> &#123;</span><br><span class="line">			s.Logger.Info(<span class="string">"drop write request. no database or rentention policy received"</span>, logger.Shard(req.ShardID()))</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		err = s.TSDBStore.CreateShard(req.Database(), req.RetentionPolicy(), req.ShardID(), <span class="literal">true</span>)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			atomic.AddInt64(&amp;s.stats.WriteShardFail, <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"create shard %d: %s"</span>, req.ShardID(), err)</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		err = s.TSDBStore.WriteToShard(req.ShardID(), points)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			atomic.AddInt64(&amp;s.stats.WriteShardFail, <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"write shard %d: %s"</span>, req.ShardID(), err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		atomic.AddInt64(&amp;s.stats.WriteShardFail, <span class="number">1</span>)</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"write shard %d: %s"</span>, req.ShardID(), err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解析statements请求操作，并执行statement语句：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span> <span class="title">processExecuteStatementRequest</span><span class="params">(buf []<span class="keyword">byte</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	<span class="comment">// Unmarshal the request.</span></span><br><span class="line">	<span class="keyword">var</span> req ExecuteStatementRequest</span><br><span class="line">	<span class="keyword">if</span> err := req.UnmarshalBinary(buf); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Parse the InfluxQL statement.</span></span><br><span class="line">	stmt, err := influxql.ParseStatement(req.Statement())</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//处理不同的删除操作</span></span><br><span class="line">	<span class="keyword">return</span> s.executeStatement(stmt, req.Database())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>WaitForTask用于同步influxdb节点之间数据</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(t *CopyShardTaskManager)</span> <span class="title">WaitForTask</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> t.Host == <span class="string">""</span> &#123;</span><br><span class="line">			dataNodes, _ := t.MetaClient.DataNodes()   <span class="comment">//获取所有的数据节点</span></span><br><span class="line">			<span class="keyword">for</span> _, nodeInfo := <span class="keyword">range</span> dataNodes &#123;</span><br><span class="line">				<span class="keyword">if</span> nodeInfo.ID == t.Node.GetDataID() &#123;</span><br><span class="line">					t.Host = nodeInfo.TCPHost</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		copyShards := t.MetaClient.CopyShardStatus()   <span class="comment">//拷贝需要的shared分片</span></span><br><span class="line">		task := t.findTask(&amp;copyShards)          <span class="comment">//寻找task任务</span></span><br><span class="line">		<span class="keyword">if</span> task != <span class="literal">nil</span> &#123;</span><br><span class="line">			t.addRuningTask(task)</span><br><span class="line">			<span class="keyword">go</span> task.Run()                  <span class="comment">//运行同步数据</span></span><br><span class="line">		&#125;</span><br><span class="line">		time.Sleep(t.IdleSleepSeconds)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Run函数运行，task任务执行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(tk *CopyShardTask)</span> <span class="title">Run</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">defer</span> tk.TaskManager.removeRuningTask(tk)   <span class="comment">//销毁正在运行的任务</span></span><br><span class="line"></span><br><span class="line">	err := tk.TaskManager.MetaClient.UpdateCopyShardStatus(tk.ID, meta.CopyShardCopying)  <span class="comment">//更新状态</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"update copy shard status to copying failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//同步数据更新函数</span></span><br><span class="line">	err = tk.doTask()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"do copy shard failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="comment">//更新copy shared的状态，如果失败，则任务数据同步失败</span></span><br><span class="line">		err = tk.TaskManager.MetaClient.UpdateCopyShardStatus(tk.ID, meta.CopyShardFailed)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			tk.Logger.Warn(<span class="string">"update copy shard status to 'failed' failed"</span>,</span><br><span class="line">				zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">				zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">				zap.Error(err))</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//更新copyshared状态</span></span><br><span class="line">	err = tk.TaskManager.MetaClient.UpdateCopyShardStatus(tk.ID, meta.CopyShardSuccess)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"update copy shard status to success failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	tk.Logger.Info(<span class="string">"update copy shard status to success"</span>,</span><br><span class="line">		zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">		zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>doTask函数执行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(tk *CopyShardTask)</span> <span class="title">doTask</span><span class="params">()</span> <span class="params">(err error)</span></span> &#123;</span><br><span class="line">	nodeIDs := <span class="built_in">make</span>([]<span class="keyword">uint64</span>, <span class="number">1</span>)</span><br><span class="line">	nodeIDs[<span class="number">0</span>] = tk.SrcNodeID</span><br><span class="line">	conn, err := tk.Dialer.DialNode(nodeIDs)    <span class="comment">//获取连接</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"dial failed to copy shard"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">defer</span> conn.Close()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Write request.</span></span><br><span class="line">	<span class="keyword">if</span> err = EncodeTLV(conn, copyShardRequestMessage, &amp;CopyShardRequest&#123;</span><br><span class="line">		ShardID: tk.ShardID,    <span class="comment">//编码写请求</span></span><br><span class="line">	&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"copy shard request failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Read the response.</span></span><br><span class="line">	<span class="keyword">var</span> resp CopyShardResponse</span><br><span class="line">	<span class="keyword">if</span> _, err = DecodeTLV(conn, &amp;resp); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"copy shard response failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	tk.TotalSize = resp.TotalSize</span><br><span class="line">	<span class="keyword">if</span> storeSD := tk.TaskManager.TSDBStore.Shard(tk.ShardID); storeSD == <span class="literal">nil</span> &#123;</span><br><span class="line">		database, policy, _ := tk.TaskManager.MetaClient.ShardOwner(tk.ShardID)</span><br><span class="line">		<span class="keyword">if</span> err = tk.TaskManager.TSDBStore.CreateShard(database, policy, tk.ShardID, <span class="literal">false</span>); err != <span class="literal">nil</span> &#123;   <span class="comment">//创建分片</span></span><br><span class="line">			tk.Logger.Warn(<span class="string">"create shard failed"</span>,</span><br><span class="line">				zap.String(<span class="string">"database"</span>, database),</span><br><span class="line">				zap.String(<span class="string">"policy"</span>, policy),</span><br><span class="line">				zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">				zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">				zap.Error(err))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> _, err = os.Stat(storeSD.Path()); os.IsNotExist(err) &#123;</span><br><span class="line">		<span class="keyword">if</span> err = tk.TaskManager.TSDBStore.DeleteShard(tk.ShardID); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			tk.Logger.Warn(<span class="string">"delete shard failed"</span>,</span><br><span class="line">				zap.String(<span class="string">"database"</span>, storeSD.Database()),</span><br><span class="line">				zap.String(<span class="string">"policy"</span>, storeSD.RetentionPolicy()),</span><br><span class="line">				zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">				zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">				zap.Error(err))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> err = tk.TaskManager.TSDBStore.CreateShard(storeSD.Database(), storeSD.RetentionPolicy(), tk.ShardID, <span class="literal">false</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			tk.Logger.Warn(<span class="string">"create shard failed"</span>,</span><br><span class="line">				zap.String(<span class="string">"database"</span>, storeSD.Database()),</span><br><span class="line">				zap.String(<span class="string">"policy"</span>, storeSD.RetentionPolicy()),</span><br><span class="line">				zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">				zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">				zap.Error(err))</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//新建连接wrapper</span></span><br><span class="line">	connWrapper := NewConnReaderWrapper(conn, tk)</span><br><span class="line">	<span class="comment">//恢复shared</span></span><br><span class="line">	<span class="keyword">if</span> err = tk.TaskManager.TSDBStore.RestoreShard(tk.ShardID, connWrapper); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"restore shard failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//conn io.Reader never get io.EOF err while RestoreShard, update here</span></span><br><span class="line">    <span class="comment">//更新copyshared处理，更新数据的主要过程</span></span><br><span class="line">	err = tk.TaskManager.MetaClient.UpdateCopyShardProgress(tk.ID, tk.TotalSize, connWrapper.TotalReceived)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"copy shard process update failed:"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Uint64(<span class="string">"total"</span>, tk.TotalSize),</span><br><span class="line">			zap.Uint64(<span class="string">"totalReceived"</span>, connWrapper.TotalReceived),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//设置shared可用</span></span><br><span class="line">	<span class="keyword">if</span> err = tk.TaskManager.TSDBStore.SetShardEnabled(tk.ShardID, <span class="literal">true</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"enable shard failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//添加sharedowner节点</span></span><br><span class="line">	err = tk.TaskManager.MetaClient.AddShardOwner(tk.ShardID, tk.TaskManager.Node.GetDataID())</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		tk.Logger.Warn(<span class="string">"add shard owner failed"</span>,</span><br><span class="line">			zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">			zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID),</span><br><span class="line">			zap.Error(err))</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	tk.Logger.Info(<span class="string">"copy shard success"</span>,</span><br><span class="line">		zap.Uint64(<span class="string">"node"</span>, tk.SrcNodeID),</span><br><span class="line">		zap.Uint64(<span class="string">"shardid"</span>, tk.ShardID))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还需要注意的地方就是influxdb中使用raft进行选主操作：</p>
+<p>入口函数在启动meta服务的函数中：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Open starts the service</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *Service)</span> <span class="title">Open</span><span class="params">()</span> <span class="title">error</span></span> &#123;</span><br><span class="line">    </span><br><span class="line">	s.Logger.Info(<span class="string">"Starting meta service"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> s.RaftListener == <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="built_in">panic</span>(<span class="string">"no raft listener set"</span>)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Open listener.</span></span><br><span class="line">	<span class="keyword">if</span> s.https &#123;</span><br><span class="line">		cert, err := tls.LoadX509KeyPair(s.cert, s.cert)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		listener, err := tls.Listen(<span class="string">"tcp"</span>, s.httpAddr, &amp;tls.Config&#123;</span><br><span class="line">			Certificates: []tls.Certificate&#123;cert&#125;,</span><br><span class="line">		&#125;)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		s.Logger.Info(<span class="string">"Listening on HTTPS"</span>, zap.String(<span class="string">"Addr"</span>, listener.Addr().String()))</span><br><span class="line">		s.ln = listener</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		listener, err := net.Listen(<span class="string">"tcp"</span>, s.httpAddr)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		s.Logger.Info(<span class="string">"Listening on HTTP"</span>, zap.String(<span class="string">"Addr"</span>, listener.Addr().String()))</span><br><span class="line">		s.ln = listener</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// wait for the listeners to start</span></span><br><span class="line">	timeout := time.Now().Add(raftListenerStartupTimeout)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> s.ln.Addr() != <span class="literal">nil</span> &amp;&amp; s.RaftListener.Addr() != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">break</span></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> time.Now().After(timeout) &#123;</span><br><span class="line">			<span class="keyword">return</span> fmt.Errorf(<span class="string">"unable to open without http listener running"</span>)</span><br><span class="line">		&#125;</span><br><span class="line">		time.Sleep(<span class="number">10</span> * time.Millisecond)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> err error</span><br><span class="line">	<span class="keyword">if</span> autoAssignPort(s.httpAddr) &#123;</span><br><span class="line">		s.httpAddr, err = combineHostAndAssignedPort(s.ln, s.httpAddr)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> autoAssignPort(s.raftAddr) &#123;</span><br><span class="line">		s.raftAddr, err = combineHostAndAssignedPort(s.RaftListener, s.raftAddr)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Open the store.  The addresses passed in are remotely accessible.</span></span><br><span class="line">	s.store = newStore(s.config, s.remoteAddr(s.httpAddr), s.remoteAddr(s.raftAddr))</span><br><span class="line">	s.store.node = s.Node</span><br><span class="line"></span><br><span class="line">	handler := newHandler(s.config, s)</span><br><span class="line">	handler.logger = s.Logger</span><br><span class="line">	handler.store = s.store</span><br><span class="line">	s.handler = handler</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Begin listening for requests in a separate goroutine.</span></span><br><span class="line">	<span class="comment">// s.serve should start before open as open needs httpd for peers</span></span><br><span class="line">	<span class="keyword">go</span> s.serve()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := s.store.open(s.RaftListener); err != <span class="literal">nil</span> &#123;   <span class="comment">//开启raft监听</span></span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>打开raft:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// open opens and initializes the raft store.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *store)</span> <span class="title">open</span><span class="params">(raftln net.Listener)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	s.logger.Info(<span class="string">"Using data dir"</span>, zap.String(<span class="string">"datadir"</span>, s.path))</span><br><span class="line"></span><br><span class="line">	joinPeers, err := s.filterAddr(s.config.JoinPeers, s.httpAddr)  <span class="comment">// 获取所有的peers</span></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	joinPeers = s.config.JoinPeers <span class="comment">//所有的joinPeers列表，不是很理解这边过滤有啥用，上面过滤之后，这边又覆盖了？</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> initializePeers []<span class="keyword">string</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(joinPeers) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		c := NewClient()</span><br><span class="line">		c.SetMetaServers(joinPeers)</span><br><span class="line">		c.SetTLS(s.config.HTTPSEnabled)</span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			peers := c.peers()</span><br><span class="line">			<span class="keyword">if</span> !Peers(peers).Contains(s.raftAddr) &#123;</span><br><span class="line">				peers = <span class="built_in">append</span>(peers, s.raftAddr)</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(s.config.JoinPeers)-<span class="built_in">len</span>(peers) == <span class="number">0</span> &#123;</span><br><span class="line">				initializePeers = peers</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> <span class="built_in">len</span>(peers) &gt; <span class="built_in">len</span>(s.config.JoinPeers) &#123;</span><br><span class="line">				s.logger.Info(fmt.Sprintf(<span class="string">"waiting for join peers to match config specified. found %v, config specified %v"</span>, peers, s.config.JoinPeers))</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				s.logger.Info(fmt.Sprintf(<span class="string">"Waiting for %d join peers.  Have %v. Asking nodes: %v"</span>, <span class="built_in">len</span>(s.config.JoinPeers)-<span class="built_in">len</span>(peers), peers, joinPeers))</span><br><span class="line">			&#125;</span><br><span class="line">			time.Sleep(time.Second)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err := s.setOpen(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Create the root directory if it doesn't already exist.</span></span><br><span class="line">	<span class="keyword">if</span> err := os.MkdirAll(s.path, <span class="number">0777</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"mkdir all: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Open the raft store.</span></span><br><span class="line">    <span class="comment">// raft选主</span></span><br><span class="line">	<span class="keyword">if</span> err := s.openRaft(initializePeers, raftln); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"raft: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(joinPeers) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		c := NewClient()</span><br><span class="line">		c.SetMetaServers(joinPeers)</span><br><span class="line">		c.SetTLS(s.config.HTTPSEnabled)</span><br><span class="line">		<span class="keyword">if</span> err := c.Open(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">defer</span> c.Close()</span><br><span class="line">		</span><br><span class="line">		n, err := c.JoinMetaServer(s.httpAddr, s.raftAddr)</span><br><span class="line">		<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">		s.node.ID = n.ID</span><br><span class="line">		<span class="keyword">if</span> err := s.node.Save(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Wait for a leader to be elected so we know the raft log is loaded</span></span><br><span class="line">	<span class="comment">// and up to date</span></span><br><span class="line">    <span class="comment">//等待选主leader</span></span><br><span class="line">	<span class="keyword">if</span> err := s.waitForLeader(<span class="number">0</span>); err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make sure this server is in the list of metanodes</span></span><br><span class="line">    <span class="comment">// 获取raft的peers</span></span><br><span class="line">	peers, err := s.raftState.peers()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(peers) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		<span class="comment">// we have to loop here because if the hostname has changed</span></span><br><span class="line">		<span class="comment">// raft will take a little bit to normalize so that this host</span></span><br><span class="line">		<span class="comment">// will be marked as the leader</span></span><br><span class="line">		<span class="keyword">for</span> &#123;</span><br><span class="line">			err := s.setMetaNode(s.httpAddr, s.raftAddr)</span><br><span class="line">			<span class="keyword">if</span> err == <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">break</span></span><br><span class="line">			&#125;</span><br><span class="line">			time.Sleep(<span class="number">100</span> * time.Millisecond)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数选主流程：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(r *raftState)</span> <span class="title">open</span><span class="params">(s *store, ln net.Listener, initializePeers []<span class="keyword">string</span>)</span> <span class="title">error</span></span> &#123;</span><br><span class="line">	r.ln = ln</span><br><span class="line">	r.closing = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">struct</span>&#123;&#125;)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Setup raft configuration.</span></span><br><span class="line">	config := raft.DefaultConfig()</span><br><span class="line">	config.LogOutput = ioutil.Discard</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> r.config.ClusterTracing &#123;</span><br><span class="line">		config.Logger = log.New(os.Stderr, <span class="string">"[raft]"</span>, log.LstdFlags)</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">// 超时</span></span><br><span class="line">	config.HeartbeatTimeout = time.Duration(r.config.HeartbeatTimeout)</span><br><span class="line">	config.ElectionTimeout = time.Duration(r.config.ElectionTimeout)</span><br><span class="line">	config.LeaderLeaseTimeout = time.Duration(r.config.LeaderLeaseTimeout)</span><br><span class="line">	config.CommitTimeout = time.Duration(r.config.CommitTimeout)</span><br><span class="line">	<span class="comment">// Since we actually never call `removePeer` this is safe.</span></span><br><span class="line">	<span class="comment">// If in the future we decide to call remove peer we have to re-evaluate how to handle this</span></span><br><span class="line">	config.ShutdownOnRemove = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Build raft layer to multiplex listener.</span></span><br><span class="line">    <span class="comment">// 构建raft层</span></span><br><span class="line">	r.raftLayer = newRaftLayer(r.addr, r.ln)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Create a transport layer</span></span><br><span class="line">    <span class="comment">//创建网络传输层</span></span><br><span class="line">	r.transport = raft.NewNetworkTransport(r.raftLayer, <span class="number">3</span>, <span class="number">10</span>*time.Second, config.LogOutput)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Create peer storage.</span></span><br><span class="line">	r.peerStore = &amp;peerStore&#123;&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// This server is joining the raft cluster for the first time if initializePeers are passed in</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(initializePeers) &gt; <span class="number">0</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> err := r.peerStore.SetPeers(initializePeers); err != <span class="literal">nil</span> &#123;</span><br><span class="line">			<span class="keyword">return</span> err</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	peers, err := r.peerStore.Peers()</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// If no peers are set in the config or there is one and we are it, then start as a single server.</span></span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(initializePeers) &lt;= <span class="number">1</span> &#123;</span><br><span class="line">		config.EnableSingleNode = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// Ensure we can always become the leader</span></span><br><span class="line">		config.DisableBootstrapAfterElect = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">// Make sure our peer address is here.  This happens with either a single node cluster</span></span><br><span class="line">		<span class="comment">// or a node joining the cluster, as no one else has that information yet.</span></span><br><span class="line">		<span class="keyword">if</span> !raft.PeerContained(peers, r.addr) &#123;</span><br><span class="line">			<span class="keyword">if</span> err := r.peerStore.SetPeers([]<span class="keyword">string</span>&#123;r.addr&#125;); err != <span class="literal">nil</span> &#123;</span><br><span class="line">				<span class="keyword">return</span> err</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		peers = []<span class="keyword">string</span>&#123;r.addr&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Create the log store and stable store.</span></span><br><span class="line">    <span class="comment">// 创建log存储</span></span><br><span class="line">	store, err := raftboltdb.NewBoltStore(filepath.Join(r.path, <span class="string">"raft.db"</span>))</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"new bolt store: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	r.raftStore = store</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Create the snapshot store.</span></span><br><span class="line">    <span class="comment">// 创建文件快照存储</span></span><br><span class="line">	snapshots, err := raft.NewFileSnapshotStore(r.path, raftSnapshotsRetained, os.Stderr)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"file snapshot store: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Create raft log.</span></span><br><span class="line">    <span class="comment">// 新建raft</span></span><br><span class="line">	ra, err := raft.NewRaft(config, (*storeFSM)(s), store, store, snapshots, r.peerStore, r.transport)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> fmt.Errorf(<span class="string">"new raft: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	r.raft = ra</span><br><span class="line"></span><br><span class="line">	r.wg.Add(<span class="number">1</span>)</span><br><span class="line">	<span class="keyword">go</span> r.logLeaderChanges()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-02-17T03:13:55+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年2月17日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/influxdb/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>influxdb</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/02/16/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" rel="prev" title="发篇心灵鸡汤">
+                                  
+                                      发篇心灵鸡汤
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 心灵鸡汤</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'influxdb集群代码分析',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#influxdb集群代码分析"><span class="toc-text">influxdb集群代码分析</span></a></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 14px; color: #999">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/golang/" style="font-size: 14px; color: #999">golang</a> <a href="/tags/influxdb/" style="font-size: 19px; color: #777">influxdb</a> <a href="/tags/k8s/" style="font-size: 14px; color: #999">k8s</a> <a href="/tags/malloc/" style="font-size: 19px; color: #777">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 19px; color: #777">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
