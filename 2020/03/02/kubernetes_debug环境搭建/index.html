@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>kubernetes debug环境搭建 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/03/02/kubernetes_debug%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
+        kubernetes debug环境搭建
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-03-02</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/k8s/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>k8s</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h3 id="kubernetes-debug环境搭建"><a href="#kubernetes-debug环境搭建" class="headerlink" title="kubernetes debug环境搭建"></a>kubernetes debug环境搭建</h3><p>k8s debug环境搭建</p>
+<h4 id="环境安装："><a href="#环境安装：" class="headerlink" title="环境安装："></a>环境安装：</h4><p>go 1.12版本，1.13版本太高，k8s编译有点问题。</p>
+<p>k8s 1.12.3版本</p>
+<p>centos 7安装 k8s，进行调试，使用dlv进行调试</p>
+<p>安装必须要的组件：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y docker wget curl vim golang etcd openssl git</span><br><span class="line">systemctl enable docker &amp;&amp; systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<p>设置gopath路径，之后安装好必须要的库</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get -u -v github.com/cloudflare/cfssl/cmd/...</span><br></pre></td></tr></table></figure>
+
+<p>安装delve调试工具</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> get -u -v github.com/derekparker/delve/cmd/dlv</span><br></pre></td></tr></table></figure>
+
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:<span class="comment">//github.com/kubernetes/kubernetes.git $GOPATH/src/k8s.io/kubernetes</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b v1<span class="number">.12</span><span class="number">.3</span></span><br></pre></td></tr></table></figure>
+
+<p>运行脚本安装和运行</p>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp hack/local-up-cluster.sh hack/local-up-cluster.sh.bak</span><br><span class="line">touch hack/local-up-cluster.sh &amp;&amp; chmod +x hack/local-up-cluster.sh</span><br></pre></td></tr></table></figure>
+
+<p>使用下面脚本安装和运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br><span class="line">761</span><br><span class="line">762</span><br><span class="line">763</span><br><span class="line">764</span><br><span class="line">765</span><br><span class="line">766</span><br><span class="line">767</span><br><span class="line">768</span><br><span class="line">769</span><br><span class="line">770</span><br><span class="line">771</span><br><span class="line">772</span><br><span class="line">773</span><br><span class="line">774</span><br><span class="line">775</span><br><span class="line">776</span><br><span class="line">777</span><br><span class="line">778</span><br><span class="line">779</span><br><span class="line">780</span><br><span class="line">781</span><br><span class="line">782</span><br><span class="line">783</span><br><span class="line">784</span><br><span class="line">785</span><br><span class="line">786</span><br><span class="line">787</span><br><span class="line">788</span><br><span class="line">789</span><br><span class="line">790</span><br><span class="line">791</span><br><span class="line">792</span><br><span class="line">793</span><br><span class="line">794</span><br><span class="line">795</span><br><span class="line">796</span><br><span class="line">797</span><br><span class="line">798</span><br><span class="line">799</span><br><span class="line">800</span><br><span class="line">801</span><br><span class="line">802</span><br><span class="line">803</span><br><span class="line">804</span><br><span class="line">805</span><br><span class="line">806</span><br><span class="line">807</span><br><span class="line">808</span><br><span class="line">809</span><br><span class="line">810</span><br><span class="line">811</span><br><span class="line">812</span><br><span class="line">813</span><br><span class="line">814</span><br><span class="line">815</span><br><span class="line">816</span><br><span class="line">817</span><br><span class="line">818</span><br><span class="line">819</span><br><span class="line">820</span><br><span class="line">821</span><br><span class="line">822</span><br><span class="line">823</span><br><span class="line">824</span><br><span class="line">825</span><br><span class="line">826</span><br><span class="line">827</span><br><span class="line">828</span><br><span class="line">829</span><br><span class="line">830</span><br><span class="line">831</span><br><span class="line">832</span><br><span class="line">833</span><br><span class="line">834</span><br><span class="line">835</span><br><span class="line">836</span><br><span class="line">837</span><br><span class="line">838</span><br><span class="line">839</span><br><span class="line">840</span><br><span class="line">841</span><br><span class="line">842</span><br><span class="line">843</span><br><span class="line">844</span><br><span class="line">845</span><br><span class="line">846</span><br><span class="line">847</span><br><span class="line">848</span><br><span class="line">849</span><br><span class="line">850</span><br><span class="line">851</span><br><span class="line">852</span><br><span class="line">853</span><br><span class="line">854</span><br><span class="line">855</span><br><span class="line">856</span><br><span class="line">857</span><br><span class="line">858</span><br><span class="line">859</span><br><span class="line">860</span><br><span class="line">861</span><br><span class="line">862</span><br><span class="line">863</span><br><span class="line">864</span><br><span class="line">865</span><br><span class="line">866</span><br><span class="line">867</span><br><span class="line">868</span><br><span class="line">869</span><br><span class="line">870</span><br><span class="line">871</span><br><span class="line">872</span><br><span class="line">873</span><br><span class="line">874</span><br><span class="line">875</span><br><span class="line">876</span><br><span class="line">877</span><br><span class="line">878</span><br><span class="line">879</span><br><span class="line">880</span><br><span class="line">881</span><br><span class="line">882</span><br><span class="line">883</span><br><span class="line">884</span><br><span class="line">885</span><br><span class="line">886</span><br><span class="line">887</span><br><span class="line">888</span><br><span class="line">889</span><br><span class="line">890</span><br><span class="line">891</span><br><span class="line">892</span><br><span class="line">893</span><br><span class="line">894</span><br><span class="line">895</span><br><span class="line">896</span><br><span class="line">897</span><br><span class="line">898</span><br><span class="line">899</span><br><span class="line">900</span><br><span class="line">901</span><br><span class="line">902</span><br><span class="line">903</span><br><span class="line">904</span><br><span class="line">905</span><br><span class="line">906</span><br><span class="line">907</span><br><span class="line">908</span><br><span class="line">909</span><br><span class="line">910</span><br><span class="line">911</span><br><span class="line">912</span><br><span class="line">913</span><br><span class="line">914</span><br><span class="line">915</span><br><span class="line">916</span><br><span class="line">917</span><br><span class="line">918</span><br><span class="line">919</span><br><span class="line">920</span><br><span class="line">921</span><br><span class="line">922</span><br><span class="line">923</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Copyright 2014 The Kubernetes Authors.</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Licensed under the Apache License, Version 2.0 (the <span class="string">"License"</span>);</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> you may not use this file except <span class="keyword">in</span> compliance with the License.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> You may obtain a copy of the License at</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash">     http://www.apache.org/licenses/LICENSE-2.0</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Unless required by applicable law or agreed to <span class="keyword">in</span> writing, software</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> distributed under the License is distributed on an <span class="string">"AS IS"</span> BASIS,</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> See the License <span class="keyword">for</span> the specific language governing permissions and</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> limitations under the License.</span></span><br><span class="line">set -x</span><br><span class="line">KUBE_ROOT=$(dirname "$&#123;BASH_SOURCE&#125;")/..</span><br><span class="line"><span class="meta">#</span><span class="bash"> This <span class="built_in">command</span> builds and runs a <span class="built_in">local</span> kubernetes cluster.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> You may need to run this as root to allow kubelet to open docker<span class="string">'s socket,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> and to write the <span class="built_in">test</span> CA <span class="keyword">in</span> /var/run/kubernetes.</span></span><br><span class="line">DOCKER_OPTS=$&#123;DOCKER_OPTS:-""&#125;</span><br><span class="line">DOCKER=(docker $&#123;DOCKER_OPTS&#125;)</span><br><span class="line">DOCKERIZE_KUBELET=$&#123;DOCKERIZE_KUBELET:-""&#125;</span><br><span class="line">ALLOW_PRIVILEGED=$&#123;ALLOW_PRIVILEGED:-""&#125;</span><br><span class="line">DENY_SECURITY_CONTEXT_ADMISSION=$&#123;DENY_SECURITY_CONTEXT_ADMISSION:-""&#125;</span><br><span class="line">PSP_ADMISSION=$&#123;PSP_ADMISSION:-""&#125;</span><br><span class="line">NODE_ADMISSION=$&#123;NODE_ADMISSION:-""&#125;</span><br><span class="line">RUNTIME_CONFIG=$&#123;RUNTIME_CONFIG:-""&#125;</span><br><span class="line">KUBELET_AUTHORIZATION_WEBHOOK=$&#123;KUBELET_AUTHORIZATION_WEBHOOK:-""&#125;</span><br><span class="line">KUBELET_AUTHENTICATION_WEBHOOK=$&#123;KUBELET_AUTHENTICATION_WEBHOOK:-""&#125;</span><br><span class="line">POD_MANIFEST_PATH=$&#123;POD_MANIFEST_PATH:-"/var/run/kubernetes/static-pods"&#125;</span><br><span class="line">KUBELET_FLAGS=$&#123;KUBELET_FLAGS:-""&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> many dev environments run with swap on, so we don<span class="string">'t fail in this env</span></span></span><br><span class="line">FAIL_SWAP_ON=$&#123;FAIL_SWAP_ON:-"false"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> Name of the network plugin, eg: <span class="string">"kubenet"</span></span></span><br><span class="line">NET_PLUGIN=$&#123;NET_PLUGIN:-""&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> Place the config files and binaries required by NET_PLUGIN <span class="keyword">in</span> these directory,</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> eg: <span class="string">"/etc/cni/net.d"</span> <span class="keyword">for</span> config files, and <span class="string">"/opt/cni/bin"</span> <span class="keyword">for</span> binaries.</span></span><br><span class="line">CNI_CONF_DIR=$&#123;CNI_CONF_DIR:-""&#125;</span><br><span class="line">CNI_BIN_DIR=$&#123;CNI_BIN_DIR:-""&#125;</span><br><span class="line">SERVICE_CLUSTER_IP_RANGE=$&#123;SERVICE_CLUSTER_IP_RANGE:-10.0.0.0/24&#125;</span><br><span class="line">FIRST_SERVICE_CLUSTER_IP=$&#123;FIRST_SERVICE_CLUSTER_IP:-10.0.0.1&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="keyword">if</span> enabled, must <span class="built_in">set</span> CGROUP_ROOT</span></span><br><span class="line">CGROUPS_PER_QOS=$&#123;CGROUPS_PER_QOS:-true&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> name of the cgroup driver, i.e. cgroupfs or systemd</span></span><br><span class="line">CGROUP_DRIVER=$&#123;CGROUP_DRIVER:-""&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> owner of client certs, default to current user <span class="keyword">if</span> not specified</span></span><br><span class="line">USER=$&#123;USER:-$(whoami)&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> enables testing eviction scenarios locally.</span></span><br><span class="line">EVICTION_HARD=$&#123;EVICTION_HARD:-"memory.available&lt;100Mi,nodefs.available&lt;10%,nodefs.inodesFree&lt;5%"&#125;</span><br><span class="line">EVICTION_SOFT=$&#123;EVICTION_SOFT:-""&#125;</span><br><span class="line">EVICTION_PRESSURE_TRANSITION_PERIOD=$&#123;EVICTION_PRESSURE_TRANSITION_PERIOD:-"1m"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> This script uses docker0 (or whatever container bridge docker is currently using)</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> and we don<span class="string">'t know the IP of the DNS pod to pass in as --cluster-dns.</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> To <span class="built_in">set</span> this up by hand, <span class="built_in">set</span> this flag and change DNS_SERVER_IP.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Note also that you need API_HOST (defined above) <span class="keyword">for</span> correct DNS.</span></span><br><span class="line">KUBE_PROXY_MODE=$&#123;KUBE_PROXY_MODE:-""&#125;</span><br><span class="line">ENABLE_CLUSTER_DNS=$&#123;KUBE_ENABLE_CLUSTER_DNS:-true&#125;</span><br><span class="line">DNS_SERVER_IP=$&#123;KUBE_DNS_SERVER_IP:-10.0.0.10&#125;</span><br><span class="line">DNS_DOMAIN=$&#123;KUBE_DNS_NAME:-"cluster.local"&#125;</span><br><span class="line">KUBECTL=$&#123;KUBECTL:-cluster/kubectl.sh&#125;</span><br><span class="line">WAIT_FOR_URL_API_SERVER=$&#123;WAIT_FOR_URL_API_SERVER:-60&#125;</span><br><span class="line">ENABLE_DAEMON=$&#123;ENABLE_DAEMON:-false&#125;</span><br><span class="line">HOSTNAME_OVERRIDE=$&#123;HOSTNAME_OVERRIDE:-"127.0.0.1"&#125;</span><br><span class="line">EXTERNAL_CLOUD_PROVIDER=$&#123;EXTERNAL_CLOUD_PROVIDER:-false&#125;</span><br><span class="line">EXTERNAL_CLOUD_PROVIDER_BINARY=$&#123;EXTERNAL_CLOUD_PROVIDER_BINARY:-""&#125;</span><br><span class="line">CLOUD_PROVIDER=$&#123;CLOUD_PROVIDER:-""&#125;</span><br><span class="line">CLOUD_CONFIG=$&#123;CLOUD_CONFIG:-""&#125;</span><br><span class="line">FEATURE_GATES=$&#123;FEATURE_GATES:-"AllAlpha=false"&#125;</span><br><span class="line">STORAGE_BACKEND=$&#123;STORAGE_BACKEND:-"etcd3"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">enable</span> swagger ui</span></span><br><span class="line">ENABLE_SWAGGER_UI=$&#123;ENABLE_SWAGGER_UI:-false&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">enable</span> Pod priority and preemption</span></span><br><span class="line">ENABLE_POD_PRIORITY_PREEMPTION=$&#123;ENABLE_POD_PRIORITY_PREEMPTION:-""&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">enable</span> kubernetes dashboard</span></span><br><span class="line">ENABLE_CLUSTER_DASHBOARD=$&#123;KUBE_ENABLE_CLUSTER_DASHBOARD:-false&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">enable</span> audit <span class="built_in">log</span></span></span><br><span class="line">ENABLE_APISERVER_BASIC_AUDIT=$&#123;ENABLE_APISERVER_BASIC_AUDIT:-false&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> RBAC Mode options</span></span><br><span class="line">AUTHORIZATION_MODE=$&#123;AUTHORIZATION_MODE:-"Node,RBAC"&#125;</span><br><span class="line">KUBECONFIG_TOKEN=$&#123;KUBECONFIG_TOKEN:-""&#125;</span><br><span class="line">AUTH_ARGS=$&#123;AUTH_ARGS:-""&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> Install a default storage class (enabled by default)</span></span><br><span class="line">DEFAULT_STORAGE_CLASS=$&#123;KUBE_DEFAULT_STORAGE_CLASS:-true&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> start the cache mutation detector by default so that cache mutators will be found</span></span><br><span class="line">KUBE_CACHE_MUTATION_DETECTOR="$&#123;KUBE_CACHE_MUTATION_DETECTOR:-true&#125;"</span><br><span class="line">export KUBE_CACHE_MUTATION_DETECTOR</span><br><span class="line"><span class="meta">#</span><span class="bash"> panic the server on watch decode errors since they are considered coder mistakes</span></span><br><span class="line">KUBE_PANIC_WATCH_DECODE_ERROR="$&#123;KUBE_PANIC_WATCH_DECODE_ERROR:-true&#125;"</span><br><span class="line">export KUBE_PANIC_WATCH_DECODE_ERROR</span><br><span class="line">ENABLE_ADMISSION_PLUGINS=$&#123;ENABLE_ADMISSION_PLUGINS:-""&#125;</span><br><span class="line">DISABLE_ADMISSION_PLUGINS=$&#123;DISABLE_ADMISSION_PLUGINS:-""&#125;</span><br><span class="line">ADMISSION_CONTROL_CONFIG_FILE=$&#123;ADMISSION_CONTROL_CONFIG_FILE:-""&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> START_MODE can be <span class="string">'all'</span>, <span class="string">'kubeletonly'</span>, or <span class="string">'nokubelet'</span></span></span><br><span class="line">START_MODE=$&#123;START_MODE:-"all"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> A list of controllers to <span class="built_in">enable</span></span></span><br><span class="line">KUBE_CONTROLLERS="$&#123;KUBE_CONTROLLERS:-"*"&#125;"</span><br><span class="line"><span class="meta">#</span><span class="bash"> sanity check <span class="keyword">for</span> OpenStack provider</span></span><br><span class="line">if [ "$&#123;CLOUD_PROVIDER&#125;" == "openstack" ]; then</span><br><span class="line">    if [ "$&#123;CLOUD_CONFIG&#125;" == "" ]; then</span><br><span class="line">        echo "Missing CLOUD_CONFIG env for OpenStack provider!"</span><br><span class="line">        exit 1</span><br><span class="line">    fi</span><br><span class="line">    if [ ! -f "$&#123;CLOUD_CONFIG&#125;" ]; then</span><br><span class="line">        echo "Cloud config $&#123;CLOUD_CONFIG&#125; doesn't exist"</span><br><span class="line">        exit 1</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> feature gates <span class="keyword">if</span> using ipvs mode</span></span><br><span class="line">if [ "$&#123;KUBE_PROXY_MODE&#125;" == "ipvs" ]; then</span><br><span class="line">    # If required kernel modules are not available, fall back to iptables.</span><br><span class="line">    sudo modprobe -a ip_vs ip_vs_rr ip_vs_wrr ip_vs_sh nf_conntrack_ipv4</span><br><span class="line">    if [[ $? -eq 0 ]]; then</span><br><span class="line">      FEATURE_GATES="$&#123;FEATURE_GATES&#125;,SupportIPVSProxyMode=true"</span><br><span class="line">    else</span><br><span class="line">      echo "Required kernel modules for ipvs not found. Falling back to iptables mode."</span><br><span class="line">      KUBE_PROXY_MODE=iptables</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">set</span> feature gates <span class="keyword">if</span> <span class="built_in">enable</span> Pod priority and preemption</span></span><br><span class="line">if [ "$&#123;ENABLE_POD_PRIORITY_PREEMPTION&#125;" == true ]; then</span><br><span class="line">    FEATURE_GATES="$FEATURE_GATES,PodPriority=true"</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> warn <span class="keyword">if</span> users are running with swap allowed</span></span><br><span class="line">if [ "$&#123;FAIL_SWAP_ON&#125;" == "false" ]; then</span><br><span class="line">    echo "WARNING : The kubelet is configured to not fail if swap is enabled; production deployments should disable swap."</span><br><span class="line">fi</span><br><span class="line">if [ "$(id -u)" != "0" ]; then</span><br><span class="line">    echo "WARNING : This script MAY be run as root for docker socket / iptables functionality; if failures occur, retry as root." 2&gt;&amp;1</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> Stop right away <span class="keyword">if</span> the build fails</span></span><br><span class="line">set -e</span><br><span class="line">source "$&#123;KUBE_ROOT&#125;/hack/lib/init.sh"</span><br><span class="line">function usage &#123;</span><br><span class="line">            echo "This script starts a local kube cluster. "</span><br><span class="line">            echo "Example 0: hack/local-up-cluster.sh -h  (this 'help' usage description)"</span><br><span class="line">            echo "Example 1: hack/local-up-cluster.sh -o _output/dockerized/bin/linux/amd64/ (run from docker output)"</span><br><span class="line">            echo "Example 2: hack/local-up-cluster.sh -O (auto-guess the bin path for your platform)"</span><br><span class="line">            echo "Example 3: hack/local-up-cluster.sh (build a local copy of the source)"</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> This <span class="keyword">function</span> guesses <span class="built_in">where</span> the existing cached binary build is <span class="keyword">for</span> the `-O`</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> flag</span></span><br><span class="line">function guess_built_binary_path &#123;</span><br><span class="line"><span class="meta">  #</span><span class="bash"><span class="built_in">local</span> hyperkube_path=$(kube::util::find-binary <span class="string">"hyperkube"</span>)</span></span><br><span class="line">  local hyperkube_path=$(kube::util::find-binary "kube-apiserver")</span><br><span class="line">  if [[ -z "$&#123;hyperkube_path&#125;" ]]; then</span><br><span class="line">    return</span><br><span class="line">  fi</span><br><span class="line">  echo -n "$(dirname "$&#123;hyperkube_path&#125;")"</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## Allow user to supply the source directory.</span></span></span><br><span class="line">GO_OUT=$&#123;GO_OUT:-&#125;</span><br><span class="line">while getopts "ho:O" OPTION</span><br><span class="line">do</span><br><span class="line">    case $OPTION in</span><br><span class="line">        o)</span><br><span class="line">            echo "skipping build"</span><br><span class="line">            GO_OUT="$OPTARG"</span><br><span class="line">            echo "using source $GO_OUT"</span><br><span class="line">            ;;</span><br><span class="line">        O)</span><br><span class="line">            GO_OUT=$(guess_built_binary_path)</span><br><span class="line">            if [ "$GO_OUT" == "" ]; then</span><br><span class="line">                echo "Could not guess the correct output directory to use."</span><br><span class="line">                exit 1</span><br><span class="line">            fi</span><br><span class="line">            ;;</span><br><span class="line">        h)</span><br><span class="line">            usage</span><br><span class="line">            exit</span><br><span class="line">            ;;</span><br><span class="line">        ?)</span><br><span class="line">            usage</span><br><span class="line">            exit</span><br><span class="line">            ;;</span><br><span class="line">    esac</span><br><span class="line">done</span><br><span class="line">if [ "x$GO_OUT" == "x" ]; then</span><br><span class="line">    #make -C "$&#123;KUBE_ROOT&#125;" WHAT="cmd/kubectl cmd/hyperkube"</span><br><span class="line">    make -C "$&#123;KUBE_ROOT&#125;" GOGCFLAGS="-N -l" WHAT="cmd/kubectl cmd/kube-proxy cmd/kube-apiserver cmd/kube-controller-manager cmd/cloud-controller-manager cmd/kube-scheduler cmd/kubelet"</span><br><span class="line">else</span><br><span class="line">    echo "skipped the build."</span><br><span class="line">fi</span><br><span class="line">function test_rkt &#123;</span><br><span class="line">    if [[ -n "$&#123;RKT_PATH&#125;" ]]; then</span><br><span class="line">      $&#123;RKT_PATH&#125; list 2&gt; /dev/null 1&gt; /dev/null</span><br><span class="line">      if [ "$?" != "0" ]; then</span><br><span class="line">        echo "Failed to successfully run 'rkt list', please verify that $&#123;RKT_PATH&#125; is the path of rkt binary."</span><br><span class="line">        exit 1</span><br><span class="line">      fi</span><br><span class="line">    else</span><br><span class="line">      rkt list 2&gt; /dev/null 1&gt; /dev/null</span><br><span class="line">      if [ "$?" != "0" ]; then</span><br><span class="line">        echo "Failed to successfully run 'rkt list', please verify that rkt is in \$PATH."</span><br><span class="line">        exit 1</span><br><span class="line">      fi</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> Shut down anyway <span class="keyword">if</span> there<span class="string">'s an error.</span></span></span><br><span class="line">set +e</span><br><span class="line">API_PORT=$&#123;API_PORT:-8080&#125;</span><br><span class="line">API_SECURE_PORT=$&#123;API_SECURE_PORT:-6443&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> WARNING: For DNS to work on most setups you should <span class="built_in">export</span> API_HOST as the docker0 ip address,</span></span><br><span class="line">API_HOST=$&#123;API_HOST:-localhost&#125;</span><br><span class="line">API_HOST_IP=$&#123;API_HOST_IP:-"127.0.0.1"&#125;</span><br><span class="line">ADVERTISE_ADDRESS=$&#123;ADVERTISE_ADDRESS:-""&#125;</span><br><span class="line">API_BIND_ADDR=$&#123;API_BIND_ADDR:-"0.0.0.0"&#125;</span><br><span class="line">EXTERNAL_HOSTNAME=$&#123;EXTERNAL_HOSTNAME:-localhost&#125;</span><br><span class="line">KUBELET_HOST=$&#123;KUBELET_HOST:-"127.0.0.1"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> By default only allow CORS <span class="keyword">for</span> requests on localhost</span></span><br><span class="line">API_CORS_ALLOWED_ORIGINS=$&#123;API_CORS_ALLOWED_ORIGINS:-/127.0.0.1(:[0-9]+)?$,/localhost(:[0-9]+)?$&#125;</span><br><span class="line">KUBELET_PORT=$&#123;KUBELET_PORT:-10250&#125;</span><br><span class="line">LOG_LEVEL=$&#123;LOG_LEVEL:-3&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> Use to increase verbosity on particular files, e.g. LOG_SPEC=token_controller*=5,other_controller*=4</span></span><br><span class="line">LOG_SPEC=$&#123;LOG_SPEC:-""&#125;</span><br><span class="line">LOG_DIR=$&#123;LOG_DIR:-"/tmp"&#125;</span><br><span class="line">CONTAINER_RUNTIME=$&#123;CONTAINER_RUNTIME:-"docker"&#125;</span><br><span class="line">CONTAINER_RUNTIME_ENDPOINT=$&#123;CONTAINER_RUNTIME_ENDPOINT:-""&#125;</span><br><span class="line">IMAGE_SERVICE_ENDPOINT=$&#123;IMAGE_SERVICE_ENDPOINT:-""&#125;</span><br><span class="line">RKT_PATH=$&#123;RKT_PATH:-""&#125;</span><br><span class="line">RKT_STAGE1_IMAGE=$&#123;RKT_STAGE1_IMAGE:-""&#125;</span><br><span class="line">CHAOS_CHANCE=$&#123;CHAOS_CHANCE:-0.0&#125;</span><br><span class="line">CPU_CFS_QUOTA=$&#123;CPU_CFS_QUOTA:-true&#125;</span><br><span class="line">ENABLE_HOSTPATH_PROVISIONER=$&#123;ENABLE_HOSTPATH_PROVISIONER:-"false"&#125;</span><br><span class="line">CLAIM_BINDER_SYNC_PERIOD=$&#123;CLAIM_BINDER_SYNC_PERIOD:-"15s"&#125; # current k8s default</span><br><span class="line">ENABLE_CONTROLLER_ATTACH_DETACH=$&#123;ENABLE_CONTROLLER_ATTACH_DETACH:-"true"&#125; # current default</span><br><span class="line">KEEP_TERMINATED_POD_VOLUMES=$&#123;KEEP_TERMINATED_POD_VOLUMES:-"true"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> This is the default dir and filename <span class="built_in">where</span> the apiserver will generate a self-signed cert</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="built_in">which</span> should be able to be used as the CA to verify itself</span></span><br><span class="line">CERT_DIR=$&#123;CERT_DIR:-"/var/run/kubernetes"&#125;</span><br><span class="line">ROOT_CA_FILE=$&#123;CERT_DIR&#125;/server-ca.crt</span><br><span class="line">ROOT_CA_KEY=$&#123;CERT_DIR&#125;/server-ca.key</span><br><span class="line">CLUSTER_SIGNING_CERT_FILE=$&#123;CLUSTER_SIGNING_CERT_FILE:-"$&#123;ROOT_CA_FILE&#125;"&#125;</span><br><span class="line">CLUSTER_SIGNING_KEY_FILE=$&#123;CLUSTER_SIGNING_KEY_FILE:-"$&#123;ROOT_CA_KEY&#125;"&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> name of the cgroup driver, i.e. cgroupfs or systemd</span></span><br><span class="line">if [[ $&#123;CONTAINER_RUNTIME&#125; == "docker" ]]; then</span><br><span class="line"><span class="meta">  #</span><span class="bash"> default cgroup driver to match what is reported by docker to simplify <span class="built_in">local</span> development</span></span><br><span class="line">  if [[ -z $&#123;CGROUP_DRIVER&#125; ]]; then</span><br><span class="line">    # match driver with docker runtime reported value (they must match)</span><br><span class="line">    CGROUP_DRIVER=$(docker info | grep "Cgroup Driver:" | cut -f3- -d' ')</span><br><span class="line">    echo "Kubelet cgroup driver defaulted to use: $&#123;CGROUP_DRIVER&#125;"</span><br><span class="line">  fi</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> Ensure CERT_DIR is created <span class="keyword">for</span> auto-generated crt/key and kubeconfig</span></span><br><span class="line">mkdir -p "$&#123;CERT_DIR&#125;" &amp;&gt;/dev/null || sudo mkdir -p "$&#123;CERT_DIR&#125;"</span><br><span class="line">CONTROLPLANE_SUDO=$(test -w "$&#123;CERT_DIR&#125;" || echo "sudo -E")</span><br><span class="line">function test_apiserver_off &#123;</span><br><span class="line">    # For the common local scenario, fail fast if server is already running.</span><br><span class="line">    # this can happen if you run local-up-cluster.sh twice and kill etcd in between.</span><br><span class="line">    if [[ "$&#123;API_PORT&#125;" -gt "0" ]]; then</span><br><span class="line">        curl --silent -g $API_HOST:$API_PORT</span><br><span class="line">        if [ ! $? -eq 0 ]; then</span><br><span class="line">            echo "API SERVER insecure port is free, proceeding..."</span><br><span class="line">        else</span><br><span class="line">            echo "ERROR starting API SERVER, exiting. Some process on $API_HOST is serving already on $API_PORT"</span><br><span class="line">            exit 1</span><br><span class="line">        fi</span><br><span class="line">    fi</span><br><span class="line">    curl --silent -k -g $API_HOST:$API_SECURE_PORT</span><br><span class="line">    if [ ! $? -eq 0 ]; then</span><br><span class="line">        echo "API SERVER secure port is free, proceeding..."</span><br><span class="line">    else</span><br><span class="line">        echo "ERROR starting API SERVER, exiting. Some process on $API_HOST is serving already on $API_SECURE_PORT"</span><br><span class="line">        exit 1</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line">function detect_binary &#123;</span><br><span class="line">    # Detect the OS name/arch so that we can find our binary</span><br><span class="line">    case "$(uname -s)" in</span><br><span class="line">      Darwin)</span><br><span class="line">        host_os=darwin</span><br><span class="line">        ;;</span><br><span class="line">      Linux)</span><br><span class="line">        host_os=linux</span><br><span class="line">        ;;</span><br><span class="line">      *)</span><br><span class="line">        echo "Unsupported host OS.  Must be Linux or Mac OS X." &gt;&amp;2</span><br><span class="line">        exit 1</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">    case "$(uname -m)" in</span><br><span class="line">      x86_64*)</span><br><span class="line">        host_arch=amd64</span><br><span class="line">        ;;</span><br><span class="line">      i?86_64*)</span><br><span class="line">        host_arch=amd64</span><br><span class="line">        ;;</span><br><span class="line">      amd64*)</span><br><span class="line">        host_arch=amd64</span><br><span class="line">        ;;</span><br><span class="line">      aarch64*)</span><br><span class="line">        host_arch=arm64</span><br><span class="line">        ;;</span><br><span class="line">      arm64*)</span><br><span class="line">        host_arch=arm64</span><br><span class="line">        ;;</span><br><span class="line">      arm*)</span><br><span class="line">        host_arch=arm</span><br><span class="line">        ;;</span><br><span class="line">      i?86*)</span><br><span class="line">        host_arch=x86</span><br><span class="line">        ;;</span><br><span class="line">      s390x*)</span><br><span class="line">        host_arch=s390x</span><br><span class="line">        ;;</span><br><span class="line">      ppc64le*)</span><br><span class="line">        host_arch=ppc64le</span><br><span class="line">        ;;</span><br><span class="line">      *)</span><br><span class="line">        echo "Unsupported host arch. Must be x86_64, 386, arm, arm64, s390x or ppc64le." &gt;&amp;2</span><br><span class="line">        exit 1</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">   GO_OUT="$&#123;KUBE_ROOT&#125;/_output/local/bin/$&#123;host_os&#125;/$&#123;host_arch&#125;"</span><br><span class="line">&#125;</span><br><span class="line">cleanup_dockerized_kubelet()</span><br><span class="line">&#123;</span><br><span class="line">  if [[ -e $KUBELET_CIDFILE ]]; then</span><br><span class="line">    docker kill $(&lt;$KUBELET_CIDFILE) &gt; /dev/null</span><br><span class="line">    rm -f $KUBELET_CIDFILE</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line">cleanup()</span><br><span class="line">&#123;</span><br><span class="line">  echo "Cleaning up..."</span><br><span class="line"><span class="meta">  #</span><span class="bash"> delete running images</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$&#123;ENABLE_CLUSTER_DNS&#125;</span>"</span> == <span class="literal">true</span> ]]; <span class="keyword">then</span></span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> Still need to figure why this commands throw an error: Error from server: client: etcd cluster is unavailable or misconfigured</span></span><br><span class="line"><span class="meta">  #</span><span class="bash">     <span class="variable">$&#123;KUBECTL&#125;</span> --namespace=kube-system delete service kube-dns</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> And this one hang forever:</span></span><br><span class="line"><span class="meta">  #</span><span class="bash">     <span class="variable">$&#123;KUBECTL&#125;</span> --namespace=kube-system delete rc kube-dns-v10</span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> <span class="keyword">fi</span></span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> Check <span class="keyword">if</span> the API server is still running</span></span><br><span class="line">  [[ -n "$&#123;APISERVER_PID-&#125;" ]] &amp;&amp; APISERVER_PIDS=$(pgrep -P $&#123;APISERVER_PID&#125; ; ps -o pid= -p $&#123;APISERVER_PID&#125;)</span><br><span class="line">  [[ -n "$&#123;APISERVER_PIDS-&#125;" ]] &amp;&amp; sudo kill $&#123;APISERVER_PIDS&#125;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Check <span class="keyword">if</span> the controller-manager is still running</span></span><br><span class="line">  [[ -n "$&#123;CTLRMGR_PID-&#125;" ]] &amp;&amp; CTLRMGR_PIDS=$(pgrep -P $&#123;CTLRMGR_PID&#125; ; ps -o pid= -p $&#123;CTLRMGR_PID&#125;)</span><br><span class="line">  [[ -n "$&#123;CTLRMGR_PIDS-&#125;" ]] &amp;&amp; sudo kill $&#123;CTLRMGR_PIDS&#125;</span><br><span class="line">  if [[ -n "$DOCKERIZE_KUBELET" ]]; then</span><br><span class="line">    cleanup_dockerized_kubelet</span><br><span class="line">  else</span><br><span class="line">    # Check if the kubelet is still running</span><br><span class="line">    [[ -n "$&#123;KUBELET_PID-&#125;" ]] &amp;&amp; KUBELET_PIDS=$(pgrep -P $&#123;KUBELET_PID&#125; ; ps -o pid= -p $&#123;KUBELET_PID&#125;)</span><br><span class="line">    [[ -n "$&#123;KUBELET_PIDS-&#125;" ]] &amp;&amp; sudo kill $&#123;KUBELET_PIDS&#125;</span><br><span class="line">  fi</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Check <span class="keyword">if</span> the proxy is still running</span></span><br><span class="line">  [[ -n "$&#123;PROXY_PID-&#125;" ]] &amp;&amp; PROXY_PIDS=$(pgrep -P $&#123;PROXY_PID&#125; ; ps -o pid= -p $&#123;PROXY_PID&#125;)</span><br><span class="line">  [[ -n "$&#123;PROXY_PIDS-&#125;" ]] &amp;&amp; sudo kill $&#123;PROXY_PIDS&#125;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Check <span class="keyword">if</span> the scheduler is still running</span></span><br><span class="line">  [[ -n "$&#123;SCHEDULER_PID-&#125;" ]] &amp;&amp; SCHEDULER_PIDS=$(pgrep -P $&#123;SCHEDULER_PID&#125; ; ps -o pid= -p $&#123;SCHEDULER_PID&#125;)</span><br><span class="line">  [[ -n "$&#123;SCHEDULER_PIDS-&#125;" ]] &amp;&amp; sudo kill $&#123;SCHEDULER_PIDS&#125;</span><br><span class="line"><span class="meta">  #</span><span class="bash"> Check <span class="keyword">if</span> the etcd is still running</span></span><br><span class="line">  [[ -n "$&#123;ETCD_PID-&#125;" ]] &amp;&amp; kube::etcd::stop</span><br><span class="line">  [[ -n "$&#123;ETCD_DIR-&#125;" ]] &amp;&amp; kube::etcd::clean_etcd_dir</span><br><span class="line">  exit 0</span><br><span class="line">&#125;</span><br><span class="line">function warning &#123;</span><br><span class="line">  message=$1</span><br><span class="line">  echo $(tput bold)$(tput setaf 1)</span><br><span class="line">  echo "WARNING: $&#123;message&#125;"</span><br><span class="line">  echo $(tput sgr0)</span><br><span class="line">&#125;</span><br><span class="line">function start_etcd &#123;</span><br><span class="line">    echo "Starting etcd"</span><br><span class="line">    kube::etcd::start</span><br><span class="line">&#125;</span><br><span class="line">function set_service_accounts &#123;</span><br><span class="line">    SERVICE_ACCOUNT_LOOKUP=$&#123;SERVICE_ACCOUNT_LOOKUP:-true&#125;</span><br><span class="line">    SERVICE_ACCOUNT_KEY=$&#123;SERVICE_ACCOUNT_KEY:-/tmp/kube-serviceaccount.key&#125;</span><br><span class="line">    # Generate ServiceAccount key if needed</span><br><span class="line">    if [[ ! -f "$&#123;SERVICE_ACCOUNT_KEY&#125;" ]]; then</span><br><span class="line">      mkdir -p "$(dirname $&#123;SERVICE_ACCOUNT_KEY&#125;)"</span><br><span class="line">      openssl genrsa -out "$&#123;SERVICE_ACCOUNT_KEY&#125;" 2048 2&gt;/dev/null</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line">function start_apiserver &#123;</span><br><span class="line">    security_admission=""</span><br><span class="line">    if [[ -n "$&#123;DENY_SECURITY_CONTEXT_ADMISSION&#125;" ]]; then</span><br><span class="line">      security_admission=",SecurityContextDeny"</span><br><span class="line">    fi</span><br><span class="line">    if [[ -n "$&#123;PSP_ADMISSION&#125;" ]]; then</span><br><span class="line">      security_admission=",PodSecurityPolicy"</span><br><span class="line">    fi</span><br><span class="line">    if [[ -n "$&#123;NODE_ADMISSION&#125;" ]]; then</span><br><span class="line">      security_admission=",NodeRestriction"</span><br><span class="line">    fi</span><br><span class="line">    if [ "$&#123;ENABLE_POD_PRIORITY_PREEMPTION&#125;" == true ]; then</span><br><span class="line">      security_admission=",Priority"</span><br><span class="line">      if [[ -n "$&#123;RUNTIME_CONFIG&#125;" ]]; then</span><br><span class="line">          RUNTIME_CONFIG+=","</span><br><span class="line">      fi</span><br><span class="line">      RUNTIME_CONFIG+="scheduling.k8s.io/v1alpha1=true"</span><br><span class="line">    fi</span><br><span class="line">    # Admission Controllers to invoke prior to persisting objects in cluster</span><br><span class="line">    #</span><br><span class="line">    # The order defined here dose not matter.</span><br><span class="line">    ENABLE_ADMISSION_PLUGINS=LimitRanger,ServiceAccount$&#123;security_admission&#125;,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,PodPreset,StorageObjectInUseProtection</span><br><span class="line">    audit_arg=""</span><br><span class="line">    APISERVER_BASIC_AUDIT_LOG=""</span><br><span class="line">    if [[ "$&#123;ENABLE_APISERVER_BASIC_AUDIT:-&#125;" = true ]]; then</span><br><span class="line">        # We currently only support enabling with a fixed path and with built-in log</span><br><span class="line">        # rotation "disabled" (large value) so it behaves like kube-apiserver.log.</span><br><span class="line">        # External log rotation should be set up the same as for kube-apiserver.log.</span><br><span class="line">        APISERVER_BASIC_AUDIT_LOG=/tmp/kube-apiserver-audit.log</span><br><span class="line">        audit_arg=" --audit-log-path=$&#123;APISERVER_BASIC_AUDIT_LOG&#125;"</span><br><span class="line">        audit_arg+=" --audit-log-maxage=0"</span><br><span class="line">        audit_arg+=" --audit-log-maxbackup=0"</span><br><span class="line">        # Lumberjack doesn't offer any way to disable size-based rotation. It also</span><br><span class="line">        # has an in-memory counter that doesn't notice if you truncate the file.</span><br><span class="line">        # 2000000000 (in MiB) is a large number that fits in 31 bits. If the log</span><br><span class="line">        # grows at 10MiB/s (~30K QPS), it will rotate after ~6 years if apiserver</span><br><span class="line">        # never restarts. Please manually restart apiserver before this time.</span><br><span class="line">        audit_arg+=" --audit-log-maxsize=2000000000"</span><br><span class="line">    fi</span><br><span class="line">    swagger_arg=""</span><br><span class="line">    if [[ "$&#123;ENABLE_SWAGGER_UI&#125;" = true ]]; then</span><br><span class="line">      swagger_arg="--enable-swagger-ui=true "</span><br><span class="line">    fi</span><br><span class="line">    authorizer_arg=""</span><br><span class="line">    if [[ -n "$&#123;AUTHORIZATION_MODE&#125;" ]]; then</span><br><span class="line">      authorizer_arg="--authorization-mode=$&#123;AUTHORIZATION_MODE&#125; "</span><br><span class="line">    fi</span><br><span class="line">    priv_arg=""</span><br><span class="line">    if [[ -n "$&#123;ALLOW_PRIVILEGED&#125;" ]]; then</span><br><span class="line">      priv_arg="--allow-privileged "</span><br><span class="line">    fi</span><br><span class="line">    if [[ $&#123;ENABLE_ADMISSION_PLUGINS&#125; == *"Initializers"* ]]; then</span><br><span class="line">        if [[ -n "$&#123;RUNTIME_CONFIG&#125;" ]]; then</span><br><span class="line">          RUNTIME_CONFIG+=","</span><br><span class="line">        fi</span><br><span class="line">        RUNTIME_CONFIG+="admissionregistration.k8s.io/v1alpha1"</span><br><span class="line">    fi</span><br><span class="line">    if [[ $&#123;ENABLE_ADMISSION_PLUGINS&#125; == *"PodPreset"* ]]; then</span><br><span class="line">        if [[ -n "$&#123;RUNTIME_CONFIG&#125;" ]]; then</span><br><span class="line">            RUNTIME_CONFIG+=","</span><br><span class="line">        fi</span><br><span class="line">        RUNTIME_CONFIG+="settings.k8s.io/v1alpha1"</span><br><span class="line">    fi</span><br><span class="line">    runtime_config=""</span><br><span class="line">    if [[ -n "$&#123;RUNTIME_CONFIG&#125;" ]]; then</span><br><span class="line">      runtime_config="--runtime-config=$&#123;RUNTIME_CONFIG&#125;"</span><br><span class="line">    fi</span><br><span class="line">    # Let the API server pick a default address when API_HOST_IP</span><br><span class="line">    # is set to 127.0.0.1</span><br><span class="line">    advertise_address=""</span><br><span class="line">    if [[ "$&#123;API_HOST_IP&#125;" != "127.0.0.1" ]]; then</span><br><span class="line">        advertise_address="--advertise-address=$&#123;API_HOST_IP&#125;"</span><br><span class="line">    fi</span><br><span class="line">    if [[ "$&#123;ADVERTISE_ADDRESS&#125;" != "" ]] ; then</span><br><span class="line">        advertise_address="--advertise-address=$&#123;ADVERTISE_ADDRESS&#125;"</span><br><span class="line">    fi</span><br><span class="line">    # Create CA signers</span><br><span class="line">    if [[ "$&#123;ENABLE_SINGLE_CA_SIGNER:-&#125;" = true ]]; then</span><br><span class="line">        kube::util::create_signing_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" server '"client auth","server auth"'</span><br><span class="line">        sudo cp "$&#123;CERT_DIR&#125;/server-ca.key" "$&#123;CERT_DIR&#125;/client-ca.key"</span><br><span class="line">        sudo cp "$&#123;CERT_DIR&#125;/server-ca.crt" "$&#123;CERT_DIR&#125;/client-ca.crt"</span><br><span class="line">        sudo cp "$&#123;CERT_DIR&#125;/server-ca-config.json" "$&#123;CERT_DIR&#125;/client-ca-config.json"</span><br><span class="line">    else</span><br><span class="line">        kube::util::create_signing_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" server '"server auth"'</span><br><span class="line">        kube::util::create_signing_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" client '"client auth"'</span><br><span class="line">    fi</span><br><span class="line">    # Create auth proxy client ca</span><br><span class="line">    kube::util::create_signing_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" request-header '"client auth"'</span><br><span class="line">    # serving cert for kube-apiserver</span><br><span class="line">    kube::util::create_serving_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "server-ca" kube-apiserver kubernetes.default kubernetes.default.svc "localhost" $&#123;API_HOST_IP&#125; $&#123;API_HOST&#125; $&#123;FIRST_SERVICE_CLUSTER_IP&#125;</span><br><span class="line">    # Create client certs signed with client-ca, given id, given CN and a number of groups</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" 'client-ca' kubelet system:node:$&#123;HOSTNAME_OVERRIDE&#125; system:nodes</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" 'client-ca' kube-proxy system:kube-proxy system:nodes</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" 'client-ca' controller system:kube-controller-manager</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" 'client-ca' scheduler  system:kube-scheduler</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" 'client-ca' admin system:admin system:masters</span><br><span class="line">    # Create matching certificates for kube-aggregator</span><br><span class="line">    kube::util::create_serving_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "server-ca" kube-aggregator api.kube-public.svc "localhost" $&#123;API_HOST_IP&#125;</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" request-header-ca auth-proxy system:auth-proxy</span><br><span class="line">    # TODO remove masters and add rolebinding</span><br><span class="line">    kube::util::create_client_certkey "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" 'client-ca' kube-aggregator system:kube-aggregator system:masters</span><br><span class="line">    kube::util::write_client_kubeconfig "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "$&#123;ROOT_CA_FILE&#125;" "$&#123;API_HOST&#125;" "$&#123;API_SECURE_PORT&#125;" kube-aggregator</span><br><span class="line">    cloud_config_arg="--cloud-provider=$&#123;CLOUD_PROVIDER&#125; --cloud-config=$&#123;CLOUD_CONFIG&#125;"</span><br><span class="line">    if [[ "$&#123;EXTERNAL_CLOUD_PROVIDER:-&#125;" == "true" ]]; then</span><br><span class="line">      cloud_config_arg="--cloud-provider=external"</span><br><span class="line">    fi</span><br><span class="line">    APISERVER_LOG=$&#123;LOG_DIR&#125;/kube-apiserver.log</span><br><span class="line">    #$&#123;CONTROLPLANE_SUDO&#125; "$&#123;GO_OUT&#125;/hyperkube" apiserver $&#123;swagger_arg&#125; $&#123;audit_arg&#125; $&#123;authorizer_arg&#125; $&#123;priv_arg&#125; $&#123;runtime_config&#125; \</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; "$&#123;GO_OUT&#125;/kube-apiserver" $&#123;swagger_arg&#125; $&#123;audit_arg&#125; $&#123;authorizer_arg&#125; $&#123;priv_arg&#125; $&#123;runtime_config&#125; \</span><br><span class="line">      $&#123;cloud_config_arg&#125; \</span><br><span class="line">      $&#123;advertise_address&#125; \</span><br><span class="line">      --v=$&#123;LOG_LEVEL&#125; \</span><br><span class="line">      --vmodule="$&#123;LOG_SPEC&#125;" \</span><br><span class="line">      --cert-dir="$&#123;CERT_DIR&#125;" \</span><br><span class="line">      --client-ca-file="$&#123;CERT_DIR&#125;/client-ca.crt" \</span><br><span class="line">      --service-account-key-file="$&#123;SERVICE_ACCOUNT_KEY&#125;" \</span><br><span class="line">      --service-account-lookup="$&#123;SERVICE_ACCOUNT_LOOKUP&#125;" \</span><br><span class="line">      --enable-admission-plugins="$&#123;ENABLE_ADMISSION_PLUGINS&#125;" \</span><br><span class="line">      --disable-admission-plugins="$&#123;DISABLE_ADMISSION_PLUGINS&#125;" \</span><br><span class="line">      --admission-control-config-file="$&#123;ADMISSION_CONTROL_CONFIG_FILE&#125;" \</span><br><span class="line">      --bind-address="$&#123;API_BIND_ADDR&#125;" \</span><br><span class="line">      --secure-port="$&#123;API_SECURE_PORT&#125;" \</span><br><span class="line">      --tls-cert-file="$&#123;CERT_DIR&#125;/serving-kube-apiserver.crt" \</span><br><span class="line">      --tls-private-key-file="$&#123;CERT_DIR&#125;/serving-kube-apiserver.key" \</span><br><span class="line">      --insecure-bind-address="$&#123;API_HOST_IP&#125;" \</span><br><span class="line">      --insecure-port="$&#123;API_PORT&#125;" \</span><br><span class="line">      --storage-backend=$&#123;STORAGE_BACKEND&#125; \</span><br><span class="line">      --etcd-servers="http://$&#123;ETCD_HOST&#125;:$&#123;ETCD_PORT&#125;" \</span><br><span class="line">      --service-cluster-ip-range="$&#123;SERVICE_CLUSTER_IP_RANGE&#125;" \</span><br><span class="line">      --feature-gates="$&#123;FEATURE_GATES&#125;" \</span><br><span class="line">      --external-hostname="$&#123;EXTERNAL_HOSTNAME&#125;" \</span><br><span class="line">      --requestheader-username-headers=X-Remote-User \</span><br><span class="line">      --requestheader-group-headers=X-Remote-Group \</span><br><span class="line">      --requestheader-extra-headers-prefix=X-Remote-Extra- \</span><br><span class="line">      --requestheader-client-ca-file="$&#123;CERT_DIR&#125;/request-header-ca.crt" \</span><br><span class="line">      --requestheader-allowed-names=system:auth-proxy \</span><br><span class="line">      --proxy-client-cert-file="$&#123;CERT_DIR&#125;/client-auth-proxy.crt" \</span><br><span class="line">      --proxy-client-key-file="$&#123;CERT_DIR&#125;/client-auth-proxy.key" \</span><br><span class="line">      --cors-allowed-origins="$&#123;API_CORS_ALLOWED_ORIGINS&#125;" &gt;"$&#123;APISERVER_LOG&#125;" 2&gt;&amp;1 &amp;</span><br><span class="line">    APISERVER_PID=$!</span><br><span class="line">    # Wait for kube-apiserver to come up before launching the rest of the components.</span><br><span class="line">    echo "Waiting for apiserver to come up"</span><br><span class="line">    # this uses the API port because if you don't have any authenticator, you can't seem to use the secure port at all.</span><br><span class="line">    # this matches what happened with the combination in 1.4.</span><br><span class="line">    # TODO change this conditionally based on whether API_PORT is on or off</span><br><span class="line">    kube::util::wait_for_url "https://$&#123;API_HOST_IP&#125;:$&#123;API_SECURE_PORT&#125;/healthz" "apiserver: " 1 $&#123;WAIT_FOR_URL_API_SERVER&#125; \</span><br><span class="line">        || &#123; echo "check apiserver logs: $&#123;APISERVER_LOG&#125;" ; exit 1 ; &#125;</span><br><span class="line">    # Create kubeconfigs for all components, using client certs</span><br><span class="line">    kube::util::write_client_kubeconfig "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "$&#123;ROOT_CA_FILE&#125;" "$&#123;API_HOST&#125;" "$&#123;API_SECURE_PORT&#125;" admin</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; chown "$&#123;USER&#125;" "$&#123;CERT_DIR&#125;/client-admin.key" # make readable for kubectl</span><br><span class="line">    kube::util::write_client_kubeconfig "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "$&#123;ROOT_CA_FILE&#125;" "$&#123;API_HOST&#125;" "$&#123;API_SECURE_PORT&#125;" kubelet</span><br><span class="line">    kube::util::write_client_kubeconfig "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "$&#123;ROOT_CA_FILE&#125;" "$&#123;API_HOST&#125;" "$&#123;API_SECURE_PORT&#125;" kube-proxy</span><br><span class="line">    kube::util::write_client_kubeconfig "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "$&#123;ROOT_CA_FILE&#125;" "$&#123;API_HOST&#125;" "$&#123;API_SECURE_PORT&#125;" controller</span><br><span class="line">    kube::util::write_client_kubeconfig "$&#123;CONTROLPLANE_SUDO&#125;" "$&#123;CERT_DIR&#125;" "$&#123;ROOT_CA_FILE&#125;" "$&#123;API_HOST&#125;" "$&#123;API_SECURE_PORT&#125;" scheduler</span><br><span class="line">    if [[ -z "$&#123;AUTH_ARGS&#125;" ]]; then</span><br><span class="line">        AUTH_ARGS="--client-key=$&#123;CERT_DIR&#125;/client-admin.key --client-certificate=$&#123;CERT_DIR&#125;/client-admin.crt"</span><br><span class="line">    fi</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; cp "$&#123;CERT_DIR&#125;/admin.kubeconfig" "$&#123;CERT_DIR&#125;/admin-kube-aggregator.kubeconfig"</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; chown $(whoami) "$&#123;CERT_DIR&#125;/admin-kube-aggregator.kubeconfig"</span><br><span class="line">    $&#123;KUBECTL&#125; config set-cluster local-up-cluster --kubeconfig="$&#123;CERT_DIR&#125;/admin-kube-aggregator.kubeconfig" --server="https://$&#123;API_HOST_IP&#125;:31090"</span><br><span class="line">    echo "use 'kubectl --kubeconfig=$&#123;CERT_DIR&#125;/admin-kube-aggregator.kubeconfig' to use the aggregated API server"</span><br><span class="line">&#125;</span><br><span class="line">function start_controller_manager &#123;</span><br><span class="line">    node_cidr_args=""</span><br><span class="line">    if [[ "$&#123;NET_PLUGIN&#125;" == "kubenet" ]]; then</span><br><span class="line">      node_cidr_args="--allocate-node-cidrs=true --cluster-cidr=10.1.0.0/16 "</span><br><span class="line">    fi</span><br><span class="line">    cloud_config_arg="--cloud-provider=$&#123;CLOUD_PROVIDER&#125; --cloud-config=$&#123;CLOUD_CONFIG&#125;"</span><br><span class="line">    if [[ "$&#123;EXTERNAL_CLOUD_PROVIDER:-&#125;" == "true" ]]; then</span><br><span class="line">      cloud_config_arg="--cloud-provider=external"</span><br><span class="line">      cloud_config_arg+=" --external-cloud-volume-plugin=$&#123;CLOUD_PROVIDER&#125;"</span><br><span class="line">      cloud_config_arg+=" --cloud-config=$&#123;CLOUD_CONFIG&#125;"</span><br><span class="line">    fi</span><br><span class="line">    CTLRMGR_LOG=$&#123;LOG_DIR&#125;/kube-controller-manager.log</span><br><span class="line">    #$&#123;CONTROLPLANE_SUDO&#125; "$&#123;GO_OUT&#125;/hyperkube" controller-manager \</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; "$&#123;GO_OUT&#125;/kube-controller-manager" \</span><br><span class="line">      --v=$&#123;LOG_LEVEL&#125; \</span><br><span class="line">      --vmodule="$&#123;LOG_SPEC&#125;" \</span><br><span class="line">      --service-account-private-key-file="$&#123;SERVICE_ACCOUNT_KEY&#125;" \</span><br><span class="line">      --root-ca-file="$&#123;ROOT_CA_FILE&#125;" \</span><br><span class="line">      --cluster-signing-cert-file="$&#123;CLUSTER_SIGNING_CERT_FILE&#125;" \</span><br><span class="line">      --cluster-signing-key-file="$&#123;CLUSTER_SIGNING_KEY_FILE&#125;" \</span><br><span class="line">      --enable-hostpath-provisioner="$&#123;ENABLE_HOSTPATH_PROVISIONER&#125;" \</span><br><span class="line">      $&#123;node_cidr_args&#125; \</span><br><span class="line">      --pvclaimbinder-sync-period="$&#123;CLAIM_BINDER_SYNC_PERIOD&#125;" \</span><br><span class="line">      --feature-gates="$&#123;FEATURE_GATES&#125;" \</span><br><span class="line">      $&#123;cloud_config_arg&#125; \</span><br><span class="line">      --kubeconfig "$CERT_DIR"/controller.kubeconfig \</span><br><span class="line">      --use-service-account-credentials \</span><br><span class="line">      --controllers="$&#123;KUBE_CONTROLLERS&#125;" \</span><br><span class="line">      --master="https://$&#123;API_HOST&#125;:$&#123;API_SECURE_PORT&#125;" &gt;"$&#123;CTLRMGR_LOG&#125;" 2&gt;&amp;1 &amp;</span><br><span class="line">    CTLRMGR_PID=$!</span><br><span class="line">&#125;</span><br><span class="line">function start_cloud_controller_manager &#123;</span><br><span class="line">    if [ -z "$&#123;CLOUD_CONFIG&#125;" ]; then</span><br><span class="line">      echo "CLOUD_CONFIG cannot be empty!"</span><br><span class="line">      exit 1</span><br><span class="line">    fi</span><br><span class="line">    if [ ! -f "$&#123;CLOUD_CONFIG&#125;" ]; then</span><br><span class="line">      echo "Cloud config $&#123;CLOUD_CONFIG&#125; doesn't exist"</span><br><span class="line">      exit 1</span><br><span class="line">    fi</span><br><span class="line">    node_cidr_args=""</span><br><span class="line">    if [[ "$&#123;NET_PLUGIN&#125;" == "kubenet" ]]; then</span><br><span class="line">      node_cidr_args="--allocate-node-cidrs=true --cluster-cidr=10.1.0.0/16 "</span><br><span class="line">    fi</span><br><span class="line">    CLOUD_CTLRMGR_LOG=$&#123;LOG_DIR&#125;/cloud-controller-manager.log</span><br><span class="line">    #$&#123;CONTROLPLANE_SUDO&#125; $&#123;EXTERNAL_CLOUD_PROVIDER_BINARY:-"$&#123;GO_OUT&#125;/hyperkube" cloud-controller-manager&#125; \</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; $&#123;EXTERNAL_CLOUD_PROVIDER_BINARY:-"$&#123;GO_OUT&#125;/cloud-controller-manager"&#125; \</span><br><span class="line">      --v=$&#123;LOG_LEVEL&#125; \</span><br><span class="line">      --vmodule="$&#123;LOG_SPEC&#125;" \</span><br><span class="line">      $&#123;node_cidr_args&#125; \</span><br><span class="line">      --feature-gates="$&#123;FEATURE_GATES&#125;" \</span><br><span class="line">      --cloud-provider=$&#123;CLOUD_PROVIDER&#125; \</span><br><span class="line">      --cloud-config=$&#123;CLOUD_CONFIG&#125; \</span><br><span class="line">      --kubeconfig "$CERT_DIR"/controller.kubeconfig \</span><br><span class="line">      --use-service-account-credentials \</span><br><span class="line">      --master="https://$&#123;API_HOST&#125;:$&#123;API_SECURE_PORT&#125;" &gt;"$&#123;CLOUD_CTLRMGR_LOG&#125;" 2&gt;&amp;1 &amp;</span><br><span class="line">    CLOUD_CTLRMGR_PID=$!</span><br><span class="line">&#125;</span><br><span class="line">function start_kubelet &#123;</span><br><span class="line">    KUBELET_LOG=$&#123;LOG_DIR&#125;/kubelet.log</span><br><span class="line">    mkdir -p "$&#123;POD_MANIFEST_PATH&#125;" &amp;&gt;/dev/null || sudo mkdir -p "$&#123;POD_MANIFEST_PATH&#125;"</span><br><span class="line">    priv_arg=""</span><br><span class="line">    if [[ -n "$&#123;ALLOW_PRIVILEGED&#125;" ]]; then</span><br><span class="line">      priv_arg="--allow-privileged "</span><br><span class="line">    fi</span><br><span class="line">    cloud_config_arg="--cloud-provider=$&#123;CLOUD_PROVIDER&#125; --cloud-config=$&#123;CLOUD_CONFIG&#125;"</span><br><span class="line">    if [[ "$&#123;EXTERNAL_CLOUD_PROVIDER:-&#125;" == "true" ]]; then</span><br><span class="line">       cloud_config_arg="--cloud-provider=external"</span><br><span class="line">       cloud_config_arg+=" --provider-id=$(hostname)"</span><br><span class="line">    fi</span><br><span class="line">    mkdir -p "/var/lib/kubelet" &amp;&gt;/dev/null || sudo mkdir -p "/var/lib/kubelet"</span><br><span class="line">    if [[ -z "$&#123;DOCKERIZE_KUBELET&#125;" ]]; then</span><br><span class="line">      # Enable dns</span><br><span class="line">      if [[ "$&#123;ENABLE_CLUSTER_DNS&#125;" = true ]]; then</span><br><span class="line">         dns_args="--cluster-dns=$&#123;DNS_SERVER_IP&#125; --cluster-domain=$&#123;DNS_DOMAIN&#125;"</span><br><span class="line">      else</span><br><span class="line">         # To start a private DNS server set ENABLE_CLUSTER_DNS and</span><br><span class="line">         # DNS_SERVER_IP/DOMAIN. This will at least provide a working</span><br><span class="line">         # DNS server for real world hostnames.</span><br><span class="line">         dns_args="--cluster-dns=8.8.8.8"</span><br><span class="line">      fi</span><br><span class="line">      net_plugin_args=""</span><br><span class="line">      if [[ -n "$&#123;NET_PLUGIN&#125;" ]]; then</span><br><span class="line">        net_plugin_args="--network-plugin=$&#123;NET_PLUGIN&#125;"</span><br><span class="line">      fi</span><br><span class="line">      auth_args=""</span><br><span class="line">      if [[ -n "$&#123;KUBELET_AUTHORIZATION_WEBHOOK:-&#125;" ]]; then</span><br><span class="line">        auth_args="$&#123;auth_args&#125; --authorization-mode=Webhook"</span><br><span class="line">      fi</span><br><span class="line">      if [[ -n "$&#123;KUBELET_AUTHENTICATION_WEBHOOK:-&#125;" ]]; then</span><br><span class="line">        auth_args="$&#123;auth_args&#125; --authentication-token-webhook"</span><br><span class="line">      fi</span><br><span class="line">      if [[ -n "$&#123;CLIENT_CA_FILE:-&#125;" ]]; then</span><br><span class="line">        auth_args="$&#123;auth_args&#125; --client-ca-file=$&#123;CLIENT_CA_FILE&#125;"</span><br><span class="line">      fi</span><br><span class="line">      cni_conf_dir_args=""</span><br><span class="line">      if [[ -n "$&#123;CNI_CONF_DIR&#125;" ]]; then</span><br><span class="line">        cni_conf_dir_args="--cni-conf-dir=$&#123;CNI_CONF_DIR&#125;"</span><br><span class="line">      fi</span><br><span class="line">      cni_bin_dir_args=""</span><br><span class="line">      if [[ -n "$&#123;CNI_BIN_DIR&#125;" ]]; then</span><br><span class="line">        cni_bin_dir_args="--cni-bin-dir=$&#123;CNI_BIN_DIR&#125;"</span><br><span class="line">      fi</span><br><span class="line">      container_runtime_endpoint_args=""</span><br><span class="line">      if [[ -n "$&#123;CONTAINER_RUNTIME_ENDPOINT&#125;" ]]; then</span><br><span class="line">        container_runtime_endpoint_args="--container-runtime-endpoint=$&#123;CONTAINER_RUNTIME_ENDPOINT&#125;"</span><br><span class="line">      fi</span><br><span class="line">      image_service_endpoint_args=""</span><br><span class="line">      if [[ -n "$&#123;IMAGE_SERVICE_ENDPOINT&#125;" ]]; then</span><br><span class="line">        image_service_endpoint_args="--image-service-endpoint=$&#123;IMAGE_SERVICE_ENDPOINT&#125;"</span><br><span class="line">      fi</span><br><span class="line">      #sudo -E "$&#123;GO_OUT&#125;/hyperkube" kubelet $&#123;priv_arg&#125;\</span><br><span class="line">      sudo -E "$&#123;GO_OUT&#125;/kubelet" $&#123;priv_arg&#125;\</span><br><span class="line">        --v=$&#123;LOG_LEVEL&#125; \</span><br><span class="line">        --vmodule="$&#123;LOG_SPEC&#125;" \</span><br><span class="line">        --chaos-chance="$&#123;CHAOS_CHANCE&#125;" \</span><br><span class="line">        --container-runtime="$&#123;CONTAINER_RUNTIME&#125;" \</span><br><span class="line">	--fail-swap-on=false \</span><br><span class="line">        #--rkt-path="$&#123;RKT_PATH&#125;" \</span><br><span class="line">        --rkt-stage1-image="$&#123;RKT_STAGE1_IMAGE&#125;" \</span><br><span class="line">        --hostname-override="$&#123;HOSTNAME_OVERRIDE&#125;" \</span><br><span class="line">        $&#123;cloud_config_arg&#125; \</span><br><span class="line">        --address="$&#123;KUBELET_HOST&#125;" \</span><br><span class="line">        --kubeconfig "$CERT_DIR"/kubelet.kubeconfig \</span><br><span class="line">        --feature-gates="$&#123;FEATURE_GATES&#125;" \</span><br><span class="line">        --cpu-cfs-quota=$&#123;CPU_CFS_QUOTA&#125; \</span><br><span class="line">        --enable-controller-attach-detach="$&#123;ENABLE_CONTROLLER_ATTACH_DETACH&#125;" \</span><br><span class="line">        --cgroups-per-qos=$&#123;CGROUPS_PER_QOS&#125; \</span><br><span class="line">        --cgroup-driver=$&#123;CGROUP_DRIVER&#125; \</span><br><span class="line">        --keep-terminated-pod-volumes=$&#123;KEEP_TERMINATED_POD_VOLUMES&#125; \</span><br><span class="line">        --eviction-hard=$&#123;EVICTION_HARD&#125; \</span><br><span class="line">        --eviction-soft=$&#123;EVICTION_SOFT&#125; \</span><br><span class="line">        --eviction-pressure-transition-period=$&#123;EVICTION_PRESSURE_TRANSITION_PERIOD&#125; \</span><br><span class="line">        --pod-manifest-path="$&#123;POD_MANIFEST_PATH&#125;" \</span><br><span class="line">        --fail-swap-on="$&#123;FAIL_SWAP_ON&#125;" \</span><br><span class="line">        $&#123;auth_args&#125; \</span><br><span class="line">        $&#123;dns_args&#125; \</span><br><span class="line">        $&#123;cni_conf_dir_args&#125; \</span><br><span class="line">        $&#123;cni_bin_dir_args&#125; \</span><br><span class="line">        $&#123;net_plugin_args&#125; \</span><br><span class="line">        $&#123;container_runtime_endpoint_args&#125; \</span><br><span class="line">        $&#123;image_service_endpoint_args&#125; \</span><br><span class="line">        --port="$KUBELET_PORT" \</span><br><span class="line"><span class="meta">	$</span><span class="bash">&#123;KUBELET_FLAGS&#125; &gt;<span class="string">"<span class="variable">$&#123;KUBELET_LOG&#125;</span>"</span> 2&gt;&amp;1 &amp;</span></span><br><span class="line">      KUBELET_PID=$!</span><br><span class="line">      # Quick check that kubelet is running.</span><br><span class="line">      if ps -p $KUBELET_PID &gt; /dev/null ; then</span><br><span class="line">	echo "kubelet ( $KUBELET_PID ) is running."</span><br><span class="line">      else</span><br><span class="line">	cat $&#123;KUBELET_LOG&#125; ; exit 1</span><br><span class="line">      fi</span><br><span class="line">    else</span><br><span class="line">      # Docker won't run a container with a cidfile (container id file)</span><br><span class="line">      # unless that file does not already exist; clean up an existing</span><br><span class="line">      # dockerized kubelet that might be running.</span><br><span class="line">      cleanup_dockerized_kubelet</span><br><span class="line">      cred_bind=""</span><br><span class="line">      # path to cloud credentials.</span><br><span class="line">      cloud_cred=""</span><br><span class="line">      if [ "$&#123;CLOUD_PROVIDER&#125;" == "aws" ]; then</span><br><span class="line">          cloud_cred="$&#123;HOME&#125;/.aws/credentials"</span><br><span class="line">      fi</span><br><span class="line">      if [ "$&#123;CLOUD_PROVIDER&#125;" == "gce" ]; then</span><br><span class="line">          cloud_cred="$&#123;HOME&#125;/.config/gcloud"</span><br><span class="line">      fi</span><br><span class="line">      if [ "$&#123;CLOUD_PROVIDER&#125;" == "openstack" ]; then</span><br><span class="line">          cloud_cred="$&#123;CLOUD_CONFIG&#125;"</span><br><span class="line">      fi</span><br><span class="line">      if  [[ -n "$&#123;cloud_cred&#125;" ]]; then</span><br><span class="line">          cred_bind="--volume=$&#123;cloud_cred&#125;:$&#123;cloud_cred&#125;:ro"</span><br><span class="line">      fi</span><br><span class="line">      docker run \</span><br><span class="line">        --volume=/:/rootfs:ro \</span><br><span class="line">        --volume=/var/run:/var/run:rw \</span><br><span class="line">        --volume=/sys:/sys:ro \</span><br><span class="line">        --volume=/var/lib/docker/:/var/lib/docker:ro \</span><br><span class="line">        --volume=/var/lib/kubelet/:/var/lib/kubelet:rw \</span><br><span class="line">        --volume=/dev:/dev \</span><br><span class="line">        --volume=/run/xtables.lock:/run/xtables.lock:rw \</span><br><span class="line">        $&#123;cred_bind&#125; \</span><br><span class="line">        --net=host \</span><br><span class="line">        --privileged=true \</span><br><span class="line">        -i \</span><br><span class="line">        --cidfile=$KUBELET_CIDFILE \</span><br><span class="line">        k8s.gcr.io/kubelet \</span><br><span class="line">        /kubelet --v=$&#123;LOG_LEVEL&#125; --containerized $&#123;priv_arg&#125;--chaos-chance="$&#123;CHAOS_CHANCE&#125;" --pod-manifest-path="$&#123;POD_MANIFEST_PATH&#125;" --hostname-override="$&#123;HOSTNAME_OVERRIDE&#125;" $&#123;cloud_config_arg&#125; \ --address="127.0.0.1" --kubeconfig "$CERT_DIR"/kubelet.kubeconfig --port="$KUBELET_PORT"  --enable-controller-attach-detach="$&#123;ENABLE_CONTROLLER_ATTACH_DETACH&#125;" &amp;&gt; $KUBELET_LOG &amp;</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line">function start_kubeproxy &#123;</span><br><span class="line">    PROXY_LOG=$&#123;LOG_DIR&#125;/kube-proxy.log</span><br><span class="line">    cat &lt;&lt;EOF &gt; /tmp/kube-proxy.yaml</span><br><span class="line">apiVersion: kubeproxy.config.k8s.io/v1alpha1</span><br><span class="line">kind: KubeProxyConfiguration</span><br><span class="line">clientConnection:</span><br><span class="line">  kubeconfig: $&#123;CERT_DIR&#125;/kube-proxy.kubeconfig</span><br><span class="line">hostnameOverride: $&#123;HOSTNAME_OVERRIDE&#125;</span><br><span class="line">mode: $&#123;KUBE_PROXY_MODE&#125;</span><br><span class="line">EOF</span><br><span class="line">    #sudo "$&#123;GO_OUT&#125;/hyperkube" proxy \</span><br><span class="line">    sudo "$&#123;GO_OUT&#125;/kube-proxy" \</span><br><span class="line">      --v=$&#123;LOG_LEVEL&#125; \</span><br><span class="line">      --feature-gates="$&#123;FEATURE_GATES&#125;" \</span><br><span class="line">      --config=/tmp/kube-proxy.yaml \</span><br><span class="line">      --master="https://$&#123;API_HOST&#125;:$&#123;API_SECURE_PORT&#125;" &gt;"$&#123;PROXY_LOG&#125;" 2&gt;&amp;1 &amp;</span><br><span class="line">    PROXY_PID=$!</span><br><span class="line">    SCHEDULER_LOG=$&#123;LOG_DIR&#125;/kube-scheduler.log</span><br><span class="line">    #$&#123;CONTROLPLANE_SUDO&#125; "$&#123;GO_OUT&#125;/hyperkube" scheduler \</span><br><span class="line">    $&#123;CONTROLPLANE_SUDO&#125; "$&#123;GO_OUT&#125;/kube-scheduler" \</span><br><span class="line">      --v=$&#123;LOG_LEVEL&#125; \</span><br><span class="line">      --kubeconfig "$CERT_DIR"/scheduler.kubeconfig \</span><br><span class="line">      --feature-gates="$&#123;FEATURE_GATES&#125;" \</span><br><span class="line">      --master="https://$&#123;API_HOST&#125;:$&#123;API_SECURE_PORT&#125;" &gt;"$&#123;SCHEDULER_LOG&#125;" 2&gt;&amp;1 &amp;</span><br><span class="line">    SCHEDULER_PID=$!</span><br><span class="line">&#125;</span><br><span class="line">function start_kubedns &#123;</span><br><span class="line">    if [[ "$&#123;ENABLE_CLUSTER_DNS&#125;" = true ]]; then</span><br><span class="line">        cp "$&#123;KUBE_ROOT&#125;/cluster/addons/dns/kube-dns.yaml.in" kube-dns.yaml</span><br><span class="line">        sed -i -e "s/&#123;&#123; pillar\['dns_domain'\] &#125;&#125;/$&#123;DNS_DOMAIN&#125;/g" kube-dns.yaml</span><br><span class="line">        sed -i -e "s/&#123;&#123; pillar\['dns_server'\] &#125;&#125;/$&#123;DNS_SERVER_IP&#125;/g" kube-dns.yaml</span><br><span class="line">        # TODO update to dns role once we have one.</span><br><span class="line">        # use kubectl to create kubedns addon</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" --namespace=kube-system create -f kube-dns.yaml</span><br><span class="line">        echo "Kube-dns addon successfully deployed."</span><br><span class="line">        rm kube-dns.yaml</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line">function start_kubedashboard &#123;</span><br><span class="line">    if [[ "$&#123;ENABLE_CLUSTER_DASHBOARD&#125;" = true ]]; then</span><br><span class="line">        echo "Creating kubernetes-dashboard"</span><br><span class="line">        # use kubectl to create the dashboard</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" apply -f $&#123;KUBE_ROOT&#125;/cluster/addons/dashboard/dashboard-secret.yaml</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" apply -f $&#123;KUBE_ROOT&#125;/cluster/addons/dashboard/dashboard-configmap.yaml</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" apply -f $&#123;KUBE_ROOT&#125;/cluster/addons/dashboard/dashboard-rbac.yaml</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" apply -f $&#123;KUBE_ROOT&#125;/cluster/addons/dashboard/dashboard-controller.yaml</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" apply -f $&#123;KUBE_ROOT&#125;/cluster/addons/dashboard/dashboard-service.yaml</span><br><span class="line">        echo "kubernetes-dashboard deployment and service successfully deployed."</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line">function create_psp_policy &#123;</span><br><span class="line">    echo "Create podsecuritypolicy policies for RBAC."</span><br><span class="line">    $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" create -f $&#123;KUBE_ROOT&#125;/examples/podsecuritypolicy/rbac/policies.yaml</span><br><span class="line">    $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" create -f $&#123;KUBE_ROOT&#125;/examples/podsecuritypolicy/rbac/roles.yaml</span><br><span class="line">    $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" create -f $&#123;KUBE_ROOT&#125;/examples/podsecuritypolicy/rbac/bindings.yaml</span><br><span class="line">&#125;</span><br><span class="line">function create_storage_class &#123;</span><br><span class="line">    if [ -z "$CLOUD_PROVIDER" ]; then</span><br><span class="line">        CLASS_FILE=$&#123;KUBE_ROOT&#125;/cluster/addons/storage-class/local/default.yaml</span><br><span class="line">    else</span><br><span class="line">        CLASS_FILE=$&#123;KUBE_ROOT&#125;/cluster/addons/storage-class/$&#123;CLOUD_PROVIDER&#125;/default.yaml</span><br><span class="line">    fi</span><br><span class="line">    if [ -e $CLASS_FILE ]; then</span><br><span class="line">        echo "Create default storage class for $CLOUD_PROVIDER"</span><br><span class="line">        $&#123;KUBECTL&#125; --kubeconfig="$&#123;CERT_DIR&#125;/admin.kubeconfig" create -f $CLASS_FILE</span><br><span class="line">    else</span><br><span class="line">        echo "No storage class available for $CLOUD_PROVIDER."</span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line">function print_success &#123;</span><br><span class="line">if [[ "$&#123;START_MODE&#125;" != "kubeletonly" ]]; then</span><br><span class="line">  if [[ "$&#123;ENABLE_DAEMON&#125;" = false ]]; then</span><br><span class="line">    echo "Local Kubernetes cluster is running. Press Ctrl-C to shut it down."</span><br><span class="line">  else</span><br><span class="line">    echo "Local Kubernetes cluster is running."</span><br><span class="line">  fi</span><br><span class="line">  cat &lt;&lt;EOF</span><br><span class="line">Logs:</span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;APISERVER_LOG:-&#125;</span></span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;CTLRMGR_LOG:-&#125;</span></span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;CLOUD_CTLRMGR_LOG:-&#125;</span></span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;PROXY_LOG:-&#125;</span></span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;SCHEDULER_LOG:-&#125;</span></span><br><span class="line">EOF</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;ENABLE_APISERVER_BASIC_AUDIT:-&#125;" = true ]]; then</span><br><span class="line">  echo "  $&#123;APISERVER_BASIC_AUDIT_LOG&#125;"</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;START_MODE&#125;" == "all" ]]; then</span><br><span class="line">  echo "  $&#123;KUBELET_LOG&#125;"</span><br><span class="line">elif [[ "$&#123;START_MODE&#125;" == "nokubelet" ]]; then</span><br><span class="line">  echo</span><br><span class="line">  echo "No kubelet was started because you set START_MODE=nokubelet"</span><br><span class="line">  echo "Run this script again with START_MODE=kubeletonly to run a kubelet"</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;START_MODE&#125;" != "kubeletonly" ]]; then</span><br><span class="line">  echo</span><br><span class="line">  if [[ "$&#123;ENABLE_DAEMON&#125;" = false ]]; then</span><br><span class="line">    echo "To start using your cluster, you can open up another terminal/tab and run:"</span><br><span class="line">  else</span><br><span class="line">    echo "To start using your cluster, run:"</span><br><span class="line">  fi</span><br><span class="line">  cat &lt;&lt;EOF</span><br><span class="line">  export KUBECONFIG=$&#123;CERT_DIR&#125;/admin.kubeconfig</span><br><span class="line">  cluster/kubectl.sh</span><br><span class="line">Alternatively, you can write to the default kubeconfig:</span><br><span class="line">  export KUBERNETES_PROVIDER=local</span><br><span class="line">  cluster/kubectl.sh config set-cluster local --server=https://$&#123;API_HOST&#125;:$&#123;API_SECURE_PORT&#125; --certificate-authority=$&#123;ROOT_CA_FILE&#125;</span><br><span class="line">  cluster/kubectl.sh config set-credentials myself $&#123;AUTH_ARGS&#125;</span><br><span class="line">  cluster/kubectl.sh config set-context local --cluster=local --user=myself</span><br><span class="line">  cluster/kubectl.sh config use-context local</span><br><span class="line">  cluster/kubectl.sh</span><br><span class="line">EOF</span><br><span class="line">else</span><br><span class="line">  cat &lt;&lt;EOF</span><br><span class="line">The kubelet was started.</span><br><span class="line">Logs:</span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;KUBELET_LOG&#125;</span></span><br><span class="line">EOF</span><br><span class="line">fi</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">#</span><span class="bash"> If we are running <span class="keyword">in</span> the CI, we need a few more things before we can start</span></span><br><span class="line">if [[ "$&#123;KUBETEST_IN_DOCKER:-&#125;" == "true" ]]; then</span><br><span class="line">  echo "Preparing to test ..."</span><br><span class="line"><span class="meta">  $</span><span class="bash">&#123;KUBE_ROOT&#125;/hack/install-etcd.sh</span></span><br><span class="line">  export PATH="$&#123;KUBE_ROOT&#125;/third_party/etcd:$&#123;PATH&#125;"</span><br><span class="line">  KUBE_FASTBUILD=true make ginkgo cross</span><br><span class="line">  apt install -y sudo</span><br><span class="line">fi</span><br><span class="line"><span class="meta">#</span><span class="bash"> validate that etcd is: not running, <span class="keyword">in</span> path, and has minimum required version.</span></span><br><span class="line">if [[ "$&#123;START_MODE&#125;" != "kubeletonly" ]]; then</span><br><span class="line">  kube::etcd::validate</span><br><span class="line">fi</span><br><span class="line">if [ "$&#123;CONTAINER_RUNTIME&#125;" == "docker" ] &amp;&amp; ! kube::util::ensure_docker_daemon_connectivity; then</span><br><span class="line">  exit 1</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;CONTAINER_RUNTIME&#125;" == "rkt" ]]; then</span><br><span class="line">  test_rkt</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;START_MODE&#125;" != "kubeletonly" ]]; then</span><br><span class="line">  test_apiserver_off</span><br><span class="line">fi</span><br><span class="line">kube::util::test_openssl_installed</span><br><span class="line">kube::util::ensure-cfssl</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## IF the user didn't supply an output/ for the build... Then we detect.</span></span></span><br><span class="line">if [ "$GO_OUT" == "" ]; then</span><br><span class="line">  detect_binary</span><br><span class="line">fi</span><br><span class="line">echo "Detected host and ready to start services.  Doing some housekeeping first..."</span><br><span class="line">echo "Using GO_OUT $GO_OUT"</span><br><span class="line">KUBELET_CIDFILE=/tmp/kubelet.cid</span><br><span class="line">if [[ "$&#123;ENABLE_DAEMON&#125;" = false ]]; then</span><br><span class="line">  trap cleanup EXIT</span><br><span class="line">fi</span><br><span class="line">echo "Starting services now!"</span><br><span class="line">if [[ "$&#123;START_MODE&#125;" != "kubeletonly" ]]; then</span><br><span class="line">  start_etcd</span><br><span class="line">  set_service_accounts</span><br><span class="line">  start_apiserver</span><br><span class="line">  start_controller_manager</span><br><span class="line">  if [[ "$&#123;EXTERNAL_CLOUD_PROVIDER:-&#125;" == "true" ]]; then</span><br><span class="line">    start_cloud_controller_manager</span><br><span class="line">  fi</span><br><span class="line">  start_kubeproxy</span><br><span class="line">  start_kubedns</span><br><span class="line">  start_kubedashboard</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;START_MODE&#125;" != "nokubelet" ]]; then</span><br><span class="line"><span class="meta">  #</span><span class="bash"><span class="comment"># TODO remove this check if/when kubelet is supported on darwin</span></span></span><br><span class="line"><span class="meta">  #</span><span class="bash"> Detect the OS name/arch and display appropriate error.</span></span><br><span class="line">    case "$(uname -s)" in</span><br><span class="line">      Darwin)</span><br><span class="line">        warning "kubelet is not currently supported in darwin, kubelet aborted."</span><br><span class="line">        KUBELET_LOG=""</span><br><span class="line">        ;;</span><br><span class="line">      Linux)</span><br><span class="line">        start_kubelet</span><br><span class="line">        ;;</span><br><span class="line">      *)</span><br><span class="line">        warning "Unsupported host OS.  Must be Linux or Mac OS X, kubelet aborted."</span><br><span class="line">        ;;</span><br><span class="line">    esac</span><br><span class="line">fi</span><br><span class="line">if [[ -n "$&#123;PSP_ADMISSION&#125;" &amp;&amp; "$&#123;AUTHORIZATION_MODE&#125;" = *RBAC* ]]; then</span><br><span class="line">  create_psp_policy</span><br><span class="line">fi</span><br><span class="line">if [[ "$DEFAULT_STORAGE_CLASS" = "true" ]]; then</span><br><span class="line">  create_storage_class</span><br><span class="line">fi</span><br><span class="line">print_success</span><br><span class="line">if [[ "$&#123;ENABLE_DAEMON&#125;" = false ]]; then</span><br><span class="line">  while true; do sleep 1; done</span><br><span class="line">fi</span><br><span class="line">if [[ "$&#123;KUBETEST_IN_DOCKER:-&#125;" == "true" ]]; then</span><br><span class="line">  cluster/kubectl.sh config set-cluster local --server=https://localhost:6443 --certificate-authority=/var/run/kubernetes/server-ca.crt</span><br><span class="line">  cluster/kubectl.sh config set-credentials myself --client-key=/var/run/kubernetes/client-admin.key --client-certificate=/var/run/kubernetes/client-admin.crt</span><br><span class="line">  cluster/kubectl.sh config set-context local --cluster=local --user=myself</span><br><span class="line">  cluster/kubectl.sh config use-context local</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>执行过程中如果有kubelet启动失败的问题；</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">failed to run Kubelet: failed to create kubelet: misconfiguration: kubelet c</span><br></pre></td></tr></table></figure>
+
+<p>解决方案:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@server02 ~]# docker info</span><br><span class="line">...</span><br><span class="line">Server Version: 1.13.1</span><br><span class="line">Storage Driver: overlay2</span><br><span class="line"> Backing Filesystem: xfs</span><br><span class="line"> Supports d_type: true</span><br><span class="line"> Native Overlay Diff: true</span><br><span class="line">Logging Driver: journald</span><br><span class="line">Cgroup Driver: systemd</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 修改docker.service</span></span><br><span class="line">vi /lib/systemd/system/docker.service</span><br><span class="line"></span><br><span class="line">找到</span><br><span class="line">--exec-opt native.cgroupdriver=systemd \</span><br><span class="line">修改为：</span><br><span class="line">--exec-opt native.cgroupdriver=cgroupfs \</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启docker</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改后查看docker Cgroup Driver</span></span><br><span class="line">[root@server03 sysconfig]# docker info</span><br><span class="line">...</span><br><span class="line">Server Version: 1.13.1</span><br><span class="line">Storage Driver: overlay2</span><br><span class="line"> Backing Filesystem: xfs</span><br><span class="line"> Supports d_type: true</span><br><span class="line"> Native Overlay Diff: true</span><br><span class="line">Logging Driver: journald</span><br><span class="line">Cgroup Driver: cgroupfs</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>继续：</p>
+<p>单机集群：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">第一次执行下面的命令编译并启动集群</span></span><br><span class="line">./hack/local-up-cluster.sh</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make GOGCFLAGS="-N -l" WHAT="cmd/kube-apiserver" # 假设只编译kube-apiserver这一个模块，需要单独编译，这个命令不管用，不考虑了吧~~</span><br></pre></td></tr></table></figure>
+
+<p>直接执行跳过编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hack/local-up-cluster.sh -O</span><br></pre></td></tr></table></figure>
+
+
+
+<p>检查kube启动正常</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep kube|grep -v grep</span><br></pre></td></tr></table></figure>
+
+<p>以apiserver为例子</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kill -15 5228</span><br><span class="line">dlv --listen=:2345 --headless=true --api-version=2 --accept-multiclient exec /root/gopath/src/k8s.io/kubernetes/_output/bin/kube-apiserver -- --authorization-mode=Node,RBAC --runtime-config=settings.k8s.io/v1alpha1 --cloud-provider= --cloud-config= --v=3 --vmodule= --cert-dir=/var/run/kubernetes --client-ca-file=/var/run/kubernetes/client-ca.crt --service-account-key-file=/tmp/kube-serviceaccount.key --service-account-lookup=true --enable-admission-plugins=LimitRanger,ServiceAccount,DefaultStorageClass,DefaultTolerationSeconds,MutatingAdmissionWebhook,ValidatingAdmissionWebhook,ResourceQuota,PodPreset,StorageObjectInUseProtection --disable-admission-plugins= --admission-control-config-file= --bind-address=0.0.0.0 --secure-port=6443 --tls-cert-file=/var/run/kubernetes/serving-kube-apiserver.crt --tls-private-key-file=/var/run/kubernetes/serving-kube-apiserver.key --insecure-bind-address=127.0.0.1 --insecure-port=8080 --storage-backend=etcd3 --etcd-servers=http://127.0.0.1:2379 --service-cluster-ip-range=10.0.0.0/24 --feature-gates=AllAlpha=false --external-hostname=localhost --requestheader-username-headers=X-Remote-User --requestheader-group-headers=X-Remote-Group --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-client-ca-file=/var/run/kubernetes/request-header-ca.crt --requestheader-allowed-names=system:auth-proxy --proxy-client-cert-file=/var/run/kubernetes/client-auth-proxy.crt --proxy-client-key-file=/var/run/kubernetes/client-auth-proxy.key --cors-allowed-origins='/127.0.0.1(:[0-9]+)?$,/localhost(:[0-9]+)?$'</span><br></pre></td></tr></table></figure>
+
+<p>执行apiserver</p>
+<p>远程端口：39999</p>
+<p> 防火墙放开：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=39999/tcp --permanent</span><br><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p>远程调试坑：</p>
+<p>如果要调试如kube-apiserver程序则需要重新编译增加编译参数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go build -o _output/bin/kube-apiserver -gcflags="-N -l" cmd/kube-apiserver/apiserver.go</span><br></pre></td></tr></table></figure>
+
+<p>否则无法监听</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export GO_OUT=/<span class="keyword">go</span>/src/k8s.io/kubernetes/_output/bin</span><br></pre></td></tr></table></figure>
+
+
+
+<p>goland配置：</p>
+<p>Run-&gt;edit configuration配置。</p>
+<p><img src="C:%5CUsers%5Cxudong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1567673734423.png" alt="1567673734423"></p>
+<p>断点调试。</p>
+<p>这样远程同步完代码就可以远程调试了。</p>
+<p>开始源码分析之路~~。</p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-02T10:22:24+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年3月2日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/k8s/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>k8s</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/02/26/es%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" rel="prev" title="ES过程分析">
+                                  
+                                      ES过程分析
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/ElasticSearch/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> ElasticSearch</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'kubernetes debug环境搭建',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#kubernetes-debug环境搭建"><span class="toc-text">kubernetes debug环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#环境安装："><span class="toc-text">环境安装：</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/prometheus/" href="/categories/prometheus/"><div class='name'>prometheus</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 19px; color: #777">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/golang/" style="font-size: 14px; color: #999">golang</a> <a href="/tags/influxdb/" style="font-size: 19px; color: #777">influxdb</a> <a href="/tags/k8s/" style="font-size: 19px; color: #777">k8s</a> <a href="/tags/malloc/" style="font-size: 19px; color: #777">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 19px; color: #777">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
