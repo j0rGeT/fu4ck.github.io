@@ -270,8 +270,8 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <h2 id="galera原理和源码学习"><a href="#galera原理和源码学习" class="headerlink" title="galera原理和源码学习"></a>galera原理和源码学习</h2><h3 id="源码架构"><a href="#源码架构" class="headerlink" title="源码架构"></a>源码架构</h3><p>分析数据库版本： mariadb 10.1.12 + galera 25.3.14</p>
-<p><img src="https://github.com/taoste/dirtysalt/blob/master/src/images/galera-code-structure.png?raw=true" alt="galera-code-structure.png"></p>
-<h3 id="源码执行流程"><a href="#源码执行流程" class="headerlink" title="源码执行流程"></a>源码执行流程</h3><p><img src="./images/image-20200310105545840.png" alt="image-20200310105545840"></p>
+<p><img src="/images/galera-code-structure.png" alt="galera-code-structure.png"></p>
+<h3 id="源码执行流程"><a href="#源码执行流程" class="headerlink" title="源码执行流程"></a>源码执行流程</h3><p><img src="/images/image-20200310105545840.png" alt="image-20200310105545840"></p>
 <h3 id="一致性协议"><a href="#一致性协议" class="headerlink" title="一致性协议"></a>一致性协议</h3><p>说起totem协议，最简单的形象就是，他将多个节点组成一个令牌环。多个节点手拉手形成一个圈，大家依次的传递token。只有获取到token的节点才有发送消息的权利。简单有效的解决了在分布式系统中各个节点的同步问题，因为只有一个节点会在一个时刻发送消息，不会出现冲突。当然，如果有节点发生意外时，令牌环就会断掉，此时大家不能够通信，而是重新组建出一个新的令牌环。</p>
 <h3 id="galera代码入口"><a href="#galera代码入口" class="headerlink" title="galera代码入口"></a>galera代码入口</h3><p>wsrep是mariadb提供对外的接口，通过虚函数插件的方式加载so库动态链接库的方式来加载外部函数。mariadb可以通过galera的动态链接库来调用galera中实现的函数。galera使用的一致性协议是totem协议。这个协议强一致性，但是存在分区问题。所以galera本身遇到写入冲突的时候，会将节点排出集群之外，类似于“脑裂”的问题。galera只支持innodb数据库。</p>
 <p>wsrep入口在初始化mariadb数据库初始化的时候，</p>
@@ -301,7 +301,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-27T03:31:07+00:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-03-27T03:34:48+00:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年3月27日</p>
