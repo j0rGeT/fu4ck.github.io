@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>mysql主从复制原理 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/06/19/mysql%E5%8F%8C%E4%B8%BB%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86/">
+        mysql主从复制原理
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-06-19</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/mysql/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>mysql</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="mysql主从复制原理"><a href="#mysql主从复制原理" class="headerlink" title="mysql主从复制原理"></a>mysql主从复制原理</h2><p>[toc]</p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>在2000年，MySQL 3.23.15版本引入了Replication。Replication作为一种准实时同步方式，得到广泛应用。</p>
+<p>这个时候的Replicaton的实现涉及到两个线程，一个在Master，一个在Slave。Slave的I/O和SQL功能是作为一个线程，从Master获取到event后直接apply，没有relay log。这种方式使得读取event的速度会被Slave replay速度拖慢，当主备存在较大延迟时候，会导致大量binary log没有备份到Slave端。</p>
+<p>在2002年，MySQL 4.0.2版本将Slave端event读取和执行独立成两个线程（IO线程和SQL线程），同时引入了relay log。IO线程读取event后写入relay log，SQL线程从relay log中读取event然后执行。这样即使SQL线程执行慢，Master的binary log也会尽可能的同步到Slave。当Master宕机，切换到Slave，不会出现大量数据丢失。</p>
+<p>MySQL在2010年5.5版本之前，一直采用的是异步复制。主库的事务执行不会管备库的同步进度，如果备库落后，主库不幸crash，那么就会导致数据丢失。</p>
+<p>MySQL在5.5中引入了半同步复制，主库在应答客户端提交的事务前需要保证至少一个从库接收并写到relay log中。那么半同步复制是否可以做到不丢失数据呢。</p>
+<p>在2016年，MySQL在5.7.17中引入了Group Replication。</p>
+<h3 id="几种复制协议差别"><a href="#几种复制协议差别" class="headerlink" title="几种复制协议差别"></a>几种复制协议差别</h3><p><img src="http://www.ywnds.com/wp-content/uploads/2016/04/2017012217093677-689x500.gif" alt="MySQL 5.7半同步复制技术"></p>
+<p>对于异步复制，主库将事务Binlog事件写入到Binlog文件中，此时主库只会通知一下Dump线程发送这些新的Binlog，然后主库就会继续处理提交操作，而此时不会保证这些Binlog传到任何一个从库节点上。</p>
+<p>对于全同步复制，当主库提交事务之后，所有的从库节点必须收到，APPLY并且提交这些事务，然后主库线程才能继续做后续操作。这里面有一个很明显的缺点就是，主库完成一个事务的时间被拉长，性能降低。</p>
+<p>对于半同步复制，是介于全同步复制和异步复制之间的一种，主库只需要等待至少一个从库节点收到并且Flush Binlog到Relay Log文件即可，主库不需要等待所有从库给主库反馈。同时，这里只是一个收到的反馈，而不是已经完全执行并且提交的反馈，这样就节省了很多时间。</p>
+<h3 id="异步复制"><a href="#异步复制" class="headerlink" title="异步复制"></a>异步复制</h3><p>异步复制也就是说的mysql的主从复制，叫replication。</p>
+<p>复制存在的问题：</p>
+<ol>
+<li>宕机情况下，可能存在数据丢失情况</li>
+<li>从库只有一个sql线程，主库写压力大时候，复制延迟</li>
+</ol>
+<p>基本原理介绍：</p>
+<ol>
+<li>mysql主从复制是一个异步复制的过程。从一个实例（master）复制到另一个实例（slave），整个过程要由master上的I/O进程和slave上的sql进程和I/O进程共同完成。</li>
+<li>首先master必须打开binary log(bin-log),因为整个复制过程实际上就是slave端从master端获取相应的二进制日志，然后在本地完全顺序的执行日志中纪录的各种操作。</li>
+</ol>
+<p>主从复制过程：</p>
+<ol>
+<li>Slave 端的 IO 进程连接上 Master，向 Master 请求指定日志文件的指定位置（或者从最开始的日志）之后的日志内容；</li>
+<li>Master 接收到来自 Slave 的 IO 进程的请求后，负责复制的 IO 进程根据 Slave 的请求信息，读取相应日志内容，返回给 Slave 的IO进程，并将本次请求读取的 bin-log 文件名及位置一起返回给 Slave 端</li>
+<li>Slave 端的 IO 进程接收到信息后，将接收到的日志内容依次添加到 Slave 端的 relay-log(中继日志) 文件的最末端，并将读取到的 Master 端的 bin-log 的文件名和位置记录到 master-info 文件中，以便在下一次读取的时候能够清楚的告诉 Master ：”我需要从某个 bin-log 的哪个位置开始往后的日志内容，请发给我”；</li>
+<li>Slave 端的 Sql 进程检测到 relay-log (中继日志)中新增加了内容后，会马上解析 relay-log 的内容成为在 Master 端真实执行时候的那些可执行的内容，并在本地执行。</li>
+</ol>
+<p>复制拓扑：</p>
+<p><img src="/images/image-20200601104405564.png" alt="image-20200601104405564"></p>
+<p>参数说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">skip-name-resolve					# 跳过域名</span><br><span class="line">slave_parallel_workers &#x3D; &#96;&#96;8		 # 并行复制工作线程</span><br><span class="line">slave_parallel_type&#x3D; logical_clock		# 并行复制组提交并行复制</span><br><span class="line">max_connections &#x3D; &#96;&#96;8192			# 最大连接数</span><br><span class="line">server-id&#x3D;&#96;&#96;2						# 服务id</span><br><span class="line">auto_increment_offset&#x3D;&#96;&#96;2			# 自增偏移，两节点设置偶数和奇数</span><br><span class="line">auto_increment_increment&#x3D;&#96;&#96;2		# 自增</span><br><span class="line">log-bin &#x3D; mysql-bin					# 日志</span><br><span class="line">max_binlog_size&#x3D;1024M				# 最大binlog日志大小</span><br><span class="line">replicate-ignore-db &#x3D; mysql				#忽略同步数据库</span><br><span class="line">replicate-ignore-db &#x3D; information_schema</span><br><span class="line">replicate-ignore-db &#x3D; performance_schema</span><br><span class="line">replicate-ignore-db &#x3D; test</span><br><span class="line">bind-address&#x3D;&#96;&#96;10.130&#96;&#96;.&#96;&#96;232.91			# 地址</span><br><span class="line">max_allowed_packet &#x3D; 500M					#最大数据包</span><br><span class="line">interactive_timeout &#x3D; &#96;&#96;120				#交互超时</span><br><span class="line">wait_timeout &#x3D; &#96;&#96;120					# 连接wait超时</span><br><span class="line">log_warnings&#x3D;&#96;&#96;1						# 日志warnings</span><br><span class="line">net_read_timeout&#x3D;&#96;&#96;600					# 数据读取超时时间</span><br><span class="line">net_write_timeout&#x3D;&#96;&#96;600					# 数据写入超时时间</span><br><span class="line">character-set-server &#x3D; utf8				# 编码</span><br><span class="line">validate_password_policy&#x3D;LOW			# 密码铭感</span><br><span class="line">slave-skip-errors&#x3D;all					# slave跳过所有错误</span><br></pre></td></tr></table></figure>
+
+<h3 id="半同步复制"><a href="#半同步复制" class="headerlink" title="半同步复制"></a>半同步复制</h3><p>半同步复制原理图：</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/4153fcafc3c14bfa7ff94770d41b49a5.png" alt="after_commit.png"></p>
+<p>master将每个事务写入binlog（sync_binlog=1），传递到slave刷新到磁盘(sync_relay=1)，同时主库提交事务（commit）。master等待slave反馈收到relay log，只有收到ACK后master才将commit OK结果反馈给客户端。</p>
+<p>半同步具体特性：</p>
+<ol>
+<li>从库会在连接到主库时告诉主库，它是不是配置了半同步。</li>
+<li>如果半同步复制在主库端是开启了的，并且至少有一个半同步复制的从库节点，那么此时主库的事务线程在提交时会被阻塞并等待，结果有两种可能，要么至少一个从库节点通知它已经收到了所有这个事务的Binlog事件，要么一直等待直到超过配置的某一个时间点为止，而此时，半同步复制将自动关闭，转换为异步复制。</li>
+<li>从库节点只有在接收到某一个事务的所有Binlog，将其写入并Flush到Relay Log文件之后，才会通知对应主库上面的等待线程。</li>
+<li>如果在等待过程中，等待时间已经超过了配置的超时时间，没有任何一个从节点通知当前事务，那么此时主库会自动转换为异步复制，当至少一个半同步从节点赶上来时，主库便会自动转换为半同步方式的复制。</li>
+<li>半同步复制必须是在主库和从库两端都开启时才行，如果在主库上没打开，或者在主库上开启了而在从库上没有开启，主库都会使用异步方式复制。</li>
+</ol>
+<p>一致性问题分析：</p>
+<p>半同步方式，主库在等待备库ack时候，如果超时会退化为异步，这就可能导致数据丢失。在接下来分析中，先假设rpl_semi_sync_master_timeout足够大，不会退化为异步方式。</p>
+<p>1)rpl_semi_sync_master_wait_point配置</p>
+<p>参考资料源码分析得：</p>
+<p>rpl_semi_sync_master_wait_point分为：WAIT_AFTER_COMMIT和WAIT_AFTER_SYNC</p>
+<p>配置after_commit：</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/4153fcafc3c14bfa7ff94770d41b49a5.png" alt="after_commit.png"></p>
+<p>即在等待Slave ACK时候，虽然没有返回当前客户端，但事务已经提交，其他客户端会读取到已提交事务。如果Slave端还没有读到该事务的events，同时主库发生了crash，然后切换到备库。那么之前读到的事务就不见了，出现了幻读。</p>
+<p>配置after_sync:</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/08b666b3acb193dc1a0aa5ca506a345c.png" alt="after_sync.png"></p>
+<p>在调用binlog sync之后，engine层commit之前等待Slave ACK。这样只有在确认Slave收到事务events后，事务才会提交。在commit之前等待Slave ACK，同时可以堆积事务，利于group commit，有利于提升性能。</p>
+<p>2）after_sync和after_commit配置分析：</p>
+<p>WAIT_AFTER_SYNC和WAIT_AFTER_COMMIT两图中Send Events的位置，也可能导致主备数据不一致，出现同步失败的情形。实际在rpl_semi_sync_master_wait_point分析的图中是sync binlog大于1的情况。根据上面源码，流程如下图所示。Master依次执行flush binlog， update binlog position， sync binlog。如果Master在update binlog position后，sync binlog前掉电，Master再次启动后原事务就会被回滚。但可能出现Slave获取到Events，这也会导致Slave数据比Master多，主备同步失败。</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/dcd2d2a0c5b1e5cdaee20ed22f2ba8b9.png" alt="sync_after_update.png"></p>
+<p>由于上面的原因，sync_binlog设置为1的时候，MySQL会update binlog end pos after sync。流程如下图所示。这时候，对于每一个事务都需要sync binlog，同时sync binlog和网络发送events会是一个串行的过程，性能下降明显。</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/f27a51f68bd1922bccc2009381107a9d.png" alt="update_after_sync.png"></p>
+<p>3）sync_relay_log配置</p>
+<p>在Slave的IO线程中get_sync_period获得的是sync_relay_log的值，与sync_binlog对sync控制一样。当sync_relay_log不是1的时候，semisync返回给Master的position可能没有sync到磁盘。在gtid_mode下，在保证前面两个配置正确的情况下，sync_relay_log不是1的时候，仅发生Master或Slave的一次Crash并不会发生数据丢失或者主备同步失败情况。如果发生Slave没有sync relay log，Master端事务提交，客户端观察到事务提交，然后Slave端Crash。这样Slave端就会丢失掉已经回复Master ACK的事务events。</p>
+<p><img src="http://ata2-img.cn-hangzhou.img-pub.aliyun-inc.com/62a885ef35f03a205b7a38ddbcb83a96.png" alt="slave_crash.png"></p>
+<h3 id="并行优化"><a href="#并行优化" class="headerlink" title="并行优化"></a>并行优化</h3><p>MySQL5.6提出并行复制，官方称为为enhanced multi-threaded slave（简称MTS）</p>
+<p>MySQL的主备同步是通过binlog在备库重放进行的，IO线程把主库binlog拉过去存入relaylog，然后SQL线程重放 relaylog 中的event，然而这种模式有一个问题就是SQL线程只有一个，在主库压力大的时候，备库单个SQL线程是跑不过主库的多个用户线程的，这样备库延迟是不可避免的。为了解决这种n对1造成的备库延迟问题，5.6 引入了并行复制机制，即SQL线程在执行的时候可以并发跑。</p>
+<p><img src="/images/image-20200601112945808.png" alt="image-20200601112945808"></p>
+<p>在MySQL 5.6版本之前，Slave服务器上有两个线程I/O线程和SQL线程。I/O线程负责接收二进制日志（更准确的说是二进制日志的event），SQL线程进行回放二进制日志。如果在MySQL 5.6版本开启并行复制功能，那么SQL线程就变为了coordinator线程，coordinator线程主要负责以前两部分的内容：</p>
+<ol>
+<li>若判断可以并行执行，那么选择worker线程执行事务的二进制日志</li>
+<li>若判断不可以并行执行，如该操作是DDL，亦或者是事务跨schema操作，则等待所有的worker线程执行完成之后，再执行当前的日志</li>
+</ol>
+<p>coordinator线程并不是仅将日志发送给worker线程，自己也可以回放日志，但是所有可以并行的操作交付由worker线程完成。coordinator线程与worker是典型的生产者与消费者模型。</p>
+<p>MySQL 5.7基于组提交的并行复制：</p>
+<p>MySQL 5.7才可称为真正的并行复制，这其中最为主要的原因就是slave服务器的回放与主机是一致的即master服务器上是怎么并行执行的slave上就怎样进行并行回放。不再有库的并行复制限制，对于二进制日志格式也无特殊的要求（基于库的并行复制也没有要求）。</p>
+<p>MySQL 5.7并行复制的思想简单易懂，一言以蔽之： <strong>一个组提交的事务都是可以并行回放</strong> ，因为这些事务都已进入到事务的prepare阶段，则说明事务之间没有任何冲突（否则就不可能提交）。</p>
+<p>为了兼容MySQL 5.6基于库的并行复制，5.7引入了新的变量slave-parallel-type，其可以配置的值有：</p>
+<ul>
+<li>DATABASE：默认值，基于库的并行复制方式</li>
+<li>LOGICAL_CLOCK：基于组提交的并行复制方式</li>
+</ul>
+<p>并行复制配置调优：</p>
+<p>master_info_repository： 开启MTS功能后，务必将参数master_info_repostitory设置为TABLE，这样性能可以有50%~80%的提升。</p>
+<p>开启enhanced multi-threaded slave：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">slave-parallel-type&#x3D;LOGICAL_CLOCK</span><br><span class="line">slave-parallel-workers&#x3D;16</span><br><span class="line">master_info_repository&#x3D;TABLE</span><br><span class="line">relay_log_info_repository&#x3D;TABLE</span><br><span class="line">relay_log_recovery&#x3D;ON</span><br></pre></td></tr></table></figure>
+
+<p>虽然mysql5.7添加MTS后，虽然slave可以并行应用relay log，但commit部分仍然是顺序提交，其中可能会有等待的情况。当开启slave_preserve_commit_order参数后，slave_parallel_type只能是LOGICAL_CLOCK，如果你有使用级联复制，那`LOGICAL_CLOCK可能会使离master越远的slave并行性越差。</p>
+<h3 id="group-replication"><a href="#group-replication" class="headerlink" title="group replication"></a>group replication</h3><p>MySQL Group Replication（简称MGR）是MySQL官方于2016年12月推出的一个全新的高可用与高扩展的解决方案。MySQL组复制提供了高可用、高扩展、高可靠的MySQL集群服务。</p>
+<p>高一致性，基于原生复制及paxos协议的组复制技术，并以插件的方式提供，提供一致数据安全保证；</p>
+<p><img src="https://images2018.cnblogs.com/blog/1311801/201809/1311801-20180906105509772-1977689111.png" alt="img"></p>
+<p>需要选主来保证集群一致性，相比galera，没有galera一致性强。</p>
+<h3 id="双主复制"><a href="#双主复制" class="headerlink" title="双主复制"></a>双主复制</h3><p>双主的方式和互为主从的实现原理一致，不过是互为主从。</p>
+<p><img src="http://s3.51cto.com/wyfs02/M01/89/EE/wKioL1gh5TqwapxCAAB3AioNZqw030.jpg" alt="Image"></p>
+<p>双主架构思路：</p>
+<p>1.两台mysql都可读写，互为主备，默认只使用一台（masterA）负责数据的写入，另一台（masterB）备用；</p>
+<p>2.masterA是masterB的主库，masterB又是masterA的主库，它们互为主从；</p>
+<p>3.所有提供服务的从服务器与masterB进行主从同步（双主多从）;</p>
+<p>4.建议采用高可用策略的时候，masterA或masterB均不因宕机恢复后而抢占VIP（非抢占模式）；</p>
+<p>这样做可以在一定程度上保证主库的高可用,在一台主库down掉之后,可以在极短的时间内切换到另一台主库上（尽可能减少主库宕机对业务造成的影响），减少了主从同步给线上主库带来的压力；</p>
+<p>不足：</p>
+<ol>
+<li>masterB可能会一直处于空闲状态</li>
+<li>主库后面提供服务的从库要等masterB先同步完了数据后才能去masterB上去同步数据，这样可能会造成一定程度的同步延时；</li>
+<li>脏数据问题</li>
+</ol>
+<p>并发优化：mysql基于5.7.21版本，在这个基础上增加了组并发回放的机制，能够更加快的同步数据。相比于异步复制的方式好一些。</p>
+<p>同步一致性问题：</p>
+<p>1）<strong>相同步长免冲突</strong></p>
+<p>2）<strong>上游生成ID避冲突</strong></p>
+<p>3）定期进行主从一致性检验</p>
+<p>遇到的问题：</p>
+<p>1）多节点写入问题：mysql互为主从的环境，更新一条语句同时提交，update一条记录同时提交，有主键的情况下，sql_thread是根据主键匹配行记录，不会校验行数据，所以m1更新了m2中表的记录，m2更新了m1中表的记录。update一条记录同时提交，有没有主键的情况下，sql_thread是根据全表扫描匹配行记录，所以m1更新在m2中找不到需要更新的行，报1032错误，m2更新在m1中找不到需要更新的行，也报1032错误。</p>
+<p>2）1062错误， 主键冲突，出现这种情况就是从库出现插入操作，主库又重新来了一遍，iothread没问题，sqlthread出错</p>
+<p>3）1032错误，现在生产库中好多数据，在从库误删了，生产库更新后找不到了，现在主从不同步了，再跳过错误也没用，因为没这条，再更新还会报错，</p>
+<p>4）遇到最多的就是从库数据被修改之后，无法保证一致了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>mysql不同复制协议在一致性方面所有差异，但是总体看来在某些场景下，存在不一致的问题。需要针对具体情况去解决分析和优化方案。</p>
+<p>半同步复制虽然增加了ack确认的机制，但是在一些场景下依然存在数据一致性的问题。</p>
+<p>双主方案可以在一些对数据一致性不高的环境中使用，存在数据不一致的情况，需要针对不同的情况进行处理。相比galera多主和group replication的方案较差。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>数据库月报：<a href="http://mysql.taobao.org/monthly/2017/04/01/" target="_blank" rel="noopener">http://mysql.taobao.org/monthly/2017/04/01/</a></p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T05:58:05+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年6月19日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/mysql/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>mysql</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/" rel="prev" title="go协程调度机制">
+                                  
+                                      go协程调度机制
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/golang/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> golang</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'mysql主从复制原理',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql主从复制原理"><span class="toc-text">mysql主从复制原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#几种复制协议差别"><span class="toc-text">几种复制协议差别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#异步复制"><span class="toc-text">异步复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#半同步复制"><span class="toc-text">半同步复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#并行优化"><span class="toc-text">并行优化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#group-replication"><span class="toc-text">group replication</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双主复制"><span class="toc-text">双主复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/docker/" href="/categories/docker/"><div class='name'>docker</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/prometheus/" href="/categories/prometheus/"><div class='name'>prometheus</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 19px; color: #777">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/galera/" style="font-size: 14px; color: #999">galera</a> <a href="/tags/golang/" style="font-size: 19px; color: #777">golang</a> <a href="/tags/influxdb/" style="font-size: 19px; color: #777">influxdb</a> <a href="/tags/k8s/" style="font-size: 19px; color: #777">k8s</a> <a href="/tags/malloc/" style="font-size: 19px; color: #777">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/runc/" style="font-size: 14px; color: #999">runc</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 19px; color: #777">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/miku.model.json"},"display":{"position":"right","width":300,"height":600},"mobile":{"show":true},"log":false});</script></body>
+</html>
