@@ -269,7 +269,7 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        <h2 id="go协程调度机制"><a href="#go协程调度机制" class="headerlink" title="go协程调度机制"></a>go协程调度机制</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h3 id=""><a href="#" class="headerlink" title=""></a><img src="C:%5CUsers%5Cxudong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200615092403012.png" alt="image-20200615092403012"></h3><p>Processor（简称 P）  </p>
+        <h2 id="go协程调度机制"><a href="#go协程调度机制" class="headerlink" title="go协程调度机制"></a>go协程调度机制</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h3 id=""><a href="#" class="headerlink" title=""></a><img src="/images/image-20200615092403012.png" alt="image-20200615092403012"></h3><p>Processor（简称 P）  </p>
 <p>goroutine（简称 G）  </p>
 <p>系统线程（简称 M）  </p>
 <p>⾸先是 Processor（简称 P），其作⽤类似 CPU 核，⽤来控制可同时并发执⾏的任务数量。每个⼯作线程都必须绑定⼀个有效 P 才被允许执⾏任务，否则只能休眠，直到有空闲 P 时被唤醒。P 还为线程提供执⾏资源，⽐如对象分配内存、本地任务队列等。线程独享所绑定的 P 资源，可在⽆锁状态下执⾏⾼效操作。<br>基本上，进程内的⼀切都在以 goroutine（简称 G）⽅式运⾏，包括运⾏时相关服务，以及main.main ⼊⼜函数。需要指出，G 并⾮执⾏体，它仅仅保存并发任务状态，为任务执⾏提供所需栈内存空间。G 任务创建后被放置在 P 本地队列或全局队列，等待⼯作线程调度<br>执⾏。  </p>
@@ -288,7 +288,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T05:19:22+00:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T05:22:35+00:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年6月19日</p>
