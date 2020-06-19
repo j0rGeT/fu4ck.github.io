@@ -358,10 +358,10 @@
 <p>虽然mysql5.7添加MTS后，虽然slave可以并行应用relay log，但commit部分仍然是顺序提交，其中可能会有等待的情况。当开启slave_preserve_commit_order参数后，slave_parallel_type只能是LOGICAL_CLOCK，如果你有使用级联复制，那`LOGICAL_CLOCK可能会使离master越远的slave并行性越差。</p>
 <h3 id="group-replication"><a href="#group-replication" class="headerlink" title="group replication"></a>group replication</h3><p>MySQL Group Replication（简称MGR）是MySQL官方于2016年12月推出的一个全新的高可用与高扩展的解决方案。MySQL组复制提供了高可用、高扩展、高可靠的MySQL集群服务。</p>
 <p>高一致性，基于原生复制及paxos协议的组复制技术，并以插件的方式提供，提供一致数据安全保证；</p>
-<p><img src="https://images2018.cnblogs.com/blog/1311801/201809/1311801-20180906105509772-1977689111.png" alt="img"></p>
+<p><img src="/images/1311801-20180906105509772-1977689111.png" alt="img"></p>
 <p>需要选主来保证集群一致性，相比galera，没有galera一致性强。</p>
 <h3 id="双主复制"><a href="#双主复制" class="headerlink" title="双主复制"></a>双主复制</h3><p>双主的方式和互为主从的实现原理一致，不过是互为主从。</p>
-<p><img src="http://s3.51cto.com/wyfs02/M01/89/EE/wKioL1gh5TqwapxCAAB3AioNZqw030.jpg" alt="Image"></p>
+<p><img src="/images/wKioL1gh5TqwapxCAAB3AioNZqw030.jpg" alt="Image"></p>
 <p>双主架构思路：</p>
 <p>1.两台mysql都可读写，互为主备，默认只使用一台（masterA）负责数据的写入，另一台（masterB）备用；</p>
 <p>2.masterA是masterB的主库，masterB又是masterA的主库，它们互为主从；</p>
@@ -400,7 +400,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T05:58:05+00:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T06:00:28+00:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年6月19日</p>
