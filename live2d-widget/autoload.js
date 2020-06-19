@@ -2,6 +2,8 @@
 //const live2d_path = "https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/";
 const live2d_path = "/live2d-widget/";
 
+live2d_settings['waifuEdgeSide']        = 'right:30px';
+
 // 封装异步加载资源的方法
 function loadExternalResource(url, type) {
 	return new Promise((resolve, reject) => {
@@ -61,3 +63,5 @@ console.log(`
                   ﾄ-,/  |___./
                   'ｰ'    !_,.:
 `);
+
+
