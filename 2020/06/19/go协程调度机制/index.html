@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Category: golang | Saar&#39;s Blog</title>
+  <title>go协程调度机制 | Saar&#39;s Blog</title>
   
   
 
@@ -49,7 +49,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover  half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>Saar's Blog</h1>
@@ -164,27 +164,11 @@
 
   <div class="l_body">
     <div class='body-wrapper'>
-      
-<div class='l_main'>
+      <div class='l_main'>
   
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
     
-      
-  <section class="post-list">
-    
-      
-        
-          
-        
-          
-        
-      
-    
-    
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
 
 
   <section class='meta'>
@@ -193,11 +177,13 @@
     <div class="meta" id="header-meta">
       
         
-  <h2 class="title">
-    <a href="/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/">
-      go协程调度机制
-    </a>
-  </h2>
+  
+    <h1 class="title">
+      <a href="/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/">
+        go协程调度机制
+      </a>
+    </h1>
+  
 
 
       
@@ -247,6 +233,24 @@
           
             
   
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
 
           
         
@@ -263,151 +267,106 @@
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-        <div class="readmore">
-          <a href="/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/golang/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> golang</a>
-        
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="go协程调度机制"><a href="#go协程调度机制" class="headerlink" title="go协程调度机制"></a>go协程调度机制</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h3 id=""><a href="#" class="headerlink" title=""></a><img src="C:%5CUsers%5Cxudong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200615092403012.png" alt="image-20200615092403012"></h3><p>Processor（简称 P）  </p>
+<p>goroutine（简称 G）  </p>
+<p>系统线程（简称 M）  </p>
+<p>⾸先是 Processor（简称 P），其作⽤类似 CPU 核，⽤来控制可同时并发执⾏的任务数量。每个⼯作线程都必须绑定⼀个有效 P 才被允许执⾏任务，否则只能休眠，直到有空闲 P 时被唤醒。P 还为线程提供执⾏资源，⽐如对象分配内存、本地任务队列等。线程独享所绑定的 P 资源，可在⽆锁状态下执⾏⾼效操作。<br>基本上，进程内的⼀切都在以 goroutine（简称 G）⽅式运⾏，包括运⾏时相关服务，以及main.main ⼊⼜函数。需要指出，G 并⾮执⾏体，它仅仅保存并发任务状态，为任务执⾏提供所需栈内存空间。G 任务创建后被放置在 P 本地队列或全局队列，等待⼯作线程调度<br>执⾏。  </p>
+<p>实际执⾏体是系统线程（简称 M），它和 P 绑定，以调度循环⽅式不停执⾏ G 并发任务。M 通过修改寄存器，将执⾏栈指向 G ⾃带栈内存，并在此空间内分配堆栈帧，执⾏任务函数。当需要中途切换时，只要将相关寄存器值保存回 G 空间即可维持状态，任何 M 都可据此恢复执⾏。线程仅负责执⾏，不再持有状态，这是并发任务跨线程调度，实现多路复⽤的根本所在。</p>
+<p>尽管 P/M 构成执⾏组合体，但两者数量并⾮⼀⼀对应。通常情况下，P 数量相对恒定，默认与 CPU 核数量相同，但也可能更多或更少，⽽ M 则是调度器按需创建。举例来说，当M 因陷⼊系统调⽤⽽长时间阻塞时，P 就会被监控线程抢回，去新建（或唤醒）⼀个 M 执⾏其他任务，如此 M 的数量就会增长。</p>
+<p>因为 G 初始栈仅有 2KB，且创建操作只是在⽤户空间简单的对象分配，远⽐进⼊内核态分配线程要简单得多。调度器让多个 M 进⼊调度循环，不停获取并执⾏任务，所以我们才能创建成千上万个并发任务  </p>
+
       </div>
-    
-  </section>
-</article>
-
-          </div>
+      
+      
+        <br>
         
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
       
         
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/2017/05/26/gotips/">
-      golang
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    
-      <a href="http://www.mydreamdll.xyz" rel="nofollow">
-        
-          <i class="fas fa-user" aria-hidden="true"></i>
-        
-        <p>Saar</p>
-      </a>
-    
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-19T05:19:22+00:00">
   <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-05-26</p>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年6月19日</p>
   </a>
 </div>
 
-          
         
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/golang/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>golang</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-  
-
-          
-        
-          
-            
-
-          
-        
-      </div>
       
-        <hr>
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/golang/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>golang</p></a></div>
+
+
+        
+      
+        
+          
+
+        
       
     </div>
   </section>
 
 
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
       
       
-        <div class="readmore">
-          <a href="/2017/05/26/gotips/" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-      <div class="full-width auto-padding tags">
-        
-          <a href="/tags/golang/" rel="nofollow"><i class="fas fa-tag fa-fw"></i> golang</a>
-        
-      </div>
-    
-  </section>
-</article>
-
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/03/31/runc%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/" rel="prev" title="runc原理学习">
+                                  
+                                      runc原理学习
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/runc/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> runc</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
           </div>
-        
       
-    
-  </section>
-  
-    
-    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
-    
-    
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
 
   
 
 
-    
-  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'go协程调度机制',
+      tools: true
+    }
+  </script>
+
 
 </div>
 <aside class='l_side'>
@@ -499,6 +458,25 @@
           
         
           
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#go协程调度机制"><span class="toc-text">go协程调度机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#null"><span class="toc-text"></span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
           
         
           
@@ -680,6 +658,40 @@
 
 
             
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
           
         
       
