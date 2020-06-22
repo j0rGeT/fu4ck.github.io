@@ -376,9 +376,9 @@
 </ul>
 </li>
 </ul>
-<h4 id="totem协议"><a href="#totem协议" class="headerlink" title="totem协议"></a>totem协议</h4><p>totem协议，最简单的形象就是，他将多个节点组成一个令牌环。多个节点手拉手形成一个圈，大家依次的传递token。只有获取到token的节点才有发送消息的权利。简单有效的解决了在分布式系统中各个节点的同步问题，因为只有一个节点会在一个时刻发送消息，不会出现冲突。当然，如果有节点发生意外时，令牌环就会断掉，此时大家不能够通信，而是重新组建出一个新的令牌环。</p>
+<h3 id="totem协议"><a href="#totem协议" class="headerlink" title="totem协议"></a>totem协议</h3><p>totem协议，最简单的形象就是，他将多个节点组成一个令牌环。多个节点手拉手形成一个圈，大家依次的传递token。只有获取到token的节点才有发送消息的权利。简单有效的解决了在分布式系统中各个节点的同步问题，因为只有一个节点会在一个时刻发送消息，不会出现冲突。当然，如果有节点发生意外时，令牌环就会断掉，此时大家不能够通信，而是重新组建出一个新的令牌环。</p>
 <p>galera和corosync就是基于这个协议来实现。</p>
-<h4 id="gossip协议"><a href="#gossip协议" class="headerlink" title="gossip协议"></a>gossip协议</h4><p>简单的描述下这个协议，首先要传播谣言就要有种子节点。种子节点每秒都会随机向其他节点发送自己所拥有的节点列表，以及需要传播的消息。任何新加入的节点，就在这种传播方式下很快地被全网所知道。这个协议的神奇就在于它从设计开始就没想到信息一定要传递给所有的节点，但是随着时间的增长，在最终的某一时刻，全网会得到相同的信息。当然这个时刻可能仅仅存在于理论，永远不可达。</p>
+<h3 id="gossip协议"><a href="#gossip协议" class="headerlink" title="gossip协议"></a>gossip协议</h3><p>简单的描述下这个协议，首先要传播谣言就要有种子节点。种子节点每秒都会随机向其他节点发送自己所拥有的节点列表，以及需要传播的消息。任何新加入的节点，就在这种传播方式下很快地被全网所知道。这个协议的神奇就在于它从设计开始就没想到信息一定要传递给所有的节点，但是随着时间的增长，在最终的某一时刻，全网会得到相同的信息。当然这个时刻可能仅仅存在于理论，永远不可达。</p>
 
       </div>
       
@@ -391,7 +391,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-22T06:40:37+00:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-22T06:43:56+00:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年6月22日</p>
@@ -580,7 +580,7 @@
 </header>
 
     <div class='content material'>
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式选主算法"><span class="toc-text">分布式选主算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bully-Algorithm-霸道选举算法"><span class="toc-text">Bully Algorithm(霸道选举算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#霸道选举算法的假设"><span class="toc-text">霸道选举算法的假设</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#霸道选举算法的选举流程"><span class="toc-text">霸道选举算法的选举流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ring-based"><span class="toc-text">Ring-based</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Paxos"><span class="toc-text">Paxos</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Paxos算法的过程"><span class="toc-text">Paxos算法的过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#raft"><span class="toc-text">raft</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基础-1"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#totem协议"><span class="toc-text">totem协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gossip协议"><span class="toc-text">gossip协议</span></a></li></ol></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式选主算法"><span class="toc-text">分布式选主算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bully-Algorithm-霸道选举算法"><span class="toc-text">Bully Algorithm(霸道选举算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#霸道选举算法的假设"><span class="toc-text">霸道选举算法的假设</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#霸道选举算法的选举流程"><span class="toc-text">霸道选举算法的选举流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ring-based"><span class="toc-text">Ring-based</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Paxos"><span class="toc-text">Paxos</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Paxos算法的过程"><span class="toc-text">Paxos算法的过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#raft"><span class="toc-text">raft</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基础-1"><span class="toc-text">基础</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#totem协议"><span class="toc-text">totem协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gossip协议"><span class="toc-text">gossip协议</span></a></li></ol></li></ol>
     </div>
   </section>
 
