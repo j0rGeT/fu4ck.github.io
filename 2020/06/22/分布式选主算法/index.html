@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>tags | Saar&#39;s Blog</title>
+  <title>分布式选主算法 | Saar&#39;s Blog</title>
   
   
 
@@ -54,7 +54,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover page half'>
+    <cover class='cover post half'>
       
         
   <h1 class='title'>Saar's Blog</h1>
@@ -172,7 +172,7 @@
       <div class='l_main'>
   
 
-  <article id="page" class="post white-box article-type-page" itemscope itemprop="blogPost">
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
     
 
 
@@ -184,8 +184,8 @@
         
   
     <h1 class="title">
-      <a href="/tags/index.html">
-        tags
+      <a href="/2020/06/22/%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BB%E7%AE%97%E6%B3%95/">
+        分布式选主算法
       </a>
     </h1>
   
@@ -216,7 +216,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2020-01-17</p>
+    <p>2020-06-22</p>
   </a>
 </div>
 
@@ -224,6 +224,14 @@
         
           
             
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%88%86%E5%B8%83%E5%BC%8F/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>分布式</p>
+    </a>
+  </div>
+
 
           
         
@@ -266,10 +274,174 @@
 
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
-        
+        <h2 id="分布式选主算法"><a href="#分布式选主算法" class="headerlink" title="分布式选主算法"></a>分布式选主算法</h2><h3 id="Bully-Algorithm-霸道选举算法"><a href="#Bully-Algorithm-霸道选举算法" class="headerlink" title="Bully Algorithm(霸道选举算法)"></a>Bully Algorithm(霸道选举算法)</h3><p>霸道选举算法是一种分布式选举算法，每次都会选出存活的进程中ID最大的候选者。</p>
+<h4 id="霸道选举算法的假设"><a href="#霸道选举算法的假设" class="headerlink" title="霸道选举算法的假设"></a>霸道选举算法的假设</h4><p>霸道选举算法的假设包括：</p>
+<ul>
+<li>假设了可靠的通道通信，更进一步的假设是系统中任何两个进程之间都可以通信。</li>
+<li>每个进程都知道其他进程的编号，也就是说算法依赖一个全局的数据。</li>
+<li>假设进程能够明确地判断出一个正常运行的进程和一个已经崩溃的进程。</li>
+</ul>
+<h4 id="霸道选举算法的选举流程"><a href="#霸道选举算法的选举流程" class="headerlink" title="霸道选举算法的选举流程"></a>霸道选举算法的选举流程</h4><p>选举过程中会发送以下三种消息类型：</p>
+<ol>
+<li>Election消息：表示发起一次选举</li>
+<li>Answer(Alive)消息：对发起选举消息的应答</li>
+<li>Coordinator(Victory)消息：选举胜利者向参与者发送选举成功消息</li>
+</ol>
+<p>触发选举流程的事件包括：</p>
+<ol>
+<li>当进程P从错误中恢复</li>
+<li>检测到Leader失败</li>
+</ol>
+<p>选举流程：</p>
+<ol>
+<li>如果P是最大的ID，直接向所有人发送Victory消息，成功新的Leader；否则向所有比他大的ID的进程发送Election消息</li>
+<li>如果P再发送Election消息后没有收到Alive消息，则P向所有人发送Victory消息，成功新的Leader</li>
+<li>如果P收到了从比自己ID还要大的进程发来的Alive消息，P停止发送任何消息，等待Victory消息（如果过了一段时间没有等到Victory消息，重新开始选举流程）</li>
+<li>如果P收到了比自己ID小的进程发来的Election消息，回复一个Alive消息，然后重新开始选举流程</li>
+<li>如果P收到Victory消息，把发送者当做Leader</li>
+</ol>
+<h3 id="Ring-based"><a href="#Ring-based" class="headerlink" title="Ring-based"></a>Ring-based</h3><p>节点在环上击鼓传花式的通信。</p>
+<h3 id="Paxos"><a href="#Paxos" class="headerlink" title="Paxos"></a>Paxos</h3><p>Paxos算法是基于消息传递且具有高度容错特性的一致性算法，是目前公认的解决分布式一致性问题最有效的算法之一，其解决的问题就是在分布式系统中如何就某个值（决议）达成一致。</p>
+<h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><p>角色</p>
+<ul>
+<li>Proposer：议案发起者。</li>
+<li>Acceptor：决策者，可以批准议案。</li>
+<li>Learner：最终决策的学习者。</li>
+</ul>
+<p>在具体的实现中，一个进程可能同时充当多种角色。比如一个进程可能既是Proposer又是Acceptor又是Learner。Proposer负责提出提案，Acceptor负责对提案作出裁决（accept与否），learner负责学习提案结果。<br>还有一个很重要的概念叫提案（Proposal）。最终要达成一致的value就在提案里。只要Proposer发的提案被Acceptor接受（半数以上的Acceptor同意才行），Proposer就认为该提案里的value被选定了。Acceptor告诉Learner哪个value被选定，Learner就认为那个value被选定。只要Acceptor接受了某个提案，Acceptor就任务该提案里的value被选定了。</p>
+<p>为了避免单点故障，会有一个Acceptor集合，Proposer想Acceptor集合发送提案，Acceptor集合中的每个成员都有可能同意该提案且每个Acceptor只能批准一个提案，只有当一半以上的成员同意了一个提案，就认为该提案被选定了。</p>
+<p><img src="/images/20190619151030396.png" alt="在这里插入图片描述"></p>
+<h4 id="Paxos算法的过程"><a href="#Paxos算法的过程" class="headerlink" title="Paxos算法的过程"></a>Paxos算法的过程</h4><p>阶段一（prepare阶段）：<br>(a) Proposer选择一个提案编号N，然后向半数以上的Acceptor发送编号为N的Prepare请求。Pareper（N）<br>(b) 如果一个Acceptor收到一个编号为N的Prepare请求，如果小于它已经响应过的请求，则拒绝，不回应或回复error。若N大于该Acceptor已经响应过的所有Prepare请求的编号（maxN），那么它就会将它已经接受过（已经经过第二阶段accept的提案）的编号最大的提案（如果有的话，如果还没有的accept提案的话返回{pok，null，null}）作为响应反馈给Proposer，同时该Acceptor承诺不再接受任何编号小于N的提案。</p>
+<p>阶段二（accept阶段）：<br>(a) 如果一个Proposer收到半数以上Acceptor对其发出的编号为N的Prepare请求的响应，那么它就会发送一个针对[N,V]提案的Accept请求给半数以上的Acceptor。注意：V就是收到的响应中编号最大的提案的value（某个acceptor响应的它已经通过的{acceptN，acceptV}），如果响应中不包含任何提案，那么V就由Proposer自己决定。<br>(b) 如果Acceptor收到一个针对编号为N的提案的Accept请求，只要该Acceptor没有对编号大于N的Prepare请求做出过响应，它就接受该提案。如果N小于Acceptor以及响应的prepare请求，则拒绝，不回应或回复error（当proposer没有收到过半的回应，那么他会重新进入第一阶段，递增提案号，重新提出prepare请求）。<br>在上面的运行过程中，每一个Proposer都有可能会产生多个提案。但只要每个Proposer都遵循如上述算法运行，就一定能保证算法执行的正确性。</p>
+<h3 id="raft"><a href="#raft" class="headerlink" title="raft"></a>raft</h3><h4 id="基础-1"><a href="#基础-1" class="headerlink" title="基础"></a>基础</h4><p><strong>角色</strong></p>
+<p>Raft通过选举Leader并由Leader节点负责管理日志复制来实现多副本的一致性。</p>
+<p>在Raft中，节点有三种角色：</p>
+<ul>
+<li>Leader：负责接收客户端的请求，将日志复制到其他节点并告知其他节点何时应用这些日志是安全的</li>
+<li>Candidate：用于选举Leader的一种角色</li>
+<li>Follower：负责响应来自Leader或者Candidate的请求</li>
+</ul>
+<p>角色转换如下图所示：</p>
+<p><img src="/images/471426-20180421111136094-922352391.png" alt="img"></p>
+<ul>
+<li>所有节点初始状态都是Follower角色</li>
+<li>超时时间内没有收到Leader的请求则转换为Candidate进行选举</li>
+<li>Candidate收到大多数节点的选票则转换为Leader；发现Leader或者收到更高任期的请求则转换为Follower</li>
+<li>Leader在收到更高任期的请求后转换为Follower</li>
+</ul>
+<p><strong>任期</strong></p>
+<p>Raft把时间切割为任意长度的任期，每个任期都有一个任期号，采用连续的整数。</p>
+<p>每个任期都由一次选举开始，若选举失败则这个任期内没有Leader；如果选举出了Leader则这个任期内有Leader负责集群状态管理。</p>
+<p><strong>节点的执行规则</strong></p>
+<p><em>所有节点</em></p>
+<ul>
+<li>如果commitIndex &gt; lastApplied，应用log[lastApplied]到状态机，增加lastApplied</li>
+<li>如果RPC请求或者响应包含的任期T &gt; currentTerm，将currentTerm设置为T并转换为Follower</li>
+</ul>
+<p><em>Followers</em></p>
+<ul>
+<li>响应来自Leader和Candidate的RPC请求</li>
+<li>如果在选举超时周期内没有收到AppendEntries的请求或者给Candidate投票，转换为Candidate角色</li>
+</ul>
+<p><em>Candidates</em></p>
+<ul>
+<li><p>转换为candidate角色，开始选举：</p>
+</li>
+<li><ul>
+<li>递增currentTerm</li>
+<li>给自己投票</li>
+<li>重置选举时间</li>
+<li>发送RequestVote给其他所有节点</li>
+</ul>
+</li>
+<li><p>如果收到了大多数节点的选票，转换为Leader节点</p>
+</li>
+<li><p>如果收到Leader节点的AppendEntries请求，转换为Follower节点</p>
+</li>
+<li><p>如果选举超时，重新开始新一轮的选举</p>
+</li>
+</ul>
+<p><em>Leaders</em></p>
+<ul>
+<li><p>一旦选举完成：发送心跳给所有节点；在空闲的周期内不断发送心跳保持Leader身份</p>
+</li>
+<li><p>如果收到客户端的请求，将日志追加到本地log，在日志被应用到状态机后响应给客户端</p>
+</li>
+<li><p>如果对于一个跟随者，最后日志条目的索引值大于等于 nextIndex，那么：发送从 nextIndex 开始的所有日志条目：</p>
+</li>
+<li><ul>
+<li>如果成功：更新相应跟随者的 nextIndex 和 matchIndex</li>
+<li>如果因为日志不一致而失败，减少 nextIndex 重试</li>
+<li>如果存在一个满足N &gt; commitIndex的 N，并且大多数的matchIndex[i] ≥ N成立，并且log[N].term == currentTerm成立，那么令commitIndex等于这个N</li>
+</ul>
+</li>
+</ul>
+<h4 id="totem协议"><a href="#totem协议" class="headerlink" title="totem协议"></a>totem协议</h4><p>totem协议，最简单的形象就是，他将多个节点组成一个令牌环。多个节点手拉手形成一个圈，大家依次的传递token。只有获取到token的节点才有发送消息的权利。简单有效的解决了在分布式系统中各个节点的同步问题，因为只有一个节点会在一个时刻发送消息，不会出现冲突。当然，如果有节点发生意外时，令牌环就会断掉，此时大家不能够通信，而是重新组建出一个新的令牌环。</p>
+<p>galera和corosync就是基于这个协议来实现。</p>
+<h4 id="gossip协议"><a href="#gossip协议" class="headerlink" title="gossip协议"></a>gossip协议</h4><p>简单的描述下这个协议，首先要传播谣言就要有种子节点。种子节点每秒都会随机向其他节点发送自己所拥有的节点列表，以及需要传播的消息。任何新加入的节点，就在这种传播方式下很快地被全网所知道。这个协议的神奇就在于它从设计开始就没想到信息一定要传递给所有的节点，但是随着时间的增长，在最终的某一时刻，全网会得到相同的信息。当然这个时刻可能仅仅存在于理论，永远不可达。</p>
+
       </div>
       
       
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-22T06:40:37+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年6月22日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>分布式</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/06/22/kubernetes_adm%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" rel="prev" title="kubeadm原理分析">
+                                  
+                                      kubeadm原理分析
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/k8s/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> k8s</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
       
     </section>
   </article>
@@ -290,6 +462,13 @@
 <!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
 
 
+
+  <script>
+    window.subData = {
+      title: '分布式选主算法',
+      tools: true
+    }
+  </script>
 
 
 </div>
@@ -391,6 +570,20 @@
           
             
               
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式选主算法"><span class="toc-text">分布式选主算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bully-Algorithm-霸道选举算法"><span class="toc-text">Bully Algorithm(霸道选举算法)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#霸道选举算法的假设"><span class="toc-text">霸道选举算法的假设</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#霸道选举算法的选举流程"><span class="toc-text">霸道选举算法的选举流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ring-based"><span class="toc-text">Ring-based</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Paxos"><span class="toc-text">Paxos</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基础"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Paxos算法的过程"><span class="toc-text">Paxos算法的过程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#raft"><span class="toc-text">raft</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基础-1"><span class="toc-text">基础</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#totem协议"><span class="toc-text">totem协议</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#gossip协议"><span class="toc-text">gossip协议</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
 
             
           
