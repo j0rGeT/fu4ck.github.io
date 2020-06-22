@@ -275,8 +275,8 @@
     <section class="article typo">
       <div class="article-entry" itemprop="articleBody">
         <h2 id="kubeadm原理分析"><a href="#kubeadm原理分析" class="headerlink" title="kubeadm原理分析"></a>kubeadm原理分析</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>kubeadm是Kubernetes 1.4开始新增的特性，用于快速搭建Kubernetes集群环境，两个命令就能把一个k8s集群搭建起来。之前广为诟病的“k8s环境搭建难”的问题，很快得到突破性的解决。本博文基于kubernetes v1.5.0源码对kubeadm工作原理和流程的分析，一窥其内部的工作流。</p>
-<h3 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h3><p><img src="https://img-blog.csdn.net/20170413223653157?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvV2FsdG9uV2FuZw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="kubeadminit"></p>
-<p><img src="https://img-blog.csdn.net/20170413223709110?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvV2FsdG9uV2FuZw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="kubeadm"></p>
+<h3 id="执行流程"><a href="#执行流程" class="headerlink" title="执行流程"></a>执行流程</h3><p><img src="/images/20170413223653157.jpg" alt="kubeadminit"></p>
+<p><img src="/images/20170413223709110.jpg" alt="kubeadm"></p>
 <h3 id="主要工作介绍"><a href="#主要工作介绍" class="headerlink" title="主要工作介绍"></a>主要工作介绍</h3><p>kubeadm init主要工作：<br>创建集群安全相关的的key、certs和conf文件。<br>创建kube-apiserver、kube-controller-manager、kube-scheduler、etcd(如果没有配置external etcd)这些static pod的json格式的manifest文件，kubelet负责启动这些master组件。<br>通过addons方式启动kube-discovery deployment、kube-proxy daemonSet、kube-dns deployment</p>
 <p>kubeadm join主要负责创建kubelet.conf，使kubelet能与API Server建立连接：<br>访问kube-discovery服务获取cluster info（包含cluster ca证书、API Server endpoint列表和token。<br>利用定的token，检验cluster info的签名。<br>检验成功后，再与API Server建立连接，请求API Server为该node创建证书。<br>根据获取到的证书创建kubelet.conf。</p>
 <h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>源码分析：</p>
@@ -298,7 +298,7 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-22T05:28:36+00:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-06-22T05:33:15+00:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>更新于 2020年6月22日</p>
