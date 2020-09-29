@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>分布式限流算法 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/09/29/%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/">
+        分布式限流算法
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-09-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%88%86%E5%B8%83%E5%BC%8F/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>分布式</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="分布式限流算法"><a href="#分布式限流算法" class="headerlink" title="分布式限流算法"></a>分布式限流算法</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>介绍汇总一些常用到的限流算法和代码实现。方便后续开发使用。常用的限流算法： 计数器，令牌桶，漏桶。</p>
+<h3 id="计数器算法"><a href="#计数器算法" class="headerlink" title="计数器算法"></a>计数器算法</h3><p>采用计数器实现限流有点简单粗暴，一般我们会限制一秒钟的能够通过的请求数，比如限流qps为100，算法的实现思路就是从第一个请求进来开始计时，在接下去的1s内，每来一个请求，就把计数加1，如果累加的数字达到了100，那么后续的请求就会被全部拒绝。等到1s结束后，把计数恢复成0，重新开始计数。</p>
+<p>具体的实现可以是这样的：对于每次服务调用，可以通过 <code>AtomicLong#incrementAndGet()</code>方法来给计数器加1并返回最新值，通过这个最新值和阈值进行比较。</p>
+<h3 id="漏桶算法"><a href="#漏桶算法" class="headerlink" title="漏桶算法"></a>漏桶算法</h3><p>为了消除”突刺现象”，可以采用漏桶算法实现限流，漏桶算法这个名字就很形象，算法内部有一个容器，类似生活用到的漏斗，当请求进来时，相当于水倒入漏斗，然后从下端小口慢慢匀速的流出。不管上面流量多大，下面流出的速度始终保持不变。</p>
+<p>在算法实现方面，可以准备一个队列，用来保存请求，另外通过一个线程池定期从队列中获取请求并执行，可以一次性获取多个并发执行。</p>
+<p>这种算法，在使用过后也存在弊端：无法应对短时间的突发流量。</p>
+<h3 id="令牌桶"><a href="#令牌桶" class="headerlink" title="令牌桶"></a>令牌桶</h3><p>令牌桶算法是对漏桶算法的一种改进，桶算法能够限制请求调用的速率，而令牌桶算法能够在限制调用的平均速率的同时还允许一定程度的突发调用。</p>
+<p>在令牌桶算法中，存在一个桶，用来存放固定数量的令牌。算法中存在一种机制，以一定的速率往桶中放令牌。每次请求调用需要先获取令牌，只有拿到令牌，才有机会继续执行，否则选择选择等待可用的令牌、或者直接拒绝。</p>
+<p>放令牌这个动作是持续不断的进行，如果桶中令牌数达到上限，就丢弃令牌，所以就存在这种情况，桶中一直有大量的可用令牌，这时进来的请求就可以直接拿到令牌执行，比如设置qps为100，那么限流器初始化完成一秒后，桶中就已经有100个令牌了，这时服务还没完全启动好，等启动完成对外提供服务时，该限流器可以抵挡瞬时的100个请求。所以，只有桶中没有令牌时，请求才会进行等待，最后相当于以一定的速率执行。</p>
+<p>实现思路：可以准备一个队列，用来保存令牌，另外通过一个线程池定期生成令牌放到队列中，每来一个请求，就从队列中获取一个令牌，并继续执行。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> RateLimiter <span class="keyword">struct</span> &#123;</span><br><span class="line">	Capacity <span class="keyword">int64</span></span><br><span class="line">	LeakingRate <span class="keyword">float64</span></span><br><span class="line">	Tokens <span class="keyword">int64</span></span><br><span class="line">	LastLeakTime <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(rl *RateLimiter)</span> <span class="title">Allow</span><span class="params">()</span> <span class="title">bool</span></span> &#123;</span><br><span class="line">	now := time.Now().Unix()</span><br><span class="line"></span><br><span class="line">	supplyToken = rl.Tokens + (now - rl.LastLeakTime) * rl.LeakingRate</span><br><span class="line">	rl.Tokens = min(rl.Capacity, supplyToken)</span><br><span class="line">	rl.LastLeakTime = now</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> rl.Tokens &gt; <span class="number">1</span> &#123;</span><br><span class="line">			rl.Tokens--</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="集群限流"><a href="#集群限流" class="headerlink" title="集群限流"></a>集群限流</h3><p>为了控制访问次数，肯定需要一个计数器，而且这个计数器只能保存在第三方服务，比如redis。</p>
+<p>每次有相关操作的时候，就向redis服务器发送一个incr命令，比如需要限制某个用户访问/index接口的次数，只需要拼接用户id和接口名生成redis的key，每次该用户访问此接口时，只需要对这个key执行incr命令，在这个key带上过期时间，就可以实现指定时间的访问频率。</p>
+<p>redis + lua实现:</p>
+<p>lua脚本：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--- 获取令牌桶</span></span><br><span class="line"><span class="keyword">local</span> funnel = redis.call(<span class="string">"HMGET"</span>, KEYS[<span class="number">1</span>], <span class="string">'capacity'</span>, <span class="string">'leaking_rate'</span>, <span class="string">'tokens'</span>, <span class="string">'subfunnel_capacity'</span>, <span class="string">'subfunnel_rate'</span>, <span class="string">'last_leak_time'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--- 没有拿到限流配置，放行</span></span><br><span class="line"><span class="keyword">if</span> funnel[<span class="number">1</span>] == <span class="literal">nil</span> <span class="keyword">then</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> capacity = <span class="built_in">tonumber</span>(funnel[<span class="number">1</span>])            <span class="comment">---  capacity 容量</span></span><br><span class="line"><span class="keyword">local</span> leaking_rate = <span class="built_in">tonumber</span>(funnel[<span class="number">2</span>])        <span class="comment">---  leaking_rate 令牌桶添加令牌速率</span></span><br><span class="line"><span class="keyword">local</span> tokens = <span class="built_in">tonumber</span>(funnel[<span class="number">3</span>])              <span class="comment">---  tokens 剩余容量</span></span><br><span class="line"><span class="keyword">local</span> subfunnel_capacity = <span class="built_in">tonumber</span>(funnel[<span class="number">4</span>])  <span class="comment">---  subfunnel_capacity 子桶容量</span></span><br><span class="line"><span class="keyword">local</span> subfunnel_rate = <span class="built_in">tonumber</span>(funnel[<span class="number">5</span>])      <span class="comment">---  subfunnel_rate 子桶添加令牌速率</span></span><br><span class="line"><span class="keyword">local</span> last_leak_time = <span class="built_in">tonumber</span>(funnel[<span class="number">6</span>])      <span class="comment">---  last_leak_time 最后访问时间戳</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 容量小于等于0，放行</span></span><br><span class="line"><span class="keyword">if</span> (capacity &lt;= <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> now = <span class="built_in">tonumber</span>(ARGV[<span class="number">1</span>])              <span class="comment">--- 获取时间戳</span></span><br><span class="line"><span class="keyword">local</span> subfunnel_name = ARGV[<span class="number">2</span>]             <span class="comment">--- 获取限流子桶Name</span></span><br><span class="line"><span class="keyword">local</span> req_token = <span class="built_in">tonumber</span>(ARGV[<span class="number">3</span>])        <span class="comment">--- 请求获取令牌数量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 计算需要补充的令牌</span></span><br><span class="line"><span class="keyword">local</span> supply_token = (now - last_leak_time) * leaking_rate</span><br><span class="line"><span class="keyword">if</span> (supply_token &gt; <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">	last_leak_time = now</span><br><span class="line">	tokens = <span class="built_in">math</span>.<span class="built_in">min</span>(supply_token + tokens, capacity)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> result = <span class="number">1</span> <span class="comment">--- 默认不能取得令牌</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 判断总桶</span></span><br><span class="line"><span class="keyword">if</span> (tokens &gt;= req_token) <span class="keyword">then</span></span><br><span class="line">	result = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--- 判断子桶</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="built_in">string</span>.<span class="built_in">len</span>(subfunnel_name) &gt; <span class="number">0</span> <span class="keyword">and</span> subfunnel_capacity &gt; <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">		<span class="keyword">local</span> subkey = KEYS[<span class="number">1</span>]..<span class="string">":subfunnel"</span></span><br><span class="line">		<span class="keyword">local</span> free_field = subfunnel_name..<span class="string">':tokens'</span></span><br><span class="line">		<span class="keyword">local</span> last_field = subfunnel_name..<span class="string">':last_leak_time'</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">local</span> subfunnel = redis.<span class="built_in">pcall</span>(<span class="string">'HMGET'</span>, subkey, free_field, last_field)</span><br><span class="line">		<span class="keyword">local</span> sub_free, sub_last = subfunnel_capacity, now</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (subfunnel[<span class="number">1</span>]) <span class="keyword">then</span></span><br><span class="line">			sub_free = <span class="built_in">tonumber</span>(subfunnel[<span class="number">1</span>])</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">		<span class="keyword">if</span> (subfunnel[<span class="number">2</span>]) <span class="keyword">then</span></span><br><span class="line">			sub_last = <span class="built_in">tonumber</span>(subfunnel[<span class="number">2</span>])</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">local</span> sub_supply = (now - sub_last) * subfunnel_rate  <span class="comment">--- 计算子桶补充令牌数</span></span><br><span class="line">		<span class="keyword">if</span> (sub_supply &gt; <span class="number">0</span>) <span class="keyword">then</span></span><br><span class="line">			sub_last = now</span><br><span class="line">			sub_free = <span class="built_in">math</span>.<span class="built_in">min</span>(sub_supply + sub_free, subfunnel_capacity)</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (sub_free &gt;= req_token) <span class="keyword">then</span></span><br><span class="line">			sub_free = sub_free - req_token</span><br><span class="line">			tokens = tokens - req_token</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			result = <span class="number">2</span></span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">		redis.<span class="built_in">pcall</span>(<span class="string">'HMSET'</span>, subkey, free_field, sub_free, last_field, sub_last)  <span class="comment">--- 更新子桶</span></span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		tokens = tokens - req_token</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">redis.call(<span class="string">'HMSET'</span>, KEYS[<span class="number">1</span>], <span class="string">"last_leak_time"</span>, last_leak_time, <span class="string">"tokens"</span>, tokens)  <span class="comment">--- 更新桶</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> last_leak_time * <span class="number">10</span> + result</span><br></pre></td></tr></table></figure>
+
+<p>go</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">CheckFunnel</span><span class="params">(client *redis.Client, key <span class="keyword">string</span>, subFunnel <span class="keyword">string</span>, count <span class="keyword">int</span>)</span> <span class="params">(reqTime <span class="keyword">int64</span>, isLimit <span class="keyword">bool</span>, err error)</span></span> &#123;</span><br><span class="line">	reqTime = MakeTimestamp()</span><br><span class="line">	<span class="comment">// applyToken is *redis.Script</span></span><br><span class="line">	res, err := applyToken.Run(client, []<span class="keyword">string</span>&#123;key&#125;, reqTime, subFunnel, count).Int64()</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> reqTime, <span class="literal">false</span>, err</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	retCode := res % <span class="number">10</span></span><br><span class="line">	isLimit = <span class="keyword">bool</span>(retCode == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">switch</span> retCode &#123;</span><br><span class="line">	<span class="comment">// case retCode and set err</span></span><br><span class="line">	<span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">		err = <span class="literal">nil</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Allow</span><span class="params">(client *redis.Client, key <span class="keyword">string</span>, subFunnel <span class="keyword">string</span>)</span> <span class="params">(isLimit <span class="keyword">bool</span>)</span></span> &#123;</span><br><span class="line">	_, isLimit, _ = CheckFunnel(client, key, subFunnel, <span class="number">1</span>)</span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>速率控制：</p>
+<p>MakeRate函数</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MakeRate</span><span class="params">(capacity <span class="keyword">int64</span>, duration time.Duration)</span> <span class="title">float64</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">float64</span>(capacity) * <span class="keyword">float64</span>(time.Millisecond) / <span class="keyword">float64</span>(duration) <span class="comment">// to req/ms</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>传入当前时间</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">MakeTimestamp</span><span class="params">()</span> <span class="title">int64</span></span> &#123;</span><br><span class="line">	<span class="keyword">return</span> time.Now().UnixNano() / <span class="keyword">int64</span>(time.Millisecond)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="srTCM和trTCM"><a href="#srTCM和trTCM" class="headerlink" title="srTCM和trTCM"></a>srTCM和trTCM</h3><h4 id="stTCM"><a href="#stTCM" class="headerlink" title="stTCM"></a>stTCM</h4><p>srTCM的英文全称是Single Rate Three Color Marker，<strong>单速率三颜色标记</strong></p>
+<p>需要预先设定三个参数：</p>
+<ul>
+<li>Committed Information Rate(CIR)，提交信息率。</li>
+<li>Committed Burst Size(CBS)，提交Burst大小。</li>
+<li>Excess Burst Size(EBS)，超量Burst大小。</li>
+</ul>
+<p>CIR用于表示每秒IP包的字节数，header包括在内</p>
+<p>CBS和EBS以字节为单位。必须被设置。推荐值：它们之一必须大于0，且若大于0的CBS和EBS，值要大于MTU。</p>
+<p><strong>颜色有三种：绿、黄、红</strong>。简单来说，颜色与参数的对应关系是这样的：</p>
+<ul>
+<li>如果没有超过CBS就是绿的。</li>
+<li>超过了CBS但没有超过EBS就是黄的。</li>
+<li>超过了EBS就是红的。</li>
+</ul>
+<p>算法流程：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">                +------------+</span><br><span class="line">                |   Result   |</span><br><span class="line">                |            V</span><br><span class="line">            +-------+    +--------+</span><br><span class="line">            |       |    |        |</span><br><span class="line">Packet Stream ===&gt;| Meter |===&gt;| Marker |===&gt; Marked Stream</span><br><span class="line">            |       |    |        |</span><br><span class="line">            +-------+    +--------+</span><br></pre></td></tr></table></figure>
+
+<p>Meter（限速器）用于限速</p>
+<p>Marker收到的是每一个packet和其对应的结果值，根据计算结果在所有packet的IP header的DS field中标记上不同的“颜色”</p>
+<p>Meter 使用两个令牌桶实现。</p>
+<p>Meter有两种工作模式：色盲模式，非色盲模式</p>
+<p>如果工作在<strong>色盲模式</strong>下，且大小为B字节的包在t时间到达，算法工作如下：若令牌桶C足以让B通过，则tag此包为绿色，并减去对应的Tc；若C不足以让B通过而E足以让B通过，则tag此包为黄色，并减去对应的Te；否则tag此包为红色。</p>
+<p>如果工作在<strong>非色盲模式</strong>下，大小为B字节的包在t时间到达，算法工作如下：若包先前tag成绿色，且令牌桶C足以让B通过，则此包依旧tag成绿色，减去对应的Tc；若令牌桶C不足以让B通过，且该包先前tag的是绿色或黄色，且令牌桶E足以让B通过，就tag成黄色，并减去对应的Te；否则（两种情况：先前此包tag成红色或令牌桶E不足以让B通过）tag为红色。</p>
+<h4 id="tcTCM"><a href="#tcTCM" class="headerlink" title="tcTCM"></a>tcTCM</h4><p>Two Rate Three Color Marker ，<strong>双速率三颜色标记</strong></p>
+<p>四个参数：</p>
+<ol>
+<li>Peak Information Rate (PIR)，峰值信息率。</li>
+<li>Peak Burst Size (PBS)，峰值Burst大小。</li>
+<li>Committed Information Rate (CIR)，提交信息率。</li>
+<li>Committed Burst Size (CBS)，提交Burst大小。</li>
+</ol>
+<p>PIR和CIR用于表示每秒IP包的字节数。PBS和CBS以字节为单位，必须大于0，推荐设置成大于当前路径MTU。</p>
+<p>Meter同样分为色盲模式和非色盲模式。</p>
+<p>如果工作在<strong>色盲模式</strong>下，且大小为B字节的包在t时间到达，算法工作如下：若令牌桶P不足以让B通过，则tag为红色，否则：若令牌桶C不足以让B通过，则tag为黄色且扣除桶P的令牌；若令牌桶C足以让B通过，则tag为绿色且同时扣除桶C和桶P的令牌。</p>
+<p>如果工作在<strong>非色盲模式</strong>下，大小为B字节的包在t时间到达，算法工作如下：若先前tag成红色，或令牌桶P不足以让B通过，则tag为红色，否则：若先前tag成黄色，或令牌桶C不足以让B通过，则tag为黄色且扣除桶P的令牌；若令牌桶C足以让B通过且先前标记成绿色，则tag为绿色且同时扣除桶C和桶P的令牌。</p>
+<p>srTCM算法是根据 length of burst 来进行限速的。“单速率”指的是这个算法里两个令牌桶的增长速率都是一样的每秒CIR。两个令牌桶拥有不同的大小，就好像一条数轴用两个点分成了三个阶段，对应绿、黄、红。</p>
+<p>trTCM的“双速率”是指两个令牌桶有不同的增长速率。增长的较慢的令牌桶是发放绿色标记的较为严苛的指标，增长的较快的令牌桶是一个下限，若这个令牌桶也handle不过来的流量就要无情的tag为红色，两者之间的就是黄色。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://wayjam.me/posts/ratelimit-with-redis-lua/" target="_blank" rel="noopener">https://wayjam.me/posts/ratelimit-with-redis-lua/</a></p>
+<p><a href="https://www.cnblogs.com/ZCplayground/p/9451935.html" target="_blank" rel="noopener">https://www.cnblogs.com/ZCplayground/p/9451935.html</a></p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-09-29T03:51:34+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年9月29日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>分布式</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/06/22/%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BB%E7%AE%97%E6%B3%95/" rel="prev" title="分布式选主算法">
+                                  
+                                      分布式选主算法
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> 分布式</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: '分布式限流算法',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分布式限流算法"><span class="toc-text">分布式限流算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#计数器算法"><span class="toc-text">计数器算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#漏桶算法"><span class="toc-text">漏桶算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#令牌桶"><span class="toc-text">令牌桶</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#集群限流"><span class="toc-text">集群限流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#srTCM和trTCM"><span class="toc-text">srTCM和trTCM</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#stTCM"><span class="toc-text">stTCM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#tcTCM"><span class="toc-text">tcTCM</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/docker/" href="/categories/docker/"><div class='name'>docker</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/prometheus/" href="/categories/prometheus/"><div class='name'>prometheus</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"><div class='name'>分布式</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 17.33px; color: #828282">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/galera/" style="font-size: 14px; color: #999">galera</a> <a href="/tags/golang/" style="font-size: 17.33px; color: #828282">golang</a> <a href="/tags/influxdb/" style="font-size: 17.33px; color: #828282">influxdb</a> <a href="/tags/k8s/" style="font-size: 20.67px; color: #6c6c6c">k8s</a> <a href="/tags/malloc/" style="font-size: 17.33px; color: #828282">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/runc/" style="font-size: 14px; color: #999">runc</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 17.33px; color: #828282">分布式</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 17.33px; color: #828282">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
