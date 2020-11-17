@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>rabbitmq源码学习一 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2020/11/17/rabbitmq%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/">
+        rabbitmq源码学习一
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2020-11-17</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/rabbitmq/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>rabbitmq</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="rabbitmq源码学习一"><a href="#rabbitmq源码学习一" class="headerlink" title="rabbitmq源码学习一"></a>rabbitmq源码学习一</h2><h3 id="erlang介绍"><a href="#erlang介绍" class="headerlink" title="erlang介绍"></a>erlang介绍</h3><p>Erlang是具有多重范型的编程语言，具有很多特点，主要的特点有以下几个：</p>
+<ul>
+<li>函数式</li>
+<li>并发性</li>
+<li>分布式</li>
+<li>健壮性</li>
+<li>软实时</li>
+<li>热更新</li>
+<li>递增式代码加载</li>
+<li>动态类型</li>
+<li>解释型</li>
+</ul>
+<p>Erlang是函数式编程语言，函数式是一种编程模型，将计算机中的运算看做是数学中的函数计算，可以避免状态以及变量的概念。</p>
+<p>对象是面向对象的第一型，函数式编程语言也是一样，函数是函数式编程的第一型。函数是Erlang编程语言的基本单位，在Erlang里，函数是第一型，函数几乎会被用作一切，包括最简单的计算。所有的概念都是由函数表达，所有额操作也都是由函数操作。</p>
+<h3 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h3><p>erlang application构成：</p>
+<p>一个应用需要一个.app文件来描述，主要描述它包括哪些文件，参数等。 </p>
+<p>通过application，可以把一个功能模块打包成一个应用，让该模块可以单独start或者stop并且可以在其他模块中引</p>
+<p>用。像mnesia那样。实现步骤：</p>
+<p>1.首先完成要打包的功能模块，并且记得定义为application  —&gt; 文件头加上 -behaviour(application).</p>
+<p>2.为此模块添加.app应用资源文件，格式如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;application, Application, [Opt1,<span class="keyword">...</span>,OptN]&#125;.</span><br></pre></td></tr></table></figure>
+
+<p>注意：Application 是一个代表应用的名称的原子。文件必须被命名成 Application.app 。<br> 每一个Otp 都是一个定义了应用某种特性的元组 {Key, Value} 。所有的键都是可选。忽略的键会使用默认的值。</p>
+<p>这些属性就是为了让erlang编译器知道该以哪种方式去启动此应用。</p>
+<p>ch_app.app文件如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="selector-tag">application</span>, <span class="selector-tag">ch_app</span>,</span><br><span class="line"><span class="selector-attr">[&#123;description, "Channel allocator"&#125;,</span></span><br><span class="line"><span class="selector-attr">&#123;vsn, "1"&#125;,</span></span><br><span class="line"><span class="selector-attr">&#123;modules, [ch_app, ch_sup, ch3]</span>&#125;,</span><br><span class="line">&#123;<span class="selector-tag">registered</span>, <span class="selector-attr">[ch3]</span>&#125;,</span><br><span class="line">&#123;<span class="selector-tag">applications</span>, <span class="selector-attr">[kernel, stdlib, sasl]</span>&#125;,</span><br><span class="line">&#123;<span class="selector-tag">mod</span>, &#123;<span class="selector-tag">ch_app</span>,<span class="selector-attr">[]</span>&#125;&#125;</span><br><span class="line">]&#125;.</span><br></pre></td></tr></table></figure>
+
+<p>description<br>简短描述，字符串。默认为“”。<br>vsn<br>版本号，字符串。默认为”“。<br>modules<br>由该应用引入的所有模块。当生成启动脚本和tar文件时， systools 将用到这个列表。一个模块必须被定义于且仅于一个应用。默认为[]<br>registered<br> 应用中所有注册进程的名称。systools 使用这个列表来探测在应用之间是否有名称冲突。默认为 []。<br> applications<br> 所有在此应用之前必须启动的应用。systools 使用该列表来生成正确的启动脚本。默认为 []，但是注意任何应用<br> 都要至少依赖于kernel 和 stdlib </p>
+<p>优势：</p>
+<p>当我们把一个项目中所有的supervision tree通过一个简单的函数game: start(),会发现这个树结构特别复杂，只能有一个根节点，然后一直扩展。<img src="/images/310024519479008.png" alt="QQ五笔截图未命名"></p>
+<p>那么有时，我们会需要：有些功能模块不启动，有些启动，如果再去改这颗树的结构，就会很麻烦。这里，这就是application出现的原因，设计一个可以随时开关的子块（application).比如：上图中的log app, db app ,game app, connect app ..</p>
+<h3 id="总体机制"><a href="#总体机制" class="headerlink" title="总体机制"></a>总体机制</h3><p>rabbitmq启动通过beam.smp来启动，正在的代码程序控制在plugins目录中，通过erlang来启动ez包程序。主进程程序在rabbit.ez文件中。可以通过解压文件查看内部的代码逻辑。</p>
+<p>解压之后：</p>
+<p><img src="/images/image-20201116173407379.png" alt="image-20201116173407379"></p>
+<p>rabbitmq使用erlang的application的结构，通过rabbit.app文件中的结构信息来启动服务。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line">&#123;application, 'rabbit', [</span><br><span class="line">	&#123;description, "RabbitMQ"&#125;,</span><br><span class="line">	&#123;vsn, "3.8.9"&#125;,</span><br><span class="line">	&#123;id, "v3.8.8-2-g5cf3d07"&#125;,</span><br><span class="line">	&#123;modules, ['amqqueue','amqqueue_v1','background_gc','code_server_cache','gatherer','gm','lager_exchange_backend','lqueue','mirrored_supervisor_sups','pg_local','rabbit','rabbit_access_control','rabbit_alarm','rabbit_amqqueue','rabbit_amqqueue_process','rabbit_amqqueue_sup','rabbit_amqqueue_sup_sup','rabbit_auth_backend_internal','rabbit_auth_mechanism_amqplain','rabbit_auth_mechanism_cr_demo','rabbit_auth_mechanism_plain','rabbit_autoheal','rabbit_backing_queue','rabbit_basic','rabbit_binding','rabbit_boot_steps','rabbit_channel','rabbit_channel_interceptor','rabbit_channel_sup','rabbit_channel_sup_sup','rabbit_client_sup','rabbit_config','rabbit_connection_helper_sup','rabbit_connection_sup','rabbit_connection_tracking','rabbit_connection_tracking_handler','rabbit_control_pbe','rabbit_core_ff','rabbit_core_metrics_gc','rabbit_credential_validation','rabbit_credential_validator','rabbit_credential_validator_accept_everything','rabbit_credential_validator_min_password_length','rabbit_credential_validator_password_regexp','rabbit_dead_letter','rabbit_definitions','rabbit_diagnostics','rabbit_direct','rabbit_disk_monitor','rabbit_epmd_monitor','rabbit_event_consumer','rabbit_exchange','rabbit_exchange_decorator','rabbit_exchange_parameters','rabbit_exchange_type_direct','rabbit_exchange_type_fanout','rabbit_exchange_type_headers','rabbit_exchange_type_invalid','rabbit_exchange_type_topic','rabbit_feature_flags','rabbit_ff_extra','rabbit_ff_registry','rabbit_fhc_helpers','rabbit_fifo','rabbit_fifo_client','rabbit_fifo_index','rabbit_file','rabbit_framing','rabbit_guid','rabbit_health_check','rabbit_lager','rabbit_limiter','rabbit_log_tail','rabbit_looking_glass','rabbit_maintenance','rabbit_memory_monitor','rabbit_metrics','rabbit_mirror_queue_coordinator','rabbit_mirror_queue_master','rabbit_mirror_queue_misc','rabbit_mirror_queue_mode','rabbit_mirror_queue_mode_all','rabbit_mirror_queue_mode_exactly','rabbit_mirror_queue_mode_nodes','rabbit_mirror_queue_slave','rabbit_mirror_queue_sync','rabbit_mnesia','rabbit_mnesia_rename','rabbit_msg_file','rabbit_msg_store','rabbit_msg_store_ets_index','rabbit_msg_store_gc','rabbit_networking','rabbit_node_monitor','rabbit_nodes','rabbit_parameter_validation','rabbit_password','rabbit_password_hashing_md5','rabbit_password_hashing_sha256','rabbit_password_hashing_sha512','rabbit_peer_discovery','rabbit_peer_discovery_classic_config','rabbit_peer_discovery_dns','rabbit_plugins','rabbit_policies','rabbit_policy','rabbit_policy_merge_strategy','rabbit_prelaunch_cluster','rabbit_prelaunch_enabled_plugins_file','rabbit_prelaunch_feature_flags','rabbit_prelaunch_logging','rabbit_prequeue','rabbit_priority_queue','rabbit_queue_consumers','rabbit_queue_decorator','rabbit_queue_index','rabbit_queue_location_client_local','rabbit_queue_location_min_masters','rabbit_queue_location_random','rabbit_queue_location_validator','rabbit_queue_master_location_misc','rabbit_queue_master_locator','rabbit_quorum_memory_manager','rabbit_quorum_queue','rabbit_reader','rabbit_recovery_terms','rabbit_restartable_sup','rabbit_router','rabbit_runtime_parameters','rabbit_ssl','rabbit_sup','rabbit_sysmon_handler','rabbit_sysmon_minder','rabbit_table','rabbit_trace','rabbit_upgrade','rabbit_upgrade_functions','rabbit_upgrade_preparation','rabbit_variable_queue','rabbit_version','rabbit_vhost','rabbit_vhost_limit','rabbit_vhost_msg_store','rabbit_vhost_process','rabbit_vhost_sup','rabbit_vhost_sup_sup','rabbit_vhost_sup_wrapper','rabbit_vm','supervised_lifecycle','tcp_listener','tcp_listener_sup','term_to_binary_compat','unconfirmed_messages','vhost','vhost_v1']&#125;,</span><br><span class="line">	&#123;registered, [rabbit_sup,rabbit_amqqueue_sup,rabbit_direct_client_sup,rabbit_log,rabbit_node_monitor,rabbit_router]&#125;,</span><br><span class="line">	&#123;applications, [kernel,stdlib,sasl,rabbitmq_prelaunch,os_mon,inets,compiler,public_key,crypto,ssl,syntax_tools,xmerl,cuttlefish,ranch,lager,rabbit_common,ra,sysmon_handler,stdout_formatter,recon,observer_cli]&#125;,</span><br><span class="line">	&#123;mod, &#123;rabbit, []&#125;&#125;,</span><br><span class="line">	&#123;env, [</span><br><span class="line">	    &#123;tcp_listeners, [5672]&#125;,</span><br><span class="line">	    &#123;num_tcp_acceptors, 10&#125;,</span><br><span class="line">	    &#123;ssl_listeners, []&#125;,</span><br><span class="line">	    &#123;num_ssl_acceptors, 10&#125;,</span><br><span class="line">	    &#123;ssl_options, []&#125;,</span><br><span class="line">	    &#123;vm_memory_high_watermark, 0.4&#125;,</span><br><span class="line">	    &#123;vm_memory_high_watermark_paging_ratio, 0.5&#125;,</span><br><span class="line">	    &#123;vm_memory_calculation_strategy, rss&#125;,</span><br><span class="line">	    &#123;memory_monitor_interval, 2500&#125;,</span><br><span class="line">	    &#123;disk_free_limit, 50000000&#125;, %% 50MB</span><br><span class="line">	    &#123;msg_store_index_module, rabbit_msg_store_ets_index&#125;,</span><br><span class="line">	    &#123;backing_queue_module, rabbit_variable_queue&#125;,</span><br><span class="line">	    %% 0 ("no limit") would make a better default, but that</span><br><span class="line">	    %% breaks the QPid Java client</span><br><span class="line">	    &#123;frame_max, 131072&#125;,</span><br><span class="line">	    %% see rabbitmq-server#1593</span><br><span class="line">	    &#123;channel_max, 2047&#125;,</span><br><span class="line">	    &#123;connection_max, infinity&#125;,</span><br><span class="line">	    &#123;heartbeat, 60&#125;,</span><br><span class="line">	    &#123;msg_store_file_size_limit, 16777216&#125;,</span><br><span class="line">	    &#123;msg_store_shutdown_timeout, 600000&#125;,</span><br><span class="line">	    &#123;fhc_write_buffering, true&#125;,</span><br><span class="line">	    &#123;fhc_read_buffering, false&#125;,</span><br><span class="line">	    &#123;queue_index_max_journal_entries, 32768&#125;,</span><br><span class="line">	    &#123;queue_index_embed_msgs_below, 4096&#125;,</span><br><span class="line">	    &#123;default_user, &lt;&lt;"guest"&gt;&gt;&#125;,</span><br><span class="line">	    &#123;default_pass, &lt;&lt;"guest"&gt;&gt;&#125;,</span><br><span class="line">	    &#123;default_user_tags, [administrator]&#125;,</span><br><span class="line">	    &#123;default_vhost, &lt;&lt;"/"&gt;&gt;&#125;,</span><br><span class="line">	    &#123;default_permissions, [&lt;&lt;".*"&gt;&gt;, &lt;&lt;".*"&gt;&gt;, &lt;&lt;".*"&gt;&gt;]&#125;,</span><br><span class="line">	    &#123;loopback_users, [&lt;&lt;"guest"&gt;&gt;]&#125;,</span><br><span class="line">	    &#123;password_hashing_module, rabbit_password_hashing_sha256&#125;,</span><br><span class="line">	    &#123;server_properties, []&#125;,</span><br><span class="line">	    &#123;collect_statistics, none&#125;,</span><br><span class="line">	    &#123;collect_statistics_interval, 5000&#125;,</span><br><span class="line">	    &#123;mnesia_table_loading_retry_timeout, 30000&#125;,</span><br><span class="line">	    &#123;mnesia_table_loading_retry_limit, 10&#125;,</span><br><span class="line">	    &#123;auth_mechanisms, ['PLAIN', 'AMQPLAIN']&#125;,</span><br><span class="line">	    &#123;auth_backends, [rabbit_auth_backend_internal]&#125;,</span><br><span class="line">	    &#123;delegate_count, 16&#125;,</span><br><span class="line">	    &#123;trace_vhosts, []&#125;,</span><br><span class="line">	    &#123;ssl_cert_login_from, distinguished_name&#125;,</span><br><span class="line">	    &#123;ssl_handshake_timeout, 5000&#125;,</span><br><span class="line">	    &#123;ssl_allow_poodle_attack, false&#125;,</span><br><span class="line">	    &#123;handshake_timeout, 10000&#125;,</span><br><span class="line">	    &#123;reverse_dns_lookups, false&#125;,</span><br><span class="line">	    &#123;cluster_partition_handling, ignore&#125;,</span><br><span class="line">	    &#123;cluster_keepalive_interval, 10000&#125;,</span><br><span class="line">	    &#123;autoheal_state_transition_timeout, 60000&#125;,</span><br><span class="line">	    &#123;tcp_listen_options, [&#123;backlog,       128&#125;,</span><br><span class="line">	                          &#123;nodelay,       true&#125;,</span><br><span class="line">	                          &#123;linger,        &#123;true, 0&#125;&#125;,</span><br><span class="line">	                          &#123;exit_on_close, false&#125;</span><br><span class="line">	                         ]&#125;,</span><br><span class="line">	    &#123;halt_on_upgrade_failure, true&#125;,</span><br><span class="line">	    &#123;ssl_apps, [asn1, crypto, public_key, ssl]&#125;,</span><br><span class="line">	    %% see rabbitmq-server#114</span><br><span class="line">	    &#123;mirroring_flow_control, true&#125;,</span><br><span class="line">	    &#123;mirroring_sync_batch_size, 4096&#125;,</span><br><span class="line">	    %% see rabbitmq-server#227 and related tickets.</span><br><span class="line">	    %% msg_store_credit_disc_bound only takes effect when</span><br><span class="line">	    %% messages are persisted to the message store. If messages</span><br><span class="line">	    %% are embedded on the queue index, then modifying this</span><br><span class="line">	    %% setting has no effect because credit_flow is not used when</span><br><span class="line">	    %% writing to the queue index. See the setting</span><br><span class="line">	    %% queue_index_embed_msgs_below above.</span><br><span class="line">	    &#123;msg_store_credit_disc_bound, &#123;4000, 800&#125;&#125;,</span><br><span class="line">	    &#123;msg_store_io_batch_size, 4096&#125;,</span><br><span class="line">	    %% see rabbitmq-server#143,</span><br><span class="line">	    %% rabbitmq-server#949, rabbitmq-server#1098</span><br><span class="line">	    &#123;credit_flow_default_credit, &#123;400, 200&#125;&#125;,</span><br><span class="line">	    &#123;quorum_commands_soft_limit, 32&#125;,</span><br><span class="line">	    &#123;quorum_cluster_size, 5&#125;,</span><br><span class="line">	    %% see rabbitmq-server#248</span><br><span class="line">	    %% and rabbitmq-server#667</span><br><span class="line">	    &#123;channel_operation_timeout, 15000&#125;,</span><br><span class="line"></span><br><span class="line">	    %% see rabbitmq-server#486</span><br><span class="line">	    &#123;autocluster,</span><br><span class="line">              [&#123;peer_discovery_backend, rabbit_peer_discovery_classic_config&#125;]</span><br><span class="line">            &#125;,</span><br><span class="line">	    %% used by rabbit_peer_discovery_classic_config</span><br><span class="line">	    &#123;cluster_nodes, &#123;[], disc&#125;&#125;,</span><br><span class="line"></span><br><span class="line">	    &#123;config_entry_decoder, [&#123;passphrase, undefined&#125;]&#125;,</span><br><span class="line"></span><br><span class="line">	    %% rabbitmq-server#973</span><br><span class="line">	    &#123;queue_explicit_gc_run_operation_threshold, 1000&#125;,</span><br><span class="line">	    &#123;lazy_queue_explicit_gc_run_operation_threshold, 1000&#125;,</span><br><span class="line">	    &#123;background_gc_enabled, false&#125;,</span><br><span class="line">	    &#123;background_gc_target_interval, 60000&#125;,</span><br><span class="line">	    %% rabbitmq-server#589</span><br><span class="line">	    &#123;proxy_protocol, false&#125;,</span><br><span class="line">	    &#123;disk_monitor_failure_retries, 10&#125;,</span><br><span class="line">	    &#123;disk_monitor_failure_retry_interval, 120000&#125;,</span><br><span class="line">	    %% either "stop_node" or "continue".</span><br><span class="line">	    %% by default we choose to not terminate the entire node if one</span><br><span class="line">	    %% vhost had to shut down, see server#1158 and server#1280</span><br><span class="line">	    &#123;vhost_restart_strategy, continue&#125;,</span><br><span class="line">	    %% &#123;global, prefetch count&#125;</span><br><span class="line">	    &#123;default_consumer_prefetch, &#123;false, 0&#125;&#125;,</span><br><span class="line"><span class="meta">		%</span><span class="bash">% interval at <span class="built_in">which</span> the channel can perform periodic actions</span></span><br><span class="line">	    &#123;channel_tick_interval, 60000&#125;,</span><br><span class="line">	    %% Default max message size is 128 MB</span><br><span class="line">	    &#123;max_message_size, 134217728&#125;,</span><br><span class="line">	    %% Socket writer will run GC every 1 GB of outgoing data</span><br><span class="line">	    &#123;writer_gc_threshold, 1000000000&#125;</span><br><span class="line">	  ]&#125;</span><br><span class="line">]&#125;.</span><br></pre></td></tr></table></figure>
+
+<p>解析该文件，构建有向无环图，然后按照有向无环图的方式来调用函数启动服务进程。</p>
+<p>启动过程：</p>
+<p> 1.rabbit_alarm启动步骤(先执行rabbit_alarm:start()函数)</p>
+<p>​     (1).启动一个rabbit_alarm_sup的supervisor2监督进程同时在该监督进程下启动一个rabbit_alarm的gen_event进程</p>
+<p>​       rabbit_alarm进程作为整个RabbitMQ系统的报警进程，例如内存，磁盘大小的报警，报警后，如果有人向rabbit_alarm进程注册，</p>
+<p>​       则会进程回调，同时会通知集群中的额其他节点</p>
+<p>​     (2).启动一个vm_memory_monitor_sup的supervisor2监督进程同时在该进程下启动一个vm_memory_monitor进程</p>
+<p>​       RabbitMQ系统虚拟机内存监督报警进程，如果虚拟机中的内存少于配置文件配置的大小，则会立刻通知rabbit_alarm进程</p>
+<p>​       该进程就是RabbitMQ系统对内存使用情况监视的进程，如果当前内存使用量超过了配置文件中配置的大小，则会立刻向rabbit_alarm</p>
+<p>​       进程发布内存使用量过大的报警信息，则集群中的所有节点的rabbit_alarm进程则会将内存报警信息回调注册到rabbit_alarm进程的函数</p>
+<p>​     (3).启动一个rabbit_disk_monitor_sup的supervisor2监督进程同时在该监督进程下启动一个rabbit_disk_monitor进程</p>
+<p>​       RabbitMQ系统磁盘使用报警进程，如果磁盘剩余大小少于配置文件中配置的大小，则会立刻通知rabbit_alarm进程</p>
+<p>​       该进程就是RabbitMQ系统对磁盘使用情况监视的进程，如果磁盘剩余量少于配置文件中配置的大小，则会立刻向rabbit_alarm进程</p>
+<p>​       发布报警信息，则集群中的所有节点的rabbit_alarm进程都会将报警信息回调注册到rabbit_alarm进程的函数</p>
+<p>  2.file_handle_cache启动步骤</p>
+<p>​     (1).执行rabbit:start_fhc()函数启动file_handle_cache进程(该进程是RabbitMQ系统文件打开关闭操作关键进程)</p>
+<p>​       该进程是RabbitMQ系统所有操作磁盘文件相关操作的进程</p>
+<p>  3.worker_pool启动步骤(RabbitMQ系统异步执行任务的小系统)</p>
+<p>​     (1).首先启动一个worker_pool_sup的supervisor的监督进程</p>
+<p>​     (2).worker_pool_sup监督进程下再启动一个worker_pool的进程池管理进程</p>
+<p>​     (3).worker_pool_sup监督进程下再启动调度线程个数的worker_pool_worker的工作进程</p>
+<p>​       该监督树下的进程是用来异步提交函数让工作进程执行完成，worker_pool_worker为工作进程，worker_pool为所有worker_pool_worker进程的管理者，哪个</p>
+<p>​       worker_pool_worker进程空闲，哪个worker_pool_worker正在工作，worker_pool进程都有记录</p>
+<p>  4.database启动步骤(初始化RabbitMQ中的mnesia数据库，如果配置有集群数据库，自动连接到集群数据库)</p>
+<p>​     (1).执行rabbit_mnesia:init()函数</p>
+<p>​       该操作步骤是启动当前RabbitMQ节点的Mnesia数据库，同时将本节点同集群中的其他节点连接起来，并将集群中的数据同自己本地的数据进行同步，然后将</p>
+<p>​       RabbitMQ系统所有的数据库表启动起来</p>
+<p>  5.database_sync启动步骤</p>
+<p>​     (1).执行rabbit_sup:start_child(mnesia_sync)函数</p>
+<p>​       mnesia:sync_transaction操作没有保证Mnesia数据库的日志同步到磁盘上，则调用mnesia_sync:sync()函数的进程进行同步阻塞等待mnesia成功的将数据库</p>
+<p>​       操作日志写入磁盘上</p>
+<p>  6.codec_correctness_check启动步骤</p>
+<p>​     (1).执行rabbit_binary_generator:check_empty_frame_size()函数</p>
+<p>​       确保空的Frame数据格式的正确性</p>
+<p>  7.rabbit_registry启动步骤</p>
+<p>​     (1).执行rabbit_sup:start_child(rabbit_registry)函数</p>
+<p>​       RabbitMQ系统内部各种定义类型注册处理模块的进程，该进程启动了rabbit_registry名字的一个ETS表，用来存储分类，类型名字，以及处理模块的数据</p>
+<p>  8.rabbit_auth_mechanism_cr_demo启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(auth_mechanism, &lt;&lt;”RABBIT-CR-DEMO”&gt;&gt;, rabbit_auth_mechanism_cr_demo)函数</p>
+<p>​       RabbitMQ系统用户验证处理模块之一</p>
+<p>  9.rabbit_auth_mechanism_amqplain启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(auth_mechanism, &lt;&lt;”AMQPLAIN”&gt;&gt;, rabbit_auth_mechanism_amqplain)函数</p>
+<p>​       RabbitMQ系统用户验证处理模块之一</p>
+<p>  10.rabbit_auth_mechanism_plain启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(auth_mechanism, &lt;&lt;”PLAIN”&gt;&gt;, rabbit_auth_mechanism_plain)函数</p>
+<p>​       RabbitMQ系统用户验证处理模块之一</p>
+<p>  11.rabbit_mirror_queue_mode_all启动步骤(高可用队列相关)</p>
+<p>​     (1).执行rabbit_registry:register(ha_mode, &lt;&lt;”all”&gt;&gt;, rabbit_mirror_queue_mode_all)函数</p>
+<p>  12.rabbit_event启动步骤(RabbitMQ系统事件管理器进程)</p>
+<p>​     (1).执行rabbit_sup:start_restartable_child(rabbit_event)函数,启动rabbit_event进程</p>
+<p>​       RabbitMQ系统中所有的事件都是发布到rabbit_event事件管理器中，只要有rabbit_event事件管理器的事件处理进程，则该进程就能接收到所有的事件</p>
+<p>  13.rabbit_exchange_tye_direct启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(exchange, &lt;&lt;”direct”&gt;&gt;, rabbit_exchange_type_direct)函数</p>
+<p>​       RabbitMQ系统exchange交换机direct类型向rabbit_registry进行注册</p>
+<p>  14.rabbit_exchange_type_fanout启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(exchange, &lt;&lt;”fanout”&gt;&gt;, rabbit_exchange_type_fanout)函数</p>
+<p>​       RabbitMQ系统exchange交换机fanout类型向rabbit_registry进行注册</p>
+<p>  15.rabbit_echange_type_headers启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(exchange, &lt;&lt;”headers”&gt;&gt;, rabbit_exchange_type_headers)函数</p>
+<p>​       RabbitMQ系统exchange交换机headers类型向rabbit_registry进行注册</p>
+<p>  16.rabbit_exchange_type_topic启动步骤</p>
+<p>​     (1).执行rabbit_registry:register(exchange, &lt;&lt;”topic”&gt;&gt;, rabbit_exchange_type_topic)函数</p>
+<p>​       RabbitMQ系统exchange交换机topic类型向rabbit_registry进行注册</p>
+<p>​       %% rabbit_topic_trie_node表里存储的是节点数据(里面存储的是topic_trie_node数据结构，所有的路由信息都是从root节点出发)</p>
+<p>​       %% rabbit_topic_trie_edge表里存储的是边数据(里面存储的是topic_trie_node数据结构，边的数据结构里面存储的有路由信息的单个单词)</p>
+<p>​       %% rabbit_topic_trie_binding表里存储的是某个节点上的绑定信息(里面存储的是topic_trie_binding数据结构)</p>
+<p>​       %% 比如路由信息hello.#.nb：</p>
+<p>​       %% 1.有四个节点，第一个节点始终是root节点，然后是其他三个节点，</p>
+<p>​       %% 2.有三条边信息，每个边数据结构里面带有对应的单词hello，#，nb</p>
+<p>​       %% 3.在第四个节点上存在绑定的队列名字</p>
+<p>  17.rabbit_mirror_queue_mode_exactly启动步骤(高可用队列相关)</p>
+<p>​     (1).执行rabbit_registry:register(ha_mode, &lt;&lt;”exactly”&gt;&gt;, rabbit_mirror_queue_mode_exactly)函数</p>
+<p>  18.rabbit_mirror_queue_mode_nodes启动步骤(高可用队列相关)</p>
+<p>​     (1).执行rabbit_registry:register(ha_mode, &lt;&lt;”nodes”&gt;&gt;, rabbit_mirror_queue_mode_nodes)函数</p>
+<p>  19.rabbit_priority_queue启动步骤(启动RabbitMQ系统优先级队列)</p>
+<p>​     (1).执行rabbit_priority_queue:enable()函数</p>
+<p>​       该步骤是允许RabbitMQ系统的队列支持简单的优先级队列</p>
+<p>  20.rabbit_epmd_monitor启动步骤</p>
+<p>​     (1).执行rabbit_sup:start_restartable_child(rabbit_epmd_monitor)函数</p>
+<p>​       该进程主要用来监视epmd进程的存在，有可能epmd进程被无端的删除掉，则该进程发现epmd进程被kill掉后，会立刻进行对epmd进程进行重启</p>
+<p>  21.guid_generator启动步骤(生成独一无二的各种ID对应的模块)</p>
+<p>​     (1).执行rabbit_sup:start_restartable_child(rabbit_guild)函数</p>
+<p>​       RabbitMQ系统中生成唯一16为字符串ID的进程</p>
+<p>  22.rabbit_node_monitor启动步骤</p>
+<p>​     (1).执行rabbit_sup:start_restartable_child(rabbit_node_monitor)函数</p>
+<p>​       RabbitMQ系统中节点管理的进程，该进程会保留集群中的其他节点以及它们对应的GUID，同时节点的删除，增加都会根据该进程通知集群中的其他节点</p>
+<p>  23.delegate_sup启动步骤(多次的向远程节点发送消息，则此代理会将发送到同一个远程节点的多个消息操作统一成一个发送消息操作)</p>
+<p>​     (1).执行rabbit:boot_delegate()函数</p>
+<p>​       RabbitMQ系统中的代理进程监督树，这些代理进程主要用来多次对远程的某个节点进行多次访问，用了代理进程后，可以将多次访问变成一次访问操作</p>
+<p>  24.rabbit_memory_monitor启动步骤</p>
+<p>​     (1).执行rabbit_sup:start_restartable_child(rabbit_memory_monitor)函数</p>
+<p>​       rabbit_memory_monitor进程统计RabbitMQ系统中内存使用情况，它会收到当前系统中所有的消息队列统计的数字，同时将内存使用速率返回给各个消息</p>
+<p>​       队列</p>
+<p>  25.empty_db_check启动步骤(如果RabbitMQ系统是第一次启动则需要插入默认的账号，账号密码，vhost等默认信息)</p>
+<p>​     (1).执行rabbit:maybe_insert_default_data()函数</p>
+<p>​       RabbitMQ系统是第一次启动则需要插入默认的账号，账号密码，vhost等默认信息</p>
+<p>  26.rabbit_mirror_queue_misc启动步骤(高可用队列相关)</p>
+<p>​     (1).执行rabbit_registry:register(policy_validator, &lt;&lt;”ha-mode”&gt;&gt;, rabbit_mirror_queue_misc)函数</p>
+<p>​     (2).执行rabbit_registry:register(policy_validator, &lt;&lt;”ha-params”&gt;&gt;, rabbit_mirror_queue_misc)函数</p>
+<p>​     (3).执行rabbit_registry:register(policy_validator, &lt;&lt;”ha-sync-mode”&gt;&gt;, rabbit_mirror_queue_misc)函数</p>
+<p>​     (4).执行rabbit_registry:register(policy_validator, &lt;&lt;”ha-promote-on-shutdown”&gt;&gt;, rabbit_mirror_queue_misc)函数</p>
+<p>  27.rabbit_policies启动步骤</p>
+<p>​     (1).执行rabbit_policies:register()函数</p>
+<p>​       该启动步骤主要是向rabbit_registry进程注册policy_validator类型的相关数据(主要包括是消息队列的参数类型)</p>
+<p>  28.rabbit_policy启动步骤</p>
+<p>​     (1).执行rabbit_policy:register()函数</p>
+<p>​       该启动步骤主要是向rabbit_registry进程注册runtime_parameter类型的相关数据</p>
+<p>​       该模块是队列和交换机的公用配置参数模块的处理模块</p>
+<p>  29.recovery启动步骤</p>
+<p>​     (1).执行rabbit:recover()函数</p>
+<p>​       该启动步骤主要是恢复所有的持久化队列，将所有的持久化队列进程启动起来，将持久化的交换机信息恢复到非持久化的mnesia数据库表中，</p>
+<p>​       将持久化的绑定信息恢复到非持久化的绑定数据库表中</p>
+<p>  30.mirrored_queues启动步骤(高可用队列相关)</p>
+<p>​     (1).执行rabbit_mirror_queue_misc:on_node_up()函数</p>
+<p>  31.log_relay启动步骤(主要是将error_logger事件中心的事件发布到&lt;&lt;”amq.rabbit.log”&gt;&gt;交换机对应的队列里)</p>
+<p>​     (1).执行rabbit_sup:start_child(rabbit_error_logger_lifecycle, supervised_lifecycle, [rabbit_error_logger_lifecycle, {rabbit_error_logger, start, []},</p>
+<p>​       {rabbit_error_logger, stop, []}]]}}函数</p>
+<p>​       该启动步骤会在rabbit_sup监督进程下启动名字为rabbit_error_logger_lifecylce监督进程，该rabbit_error_logger_lifecylce监督进程执行</p>
+<p>​       supervised_lifecycle:start_link函数，该监督进程的回调初始化函数会执行rabbit_error_logger:start()函数，该函数启动rabbit_error_logger进程，</p>
+<p>​       该进程会处理error_logger事件中心发布的事件，然后将事件依次发布到&lt;&lt;”amq.rabbit.log”&gt;&gt;名字对应的交换机上(&lt;&lt;”amq.rabbit.log”&gt;&gt;交换机会在</p>
+<p>​       rabbit_error_logger事件处理进程启动的时候创建)</p>
+<p>  32.background_gc启动步骤</p>
+<p>​     (1).执行rabbit_sup:start_restartable_child, [background_gc])函数</p>
+<p>​     (该进程启动一个定时器，定时的对RabbitMQ系统进行垃圾回收，定时器的间隔时间是不断变化的，如果垃圾回收的时间过长，则增加时间间隔，反之则减少垃圾回收的时     间间隔)</p>
+<p>  33.networking启动步骤</p>
+<p>​     (1).执行rabbit_networking:boot()函数</p>
+<p>​       根据配置文件中的端口，启动网络连接进程树，等待客户端通过Socket连接过来</p>
+<p>  34.direct_client启动步骤</p>
+<p>​     (1).执行rabbit_direct:boot()函数</p>
+<p>​       启动rabbit_direct_client_sup监督进程，该监督进程的动态启动子进程是执行{rabbit_channel_sup, start_link, []}</p>
+<p>​       所有客户端的连接进程都是启动在rabbit_direct_client_sup监督进程下</p>
+<p>  35.notify_cluster启动步骤</p>
+<p>​     (1).执行rabbit_node_monitor:notify_node_up()函数</p>
+<p>​       通知RabbitMQ集群系统当前节点启动</p>
+<p>application：</p>
+<p>erlang启动application，mnesia是rabbitmq的数据库，用于存储队列消息等持久化信息等。</p>
+<p>erl&gt; application:start(mnesia).</p>
+<p>mnesia:</p>
+<p><img src="/images/image-20201116182515883.png" alt="image-20201116182515883"></p>
+<p>erl&gt;application.start(os_mon).</p>
+<p>os_mon，主要是rabbitmq os_mon，系统监控进程</p>
+<p><img src="/images/image-20201116182607427.png" alt="image-20201116182607427"></p>
+<p>erl&gt;application.start(sasl).</p>
+<p>sasl，sasl的一个重要功能便是可以记录系统进程相关日志，如进程启动、结束、崩溃错误等信息</p>
+<p><img src="/images/image-20201116182627954.png" alt="image-20201116182627954"></p>
+<p>erl&gt;application.start(rabbit).</p>
+<p>rabbit，rabbitmq的主进程。</p>
+<p><img src="/images/image-20201117092111273.png" alt="image-20201117092111273"></p>
+<p><img src="/images/image-20201117092119399.png" alt="image-20201117092119399"></p>
+<p>rabbitmq中有很多application，可以认为每个插件就是一个erlang的application应用。</p>
+<p><img src="/images/image-20201117092141979.png" alt="image-20201117092141979"></p>
+<p>amqp_client是插件amqp_client的客户端的application，用于创建连接。</p>
+<p>rabbitmq_management等其他的是一些插件的application。我们暂时不做详细的分析了。</p>
+<p>rabbit application有比较多的进程，主要的来解释以下：</p>
+<ol>
+<li>background_gc_sup，MQ中的垃圾gc收集器，采用的erlang原生的垃圾收集机制，标记清理的方式来进程gc。</li>
+<li>delegrate代理进程，这些代理进程主要用来多次对远程的某个节点进行多次访问，用了代理进程后，可以将多次访问变成一次访问操作</li>
+<li>file_handle_cache比较重要的，在MQ中主要用于文件读写操作，进行持久化操作。</li>
+<li>mnesia_sync同步数据到磁盘的进程，该操作步骤是启动当前RabbitMQ节点的Mnesia数据库，同时将本节点同集群中的其他节点连接起来，并将集群中的数据同自己本地的数据进行同步，然后将RabbitMQ系统所有的数据库表启动起来。</li>
+<li>rabbitmq_alarm，对磁盘监控之后，告警的进程</li>
+<li>rabbit_disk_monitor_sup，对磁盘使用率监控进程</li>
+<li>epmd_monitor_sup，epmd监控</li>
+<li>error_logger_lifecycle，日志生命周期</li>
+<li>rabbit_event_sup,所有的事件都是发布到rabbit_event事件管理器中，只要有rabbit_event事件管理器的事件处理进程，则该进程就能接收到所有的事件</li>
+<li>rabbit_guid_sup,生成唯一16为字符串ID</li>
+<li>rabbit_memory_monitor_sup，内存监控</li>
+<li>rabbit_node_monitor_sup，节点监控</li>
+<li>rabbit_registry，内部各种定义类型注册处理模块的进程，该进程启动了rabbit_registry名字的一个ETS表，用来存储分类，类型名字，以及处理模块的数据</li>
+<li>vm_memory_monitor：vm_memory监控</li>
+<li>worker_pool_sup:进程池管理进程</li>
+<li>rabbit_direct_client_sup监督进程</li>
+<li>msg_store_persistent,msg_store_transient：一个用于持久消息的存储，一个用于内存不够时，将存储在内存中的非持久化数据转存到磁盘中。所有队列的消息的写入和删除最终都由这两个进程负责处理，而消息的读取则可能是队列本身直接打开文件进行读取，也可能是发送请求由msg_store_persisteng/msg_store_transient进程进行处理</li>
+<li><strong>rabbit_amqqueue_process</strong>：rabbit队列进程，该进程一般在rabbitmq创建队列时被创建，其主要负责消息的接收/投递逻辑</li>
+</ol>
+<h3 id="源码结构"><a href="#源码结构" class="headerlink" title="源码结构"></a>源码结构</h3><p>项目主要代码结构，主要代码都在src目录中；</p>
+<p><img src="/images/image-20201117104124252.png" alt="image-20201117104124252"></p>
+<p>讲几个其中的重要的知识点吧。ORZ；</p>
+<p>1）镜像队列数据同步过程：</p>
+<p><img src="/images/image-20201117104102628.png" alt="image-20201117104102628"></p>
+<p>GM：Guaranteed(保证) Multicast(组播)，用于msg的广播进程，在同步数据的时候比较重要。</p>
+<p>2）流控：rabbitmq在msg的分发的时候对消息的传播速率都做了一定的控制，这样能够保证系统和MQ的稳定性。同时可以提高性能和吞吐。</p>
+<p>credit flow机制：</p>
+<p>MQ主要是通过credit flow的机制来实现流量控制的。通过credit 描述一个元组来进行{InitialCredit，MoreCreditAfter}，对于消息的发送者，credit 开始于InitialCredit当每个消息发送的时候进行递减。消息的接收者可以授权更多的credit给发送者，当正在接受到MoreCreditAfter消息，通过给发送着一个{bump_credit，…}控制消息。发送者应该通过这个消息 handle_bump_msg/1。发送者会阻塞当每次检查clocked/0函数都是为0，如果一个进程即是发送者也是接收者，当他被阻塞的时候，那么他就不会授权更多的credit给他的发送者。因此只有需要检查blocked/0的进程才需要去读取网络sockets。</p>
+<p>%% RabbitMQ系统设置的当前进程能够发送给下游进程消息的最大数为200</p>
+<p>%% RabbitMQ系统设置下游进程在接收上游进程发送的50条消息后，需要通知上游进程增加能够向下游进程发送消息的数量上限</p>
+<p>%% 每次通知上游进程增加向下游进程的发送消息的数量也为50</p>
+<p>3）autoheal </p>
+<p>heal: 治愈</p>
+<p>为了去autoheal我们需要：</p>
+<ol>
+<li>找到获胜的分区</li>
+<li>其他分区停止所有的节点</li>
+<li>等待他们所有都停止</li>
+<li>启动他们</li>
+</ol>
+<p>过程：</p>
+<ol>
+<li>当Mnesia检测出集群出现分区，则从集群中找到第一个节点作为leader节点进行autoheal操作</li>
+<li>Leader节点找出胜利进程和失败进程，胜利者节点收到Leader节点发送过来通知自己成为胜利者的消息</li>
+<li>胜利者节点通知所有的失败者进程自己是Winner节点，然后失败者节点新启动一个进程进行rabbit应用的重启</li>
+<li>当胜利者节点收取到了所有失败者节点的停止后，立刻向所有失败者节点上的新启动的进程发送autoheal_safe_to_start消息，通知失败者节点重新启动rabbit应用</li>
+<li>Leader进程向胜利者进程发送report_autoheal_status消息</li>
+<li>胜利者进程通知Leader进程autoheal操作结束</li>
+</ol>
+<p>4）消息存储过程</p>
+<p><img src="/images/1253350-20180608102448767-1819151383.jpg" alt="img"></p>
+<p>rabbit_channel进程确定了消息将要投递的目标队列，rabbit_amqqueue_process是队列进程，每个队列都有一个对应的进程，实际上rabbit_amqqueue_process进程只是提供了逻辑上对队列的相关操作，他的真正操作是通过调用指定的backing_queue模块提供的相关接口实现的，默认情况该backing_queue的实现模块为rabbit_variable_queue。</p>
+<p>对于普通的没有设置优先级和镜像的队列来说，backing_queue的默认实现是rabbit_variable_queue，其内部通过5个子队列Q1、Q2、Delta、Q3和Q4来实现这4个状态的转换</p>
+<p><img src="/images/1253350-20180608102522017-95525574.jpg" alt="img"></p>
+<p>其中Q1、Q4只包含alpha状态的消息，Q2和Q3包含Beta和gamma状态的消息，Delta只包含delta状态的消息</p>
+<p>在rabbit中，队列中的消息可能会处理以下四种状态：</p>
+<p>alpha：消息内容以及消息在队列中的位置（消息索引）都保存在内存中；</p>
+<p>beta：消息内容只在磁盘上，消息索引只在内存中；</p>
+<p>gamma：消息内容只在磁盘上，消息索引在内存和磁盘上都存在；</p>
+<p>delta：消息的内容和索引都在磁盘上。</p>
+<p>注意：对于持久化消息，消息内容和消息索引都必须先保存在磁盘上，然后才处于上述状态中的一种。其中gamma很少被用到，只有持久化的消息才会出现这种状态。</p>
+<p>rabbit提供这种分类的主要作用是满足不同的内存和CPU需求。alpha最耗内存，但很少消耗CPU；delta基本不消耗内存，但是要消耗更多的CPU以及磁盘I/O操作（delta需要两次I/O操作，一次读索引，一次读消息内容；delta及gamma只需要一次I/O操作来读取消息内容）。</p>
+<p>rabbit在运行时会根据统计的消息传送速度定期计算一个当前内存中能够保存的最大消息数量（target_ram_count），如果内存中的消息数量大于这个数量，就会引起消息的状态转换，转换主要两种：alpha -&gt; beta， beta -&gt; delta。alpha -&gt; beta的转换会将消息的内容写到磁盘（如果是持久化消息，在这一步转换后，消息将会处于gamma状态），beta -&gt; delta的转换会更进一步减少内存消耗，将消息索引也写到磁盘。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>MQ中还有很多重要的特性，还需要后续继续分析学习了。。。。todo…</p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-17T09:06:24+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2020年11月17日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/rabbitmq/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>rabbitmq</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/10/10/tsdb%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" rel="prev" title="tsdb源码学习">
+                                  
+                                      tsdb源码学习
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/tsdb/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> tsdb</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'rabbitmq源码学习一',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#rabbitmq源码学习一"><span class="toc-text">rabbitmq源码学习一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#erlang介绍"><span class="toc-text">erlang介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Application"><span class="toc-text">Application</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总体机制"><span class="toc-text">总体机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#源码结构"><span class="toc-text">源码结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/docker/" href="/categories/docker/"><div class='name'>docker</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/prometheus/" href="/categories/prometheus/"><div class='name'>prometheus</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/rabbitmq/" href="/categories/rabbitmq/"><div class='name'>rabbitmq</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/tsdb/" href="/categories/tsdb/"><div class='name'>tsdb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"><div class='name'>分布式</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 17.33px; color: #828282">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/galera/" style="font-size: 14px; color: #999">galera</a> <a href="/tags/golang/" style="font-size: 17.33px; color: #828282">golang</a> <a href="/tags/influxdb/" style="font-size: 17.33px; color: #828282">influxdb</a> <a href="/tags/k8s/" style="font-size: 20.67px; color: #6c6c6c">k8s</a> <a href="/tags/malloc/" style="font-size: 17.33px; color: #828282">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/rabbitmq/" style="font-size: 14px; color: #999">rabbitmq</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/runc/" style="font-size: 14px; color: #999">runc</a> <a href="/tags/tsdb/" style="font-size: 14px; color: #999">tsdb</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 17.33px; color: #828282">分布式</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 17.33px; color: #828282">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
