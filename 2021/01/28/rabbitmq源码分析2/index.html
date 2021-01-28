@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>rabbitmq源码学习二 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2021/01/28/rabbitmq%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%902/">
+        rabbitmq源码学习二
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.mydreamdll.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2021-01-28</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/rabbitmq/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>rabbitmq</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="rabbitmq-源码分析二"><a href="#rabbitmq-源码分析二" class="headerlink" title="rabbitmq 源码分析二"></a>rabbitmq 源码分析二</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>OTP代表Open Telecom Platform，开放电信平台。</p>
+<h3 id="erlang的存储"><a href="#erlang的存储" class="headerlink" title="erlang的存储"></a>erlang的存储</h3><p>ets和dets是两个erlang中的系统模块，用于存储海量的erlang数据。ETS是Erlang Term Storage的缩写，DETS则是Disk ETS的缩写。</p>
+<p>ETS和DETS提供健和值的查询表。ETS常驻内存，DETS则常驻磁盘。</p>
+<p>ETS表内部使用散列表标识，也就是平衡二叉树。</p>
+<p>ETS不会进行垃圾收集，也就是表中存储了海量的数据也不会产生垃圾收集的开销。</p>
+<p>DETS的最大的文件大小是2G。</p>
+<h3 id="rabbitmq中的mnesia"><a href="#rabbitmq中的mnesia" class="headerlink" title="rabbitmq中的mnesia"></a>rabbitmq中的mnesia</h3><p>mnesia是用erlang编写的数据库，用于高要求的电信应用程序，支持事务。</p>
+<p>mnesia是基于Erlang的分布式数据库管理系统，是Erlang OTP的重要组件。</p>
+<p>mnesia数据库被组织为一个表的集合，每个表由记录(通常被定义为Erlang Record)构成，表本身也包含一些属性，如类型，位置和持久性。这种表集合和记录的概念，和ets表很类似。事实上，mnesia中的数据在节点内就是以ets表存储的。因此，mnesia实际上是一个分布式的ets。</p>
+<p>mnesia中的表在节点内有三种存储形式：</p>
+<ul>
+<li><code>ram_copies</code>: 表仅存储于内存，可通过<code>mnesia:dump_tables(TabList)</code>来将数据导入到硬盘。</li>
+<li><code>disc_copies</code>: 表存储于内存中，但同时拥有磁盘备份，对表的写操作会分为两步：1.将写操作写入日志文件 2. 对内存中的表执行写操作</li>
+<li><code>disc_only_copies</code>: 表仅存储于磁盘中，对表的读写将会更慢，但是不会占用内存</li>
+</ul>
+<p>表的存储形式可以在表的创建中指出，默认为ram_copies。也可以在创建表后通过<code>mnesia:change_table_copy_type/3</code>来修改。</p>
+<p>表的属性由<code>mnesia:create_table(Name, TableDef)</code>中的TableDef指定，TableDef是一个Tuple List，其中比较重要的属性有：</p>
+<ul>
+<li><code>type</code>: 表的类型，主要有set, ordered_set和bag三种。前两者要求key唯一，bag不要求key唯一，但要求至少有一个字段不同。另外set和bag通过哈希表实现，而ordered_set则使用其它数据结构(如红黑树)以对key排序。type属性默认为set。</li>
+<li><code>attributes</code>: 表中条目的字段，通常由record_info(fields, myrecord)得出，而myrecord一般则用作表名。</li>
+<li><code>local_content</code>: 标识该表是否为本地表，local_content属性为true的表将仅本地可见，不会共享到集群中。local_content默认为false。</li>
+<li><code>index</code>: 表的索引。</li>
+<li><code>ram_copies</code>: 指名该表在哪些节点上存储为ram_copies。默认值为[node()]。即新建表默认都存储为ram_copies。</li>
+<li><code>disc_copies</code>: 该表在哪些节点上存储为disc_copies。默认为[]。</li>
+<li><code>disc_only_copies</code>: 该表在哪些节点上存储为disc_only_copies。默认为[]。</li>
+</ul>
+<p>schema表是mnesia数据库一张特殊的表，又叫模式表。它记录数据库中其它表的信息，schema表只能有ram_copies或disc_copies两种存储形式。并且一旦schema表存储为ram_copies，那么该节点上的其它表，也将只能存储为ram_copies。</p>
+<p>mnesia需要schema表的初始化自身，可在mnesia启动前，通过<code>mnesia:create_schema/1</code>来创建一个disc_copies类型的schema表，如果不调用<code>mnesia:create_schema/1</code>，直接启动<code>mnesia:start/0</code>，默认生成一个ram_copies类型的schema表，此时我们称该mnesia节点为”无盘节点”，因为其所有表都不能存储于磁盘中。</p>
+<p>mnesia表由记录组成，记录第一个元素为是记录名，第二个元素为标识记录的键。{表名，键}可以唯一标识表中特定记录，又称为记录的对象标识(Oid)。</p>
+<p>mnesia要求表中所有的记录必须为同一个record的实例，前面的例子中，表名即为记录名，表字段则为记录的域。而实际上，记录名可以是但不一定是表名，记录名可通过record_name属性指出，没有指定table_name则记录名默认为create_table第一参数指定的表名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mnesia:dirty_write(Record) -&gt;</span><br><span class="line">    Tab &#x3D; element(1, Record), </span><br><span class="line">    mnesia:dirty_write(Tab, Record). % 这里提取出表名，表名和表中记录原型实际上是分离的</span><br></pre></td></tr></table></figure>
+
+<p>表名和记录名不一致使我们可以定义多个以同一record的原型的table。</p>
+<p>mneisa的优势:</p>
+<ul>
+<li>与Erlang的完美契合，记录字段可以是任意Erlang Term，具备强大的描述能力</li>
+<li>和传统数据库一样，支持事务，索引，分片等特性</li>
+<li>分布式特性，表的存储类型和位置对应用透明，支持分布式事务</li>
+<li>强大的动态配置能力，包括集群的动态伸缩，表的动态配置，增删，转移，升级等</li>
+</ul>
+<p>mnesia缺点：</p>
+<ul>
+<li>多节点事务带来的开销，尽可能少使用事务(在逻辑上配合做处理)</li>
+<li>mnesia全联通网络的维护开销，在使用时需要控制集群节点数量</li>
+<li>不适合存储大量数据，这会带来网络负载</li>
+</ul>
+<h3 id="gen-server"><a href="#gen-server" class="headerlink" title="gen_server"></a>gen_server</h3><p>gen_server代表的就是“行为模式”的一种，行为模式的目的在于为特定类型的进程提供一套模板。</p>
+<p>用来启动服务器的有<code>start/3</code>,<code>start/4</code>,<code>start_link/3</code>,<code>start_link/4</code>这四个函数。 使用这些start函数之后，就会产生一个新的进程，也就是一个gen_server服务器。这些 start函数的正常情况下返回值是<code>{ok,Pid}</code>，<code>Pid</code>就是这个新进程的进程号。 带link与不带的区别在于是否跟父进程建立链接，换种说法是，新启动的进程死掉后，会不会通知启动他的进程（父进程）。</p>
+<p>start函数可以四个参数<code>(ServerName, Module, Args, Options)</code>：</p>
+<ul>
+<li>第一个参数<code>ServerName</code>是服务名， 是可以省掉的。具有相同服务名的模块在一个节点中只能启动一次，重复启动会报错，为 <code>{error, {already_started, Pid}}</code>。具有服务名的服务进程可以使用服务名来调用， 没有服务名的只能通过进程号pid来调用了。通常有名字的服务进程会使用模块名做为 服务名，即上面模板中定义的宏<code>-define(SERVER, ?MODULE)</code>，然后在需要使用服务名的 地方填入<code>?SERVER</code>.</li>
+<li>第二个参数<code>Module</code>是模块名，一般而言API和回调函数是写在同一个文件里的，所以就用 <code>?MODULE</code>，表示本模块的模块名。</li>
+<li>第三个参数<code>Args</code>是回调函数<code>init/1</code>的参数，会原封不动地传给<code>init/1</code>。</li>
+<li>第四个参数<code>Options</code>是一些选项，可以设置debug、超时等东西。</li>
+</ul>
+<p>start对应的回调函数是<code>init/1</code>，一般来说是进行服务器启动后的一些初始化的工作， 并生成初始的状态State，正常返回是{ok, State}。这个State是贯穿整个服务器， 并把所有六个回调函数联系起来的纽带。它的值最初由<code>init/1</code>生成， 此后可以由三个handle函数修改，每次修改后又要放回返回值中， 供下一个被调用的handle函数使用。 如果<code>init/1</code>返回<code>ignore</code>或<code>{stop, Reason}</code>，则会中止服务器的启动。</p>
+<p>有一点细节要注意的是，API函数和回调函数虽然习惯上是写在同一个文件中，但执行函数 的进程却通常是不一样的。在上面的模板中，<code>start_link/0</code>中使用<code>self()</code>的话，显示的是调用者的进程号，而在<code>init/1</code>中使用<code>self()</code>的话，显示的是服务器的进程号。</p>
+<p><strong>使用服务器</strong></p>
+<p>三个handle开头的回调函数对应着三种不同的使用服务器的方式。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gen_server:call     -------------   handle_call&#x2F;3</span><br><span class="line">gen_server:cast     -------------   handle_cast&#x2F;2</span><br><span class="line">用！向服务进程发消息   -------------   handle_info&#x2F;2</span><br></pre></td></tr></table></figure>
+
+<p>call是有返回值的调用；cast是无返回值的调用，即通知；而直接向服务器进程发的 消息则由handle_info处理。</p>
+<p>call是有返回值的调用，也是所谓的同步调用，进程会在调用后一直等待直到回调函数返回为止。 它的函数形式是 <code>gen_server:call(ServerRef, Request, Timeout) -&gt; Reply</code>，</p>
+<ul>
+<li>第一个参数<code>ServerRef</code>是被调用的服务器，可以是服务器名，或是服务器的pid。</li>
+<li>第二个参数<code>Request</code>会直接传给回调函数<code>handle_call。</code></li>
+<li>最后一个参数<code>Timeout</code>是超时，是可以省略的，默认值是5秒。</li>
+</ul>
+<p>call是用来指挥回调函数<code>handle_call/3</code>干活的。具体形式为 <code>handle_call(Request, From, State)</code>。</p>
+<ul>
+<li>第一个参数<code>Request</code>是由call传进来的，是写程序时关注和处理的重点。</li>
+<li>第二个参数<code>From</code>是gen_server传进来的，是调用的来源，也就是哪个进程执行了call。 <code>From</code>的形式是<code>{Pid, Ref}</code>，<code>Pid</code>是来源进程号，而<code>Ref</code>是调用的标识，每一次调用 都不一样，用以区别。有了Pid，在需要向来源进程发送消息时就可以使用，但由于call 是有返回值的，一般使用返回值传递数据就好。</li>
+<li>第三个参数<code>State</code>是服务器的状态，这是由init或是其他的handle函数生成的，可以根据需要进 行修改之后，再放回返回值中。</li>
+</ul>
+<p><strong>call</strong></p>
+<p>call对应的回调函数<code>handle_call/3</code>在正常情况下的返回值是<code>{reply, Reply, NewState}</code>， <code>Reply</code>会作为call的返回值传递回去，<code>NewState</code>则会作为服务器的状态。 另外还可以使用<code>{stop, Reason, State}</code>中止服务器运行，这比较少用。</p>
+<p>使用call要小心的是，<strong>两个服务器进程不能互相call</strong>，不然会死锁。</p>
+<h3 id="cast"><a href="#cast" class="headerlink" title="cast"></a>cast</h3><p>cast是没有返回值的调用，一般把它叫做通知。它是一个“异步”的调用，调用后会直接收到 <code>ok</code>，无需等待回调函数执行完毕。</p>
+<p>它的形式是<code>gen_server:cast(ServerRef, Request)</code>。参数含义 与call相同。由于不需要等待返回，所以没必要设置超时，没有第三个参数。</p>
+<p>在多节点的情况下，可以用<code>abcast</code>，向各节点上的具有指定名字的服务进程发通知。 </p>
+<p>cast们对应的回调函数是<code>handle_cast/2</code>，具体为：<code>handle_cast(Msg, State)</code>。 第一个参数是由cast传进去的，第二个是服务器状态，和call类似，不多说。</p>
+<p><code>handel_cast/2</code>的返回值通常是<code>{noreply, NewState}</code>，这可以用来改变服务器状态， 或是<code>{stop, Reason, NewState}</code>，这会停止服务器。通常来说，停止服务器的命令用 cast来实现比较多。</p>
+<p>停止服务器</p>
+<p>上面介绍的handle函数返回{stop,…}，就会使用回调函数<code>terminate/2</code>进行扫尾工作。 典型的如关闭已打开的资源、文件、网络连接，打log做记录，通知别的进程“我要死啦”， 或是“信春哥，满血复活”：利用传进来的状态State重新启动服务器。</p>
+<h3 id="原生消息"><a href="#原生消息" class="headerlink" title="原生消息"></a>原生消息</h3><p>原生消息使用<code>handle_info/2</code>处理，具体为<code>handle_info(Info, State)</code>。其中Info是 发过来的消息的内容。回复和<code>handle_cast</code>是一样的。</p>
+<h3 id="sasl"><a href="#sasl" class="headerlink" title="sasl"></a>sasl</h3><p>sasl 是系统架构支持库(System Architecture Support Libraries，简称SASL)，负责记录错误记录和过载保护。</p>
+<p>erlang应用都会启动一个sasl应用，sasl的一个重要功能便是可以记录系统进程相关日志，如进程启动、结束、崩溃错误等信息。sasl的日志功能是基于erlang自带的日志模块error_logger来实现的，sasl中定义了下面3个错误处理：</p>
+<p>sasl_report_tty_h:将日志输出到控制台</p>
+<p>sasl_report_file_h:将日志输出到单个文件</p>
+<p>error_logger_mf_h:循环日志文件记录</p>
+<h3 id="cowboy"><a href="#cowboy" class="headerlink" title="cowboy"></a>cowboy</h3><p>cowboy 是一个小型的快速模块的HTTP服务器。它使用Erlang编写的。<a href="https://github.com/ninenines/cowboy" target="_blank" rel="noopener">https://github.com/ninenines/cowboy</a></p>
+<h3 id="rabbit主流程"><a href="#rabbit主流程" class="headerlink" title="rabbit主流程"></a>rabbit主流程</h3><p>rabbit application 模块启动过程：</p>
+<p><img src="/images/image-20201119163102592.png" alt="image-20201119163102592"></p>
+<p>有点多。。。todo…</p>
+<p>rabbit按照有向无环图方式一步步启动:</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 按照有向图的拓扑排序启动进程</span></span><br><span class="line"><span class="comment">%% pre_boot</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;pre_boot, [&#123;description, <span class="string">"rabbit boot start"</span>&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% codec_correctness_check</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;codec_correctness_check,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"codec correctness check"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_binary_generator,</span></span><br><span class="line"><span class="params">                                   check_empty_frame_size,</span></span><br><span class="line"><span class="params">                                   []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    pre_boot&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     external_infrastructure&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% rabbit_alarm currently starts memory and disk space monitors</span></span><br><span class="line"><span class="comment">%% rabbit_alarm</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;rabbit_alarm,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"alarm handler"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_alarm, start, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    pre_boot&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     external_infrastructure&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% database</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;database,</span></span><br><span class="line"><span class="params">                   [&#123;mfa,         &#123;rabbit_mnesia, init, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    file_handle_cache&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     external_infrastructure&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% database_sync</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;database_sync,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"database sync"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_child, [mnesia_sync]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    database&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     external_infrastructure&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% file_handle_cache</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;file_handle_cache,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"file handle cache server"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit, start_fhc, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    <span class="comment">%% FHC needs memory monitor to be running</span></span></span><br><span class="line"><span class="params">                    &#123;requires,    rabbit_alarm&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     worker_pool&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% worker_pool</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;worker_pool,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"worker pool"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_supervisor_child,</span></span><br><span class="line"><span class="params">                                   [worker_pool_sup]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    pre_boot&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     external_infrastructure&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% external_infrastructure</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;external_infrastructure,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"external infrastructure ready"</span>&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% rabbit_registry</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;rabbit_registry,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"plugin registry"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_registry]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    external_infrastructure&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     kernel_ready&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% rabbit_event</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;rabbit_event,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"statistics event manager"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_restartable_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_event]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    external_infrastructure&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     kernel_ready&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% kernel_ready</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;kernel_ready,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"kernel ready"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    external_infrastructure&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% rabbit_memory_monitor</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;rabbit_memory_monitor,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"memory monitor"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_restartable_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_memory_monitor]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    rabbit_alarm&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     core_initialized&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% guid_generator</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;guid_generator,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"guid generator"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_restartable_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_guid]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    kernel_ready&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     core_initialized&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% delegate_sup</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;delegate_sup,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"cluster delegate"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit, boot_delegate, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    kernel_ready&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     core_initialized&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% rabbit_node_monitor</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;rabbit_node_monitor,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"node monitor"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_restartable_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_node_monitor]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    [rabbit_alarm, guid_generator]&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     core_initialized&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% rabbit_epmd_monitor</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;rabbit_epmd_monitor,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"epmd monitor"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_restartable_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_epmd_monitor]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    kernel_ready&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     core_initialized&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% core_initialized</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;core_initialized,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"core initialized"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    kernel_ready&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% empty_db_check</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;empty_db_check,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"empty DB check"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;?MODULE, maybe_insert_default_data, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    core_initialized&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     routing_ready&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% recovery</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;recovery,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"exchange, queue and binding recovery"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit, recover, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    core_initialized&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     routing_ready&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% mirrored_queues</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;mirrored_queues,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"adding mirrors to queues"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_mirror_queue_misc, on_node_up, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    recovery&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     routing_ready&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% routing_ready</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;routing_ready,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"message delivery logic ready"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    core_initialized&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% log_relay</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;log_relay,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"error log relay"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_child,</span></span><br><span class="line"><span class="params">                                   [rabbit_error_logger_lifecycle,</span></span><br><span class="line"><span class="params">                                    supervised_lifecycle,</span></span><br><span class="line"><span class="params">                                    [rabbit_error_logger_lifecycle,</span></span><br><span class="line"><span class="params">                                     &#123;rabbit_error_logger, start, []&#125;,</span></span><br><span class="line"><span class="params">                                     &#123;rabbit_error_logger, stop,  []&#125;]]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    routing_ready&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     networking&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% direct_client</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;direct_client,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"direct client"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_direct, boot, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    log_relay&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% networking</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;networking,</span></span><br><span class="line"><span class="params">                   [&#123;mfa,         &#123;rabbit_networking, boot, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    log_relay&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% notify_cluster</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;notify_cluster,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"notify cluster nodes"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_node_monitor, notify_node_up, []&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;requires,    networking&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%% background_gc</span></span><br><span class="line">-rabbit_boot_step<span class="params">(&#123;background_gc,</span></span><br><span class="line"><span class="params">                   [&#123;description, <span class="string">"background garbage collection"</span>&#125;,</span></span><br><span class="line"><span class="params">                    &#123;mfa,         &#123;rabbit_sup, start_restartable_child,</span></span><br><span class="line"><span class="params">                                   [background_gc]&#125;&#125;,</span></span><br><span class="line"><span class="params">                    &#123;enables,     networking&#125;]&#125;)</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment">%%---------------------------------------------------------------------------</span></span><br></pre></td></tr></table></figure>
+
+<p>一个个看过去。。。</p>
+<p>codec_correctness_check：</p>
+<p>执行rabbit_binary_generator:check_empty_frame_size()函数</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% 检查空的Frame数据的正确性</span></span><br><span class="line"><span class="function"><span class="title">check_empty_frame_size</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	<span class="comment">%% Intended to ensure that EMPTY_FRAME_SIZE is defined correctly.</span></span><br><span class="line">	<span class="comment">%% 旨在确保EMPTY_FRAME_SIZE正确定义</span></span><br><span class="line">	<span class="keyword">case</span> iolist_size(create_frame(?FRAME_BODY, <span class="number">0</span>, &lt;&lt;&gt;&gt;)) <span class="keyword">of</span></span><br><span class="line">		?EMPTY_FRAME_SIZE -&gt; ok;</span><br><span class="line">		ComputedSize      -&gt; exit(&#123;incorrect_empty_frame_size,</span><br><span class="line">								   ComputedSize, ?EMPTY_FRAME_SIZE&#125;)</span><br><span class="line">	<span class="keyword">end</span>.</span><br></pre></td></tr></table></figure>
+
+<p>rabbit_alarm启动:</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%% rabbit_alarm进程启动的入口(RabbitMQ App应用启动的时候第一个执行的接口)</span></span><br><span class="line"><span class="function"><span class="title">start_link</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	gen_event:start_link(&#123;local, ?SERVER&#125;).</span><br></pre></td></tr></table></figure>
+
+<p>start函数</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	<span class="comment">%% 启动rabbit_alarm_sup监督进程以及在该监督进程下启动rabbit_alarm进程</span></span><br><span class="line">	ok = rabbit_sup:start_restartable_child(?MODULE),</span><br><span class="line">	<span class="comment">%% 启动rabbit_alarm对应于rabbit_alarm事件服务器进程的事件处理进程</span></span><br><span class="line">	ok = gen_event:add_handler(?SERVER, ?MODULE, []),</span><br><span class="line">	<span class="comment">%% 启动vm_memory_monitor_sup监督进程以及在该监督进程下启动vm_memory_monitor进程(虚拟机内存监控进程)</span></span><br><span class="line">	&#123;ok, MemoryWatermark&#125; = application:get_env(vm_memory_high_watermark),</span><br><span class="line">	rabbit_sup:start_restartable_child(</span><br><span class="line">	  vm_memory_monitor, [MemoryWatermark,</span><br><span class="line">						  <span class="keyword">fun</span> (Alarm) -&gt;</span><br><span class="line">								   <span class="comment">%% 对当前RabbitMQ系统进行一次垃圾回收</span></span><br><span class="line">								   background_gc:run(),</span><br><span class="line">								   <span class="comment">%% 设置报警器的函数</span></span><br><span class="line">								   set_alarm(Alarm)</span><br><span class="line">						  <span class="keyword">end</span>,</span><br><span class="line">						  <span class="comment">%% 清除报警器的函数</span></span><br><span class="line">						  fun clear_alarm/1]),</span><br><span class="line">	<span class="comment">%% 启动rabbit_disk_monitor_sup监督进程以及在该监督进程下启动rabbit_disk_monitor进程(硬盘使用监控进程)</span></span><br><span class="line">	&#123;ok, DiskLimit&#125; = application:get_env(disk_free_limit),</span><br><span class="line">	rabbit_sup:start_delayed_restartable_child(</span><br><span class="line">	  rabbit_disk_monitor, [DiskLimit]),</span><br><span class="line">	ok.</span><br></pre></td></tr></table></figure>
+
+<p>database启动：</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%%----------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%% Main interface(接口)</span></span><br><span class="line"><span class="comment">%%----------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">%% RabbitMQ系统mnesia database启动步骤中执行的函数</span></span><br><span class="line"><span class="function"><span class="title">init</span><span class="params">()</span> -&gt;</span></span><br><span class="line">	<span class="comment">%% 确保mnesia数据库的启动</span></span><br><span class="line">	ensure_mnesia_running(),</span><br><span class="line">	<span class="comment">%% 确保mnesia数据库保存目录的存在</span></span><br><span class="line">	ensure_mnesia_dir(),</span><br><span class="line">	<span class="comment">%% 判断当前节点是否是新启动的节点</span></span><br><span class="line">	<span class="keyword">case</span> is_virgin_node() <span class="keyword">of</span></span><br><span class="line">		<span class="literal">true</span>  -&gt; init_from_config();</span><br><span class="line">		<span class="literal">false</span> -&gt; NodeType = node_type(),</span><br><span class="line">				 init_db_and_upgrade(cluster_nodes(all), NodeType,</span><br><span class="line">									 NodeType =:= ram)</span><br><span class="line">	<span class="keyword">end</span>,</span><br><span class="line">	<span class="comment">%% We intuitively(直观地) expect the global name server to be synced when</span></span><br><span class="line">	<span class="comment">%% Mnesia is up. In fact that's not guaranteed(保证) to be the case -</span></span><br><span class="line">	<span class="comment">%% let's make it so.</span></span><br><span class="line">	ok = rabbit_node_monitor:global_sync(),</span><br><span class="line">	ok.</span><br></pre></td></tr></table></figure>
+
+<p>TO be continue …</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://wudaijun.com/2015/04/erlang-mnesia/" target="_blank" rel="noopener">https://wudaijun.com/2015/04/erlang-mnesia/</a></p>
+<p><a href="https://www.cnblogs.com/hzy1987/p/5441807.html" target="_blank" rel="noopener">https://www.cnblogs.com/hzy1987/p/5441807.html</a></p>
+<p><a href="https://blog.csdn.net/zhangzhizhen1988/article/details/7932449" target="_blank" rel="noopener">https://blog.csdn.net/zhangzhizhen1988/article/details/7932449</a></p>
+<p><a href="http://ninenines.eu/docs/en/cowboy/HEAD/guide/getting_started/" target="_blank" rel="noopener">http://ninenines.eu/docs/en/cowboy/HEAD/guide/getting_started/</a></p>
+<p><a href="https://github.com/ninenines/cowboy" target="_blank" rel="noopener">https://github.com/ninenines/cowboy</a></p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-01-28T01:49:38+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2021年1月28日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/rabbitmq/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>rabbitmq</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2020/11/17/rabbitmq%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/" rel="prev" title="rabbitmq源码学习一">
+                                  
+                                      rabbitmq源码学习一
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/rabbitmq/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> rabbitmq</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'rabbitmq源码学习二',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#rabbitmq-源码分析二"><span class="toc-text">rabbitmq 源码分析二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#概念"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#erlang的存储"><span class="toc-text">erlang的存储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rabbitmq中的mnesia"><span class="toc-text">rabbitmq中的mnesia</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#gen-server"><span class="toc-text">gen_server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cast"><span class="toc-text">cast</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原生消息"><span class="toc-text">原生消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sasl"><span class="toc-text">sasl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cowboy"><span class="toc-text">cowboy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#rabbit主流程"><span class="toc-text">rabbit主流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/docker/" href="/categories/docker/"><div class='name'>docker</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/prometheus/" href="/categories/prometheus/"><div class='name'>prometheus</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/rabbitmq/" href="/categories/rabbitmq/"><div class='name'>rabbitmq</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/tsdb/" href="/categories/tsdb/"><div class='name'>tsdb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"><div class='name'>分布式</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 17.33px; color: #828282">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/galera/" style="font-size: 14px; color: #999">galera</a> <a href="/tags/golang/" style="font-size: 17.33px; color: #828282">golang</a> <a href="/tags/influxdb/" style="font-size: 17.33px; color: #828282">influxdb</a> <a href="/tags/k8s/" style="font-size: 20.67px; color: #6c6c6c">k8s</a> <a href="/tags/malloc/" style="font-size: 17.33px; color: #828282">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/rabbitmq/" style="font-size: 17.33px; color: #828282">rabbitmq</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/runc/" style="font-size: 14px; color: #999">runc</a> <a href="/tags/tsdb/" style="font-size: 14px; color: #999">tsdb</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 17.33px; color: #828282">分布式</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 17.33px; color: #828282">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
