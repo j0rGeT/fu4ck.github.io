@@ -5,9 +5,9 @@
   <subtitle>不忘初心 方得始终</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://www.mydreamdll.xyz/"/>
+  <link href="http://www.yorzorzy.pw/"/>
   <updated>2021-01-28T01:49:38.907Z</updated>
-  <id>http://www.mydreamdll.xyz/</id>
+  <id>http://www.yorzorzy.pw/</id>
   
   <author>
     <name>Saar</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>rabbitmq源码学习二</title>
-    <link href="http://www.mydreamdll.xyz/2021/01/28/rabbitmq%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%902/"/>
-    <id>http://www.mydreamdll.xyz/2021/01/28/rabbitmq%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%902/</id>
+    <link href="http://www.yorzorzy.pw/2021/01/28/rabbitmq%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%902/"/>
+    <id>http://www.yorzorzy.pw/2021/01/28/rabbitmq%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%902/</id>
     <published>2021-01-28T01:49:38.907Z</published>
     <updated>2021-01-28T01:49:38.907Z</updated>
     
@@ -35,17 +35,17 @@
     </summary>
     
     
-      <category term="rabbitmq" scheme="http://www.mydreamdll.xyz/categories/rabbitmq/"/>
+      <category term="rabbitmq" scheme="http://www.yorzorzy.pw/categories/rabbitmq/"/>
     
     
-      <category term="rabbitmq" scheme="http://www.mydreamdll.xyz/tags/rabbitmq/"/>
+      <category term="rabbitmq" scheme="http://www.yorzorzy.pw/tags/rabbitmq/"/>
     
   </entry>
   
   <entry>
     <title>rabbitmq源码学习一</title>
-    <link href="http://www.mydreamdll.xyz/2020/11/17/rabbitmq%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/"/>
-    <id>http://www.mydreamdll.xyz/2020/11/17/rabbitmq%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</id>
+    <link href="http://www.yorzorzy.pw/2020/11/17/rabbitmq%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://www.yorzorzy.pw/2020/11/17/rabbitmq%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-11-17T09:08:14.307Z</published>
     <updated>2020-11-17T09:06:24.000Z</updated>
     
@@ -61,17 +61,17 @@
     </summary>
     
     
-      <category term="rabbitmq" scheme="http://www.mydreamdll.xyz/categories/rabbitmq/"/>
+      <category term="rabbitmq" scheme="http://www.yorzorzy.pw/categories/rabbitmq/"/>
     
     
-      <category term="rabbitmq" scheme="http://www.mydreamdll.xyz/tags/rabbitmq/"/>
+      <category term="rabbitmq" scheme="http://www.yorzorzy.pw/tags/rabbitmq/"/>
     
   </entry>
   
   <entry>
     <title>tsdb源码学习</title>
-    <link href="http://www.mydreamdll.xyz/2020/10/10/tsdb%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/"/>
-    <id>http://www.mydreamdll.xyz/2020/10/10/tsdb%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</id>
+    <link href="http://www.yorzorzy.pw/2020/10/10/tsdb%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://www.yorzorzy.pw/2020/10/10/tsdb%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-10-10T02:11:50.157Z</published>
     <updated>2020-10-10T02:09:39.000Z</updated>
     
@@ -87,17 +87,17 @@
     </summary>
     
     
-      <category term="tsdb" scheme="http://www.mydreamdll.xyz/categories/tsdb/"/>
+      <category term="tsdb" scheme="http://www.yorzorzy.pw/categories/tsdb/"/>
     
     
-      <category term="tsdb" scheme="http://www.mydreamdll.xyz/tags/tsdb/"/>
+      <category term="tsdb" scheme="http://www.yorzorzy.pw/tags/tsdb/"/>
     
   </entry>
   
   <entry>
     <title>分布式限流算法</title>
-    <link href="http://www.mydreamdll.xyz/2020/09/29/%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/"/>
-    <id>http://www.mydreamdll.xyz/2020/09/29/%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/</id>
+    <link href="http://www.yorzorzy.pw/2020/09/29/%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/"/>
+    <id>http://www.yorzorzy.pw/2020/09/29/%E5%88%86%E5%B8%83%E5%BC%8F%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95/</id>
     <published>2020-09-29T05:02:43.111Z</published>
     <updated>2020-09-29T03:51:34.000Z</updated>
     
@@ -113,17 +113,17 @@
     </summary>
     
     
-      <category term="分布式" scheme="http://www.mydreamdll.xyz/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="http://www.yorzorzy.pw/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
-      <category term="分布式" scheme="http://www.mydreamdll.xyz/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="http://www.yorzorzy.pw/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>分布式选主算法</title>
-    <link href="http://www.mydreamdll.xyz/2020/06/22/%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BB%E7%AE%97%E6%B3%95/"/>
-    <id>http://www.mydreamdll.xyz/2020/06/22/%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BB%E7%AE%97%E6%B3%95/</id>
+    <link href="http://www.yorzorzy.pw/2020/06/22/%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BB%E7%AE%97%E6%B3%95/"/>
+    <id>http://www.yorzorzy.pw/2020/06/22/%E5%88%86%E5%B8%83%E5%BC%8F%E9%80%89%E4%B8%BB%E7%AE%97%E6%B3%95/</id>
     <published>2020-06-22T06:43:56.294Z</published>
     <updated>2020-06-22T06:43:56.294Z</updated>
     
@@ -139,17 +139,17 @@
     </summary>
     
     
-      <category term="分布式" scheme="http://www.mydreamdll.xyz/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="http://www.yorzorzy.pw/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
     
-      <category term="分布式" scheme="http://www.mydreamdll.xyz/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+      <category term="分布式" scheme="http://www.yorzorzy.pw/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>kubeadm原理分析</title>
-    <link href="http://www.mydreamdll.xyz/2020/06/22/kubernetes_adm%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    <id>http://www.mydreamdll.xyz/2020/06/22/kubernetes_adm%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</id>
+    <link href="http://www.yorzorzy.pw/2020/06/22/kubernetes_adm%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <id>http://www.yorzorzy.pw/2020/06/22/kubernetes_adm%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</id>
     <published>2020-06-22T05:33:15.965Z</published>
     <updated>2020-06-22T05:33:15.965Z</updated>
     
@@ -165,17 +165,17 @@
     </summary>
     
     
-      <category term="k8s" scheme="http://www.mydreamdll.xyz/categories/k8s/"/>
+      <category term="k8s" scheme="http://www.yorzorzy.pw/categories/k8s/"/>
     
     
-      <category term="k8s" scheme="http://www.mydreamdll.xyz/tags/k8s/"/>
+      <category term="k8s" scheme="http://www.yorzorzy.pw/tags/k8s/"/>
     
   </entry>
   
   <entry>
     <title>mysql主从复制原理</title>
-    <link href="http://www.mydreamdll.xyz/2020/06/19/mysql%E5%8F%8C%E4%B8%BB%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86/"/>
-    <id>http://www.mydreamdll.xyz/2020/06/19/mysql%E5%8F%8C%E4%B8%BB%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86/</id>
+    <link href="http://www.yorzorzy.pw/2020/06/19/mysql%E5%8F%8C%E4%B8%BB%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86/"/>
+    <id>http://www.yorzorzy.pw/2020/06/19/mysql%E5%8F%8C%E4%B8%BB%E5%A4%8D%E5%88%B6%E5%8E%9F%E7%90%86/</id>
     <published>2020-06-19T06:00:28.488Z</published>
     <updated>2020-06-19T06:00:28.488Z</updated>
     
@@ -192,17 +192,17 @@
     </summary>
     
     
-      <category term="mysql" scheme="http://www.mydreamdll.xyz/categories/mysql/"/>
+      <category term="mysql" scheme="http://www.yorzorzy.pw/categories/mysql/"/>
     
     
-      <category term="mysql" scheme="http://www.mydreamdll.xyz/tags/mysql/"/>
+      <category term="mysql" scheme="http://www.yorzorzy.pw/tags/mysql/"/>
     
   </entry>
   
   <entry>
     <title>go协程调度机制</title>
-    <link href="http://www.mydreamdll.xyz/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/"/>
-    <id>http://www.mydreamdll.xyz/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/</id>
+    <link href="http://www.yorzorzy.pw/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/"/>
+    <id>http://www.yorzorzy.pw/2020/06/19/go%E5%8D%8F%E7%A8%8B%E8%B0%83%E5%BA%A6%E6%9C%BA%E5%88%B6/</id>
     <published>2020-06-19T05:22:35.694Z</published>
     <updated>2020-06-19T05:22:35.694Z</updated>
     
@@ -218,17 +218,17 @@
     </summary>
     
     
-      <category term="golang" scheme="http://www.mydreamdll.xyz/categories/golang/"/>
+      <category term="golang" scheme="http://www.yorzorzy.pw/categories/golang/"/>
     
     
-      <category term="golang" scheme="http://www.mydreamdll.xyz/tags/golang/"/>
+      <category term="golang" scheme="http://www.yorzorzy.pw/tags/golang/"/>
     
   </entry>
   
   <entry>
     <title>runc原理学习</title>
-    <link href="http://www.mydreamdll.xyz/2020/03/31/runc%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/"/>
-    <id>http://www.mydreamdll.xyz/2020/03/31/runc%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/</id>
+    <link href="http://www.yorzorzy.pw/2020/03/31/runc%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://www.yorzorzy.pw/2020/03/31/runc%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-03-31T03:52:51.552Z</published>
     <updated>2020-03-31T03:02:36.000Z</updated>
     
@@ -244,17 +244,17 @@
     </summary>
     
     
-      <category term="docker" scheme="http://www.mydreamdll.xyz/categories/docker/"/>
+      <category term="docker" scheme="http://www.yorzorzy.pw/categories/docker/"/>
     
     
-      <category term="runc" scheme="http://www.mydreamdll.xyz/tags/runc/"/>
+      <category term="runc" scheme="http://www.yorzorzy.pw/tags/runc/"/>
     
   </entry>
   
   <entry>
     <title>galera原理和源码学习</title>
-    <link href="http://www.mydreamdll.xyz/2020/03/27/galera%E5%8E%9F%E7%90%86/"/>
-    <id>http://www.mydreamdll.xyz/2020/03/27/galera%E5%8E%9F%E7%90%86/</id>
+    <link href="http://www.yorzorzy.pw/2020/03/27/galera%E5%8E%9F%E7%90%86/"/>
+    <id>http://www.yorzorzy.pw/2020/03/27/galera%E5%8E%9F%E7%90%86/</id>
     <published>2020-03-27T03:34:48.239Z</published>
     <updated>2020-03-27T03:34:48.239Z</updated>
     
@@ -270,17 +270,17 @@
     </summary>
     
     
-      <category term="mysql" scheme="http://www.mydreamdll.xyz/categories/mysql/"/>
+      <category term="mysql" scheme="http://www.yorzorzy.pw/categories/mysql/"/>
     
     
-      <category term="galera" scheme="http://www.mydreamdll.xyz/tags/galera/"/>
+      <category term="galera" scheme="http://www.yorzorzy.pw/tags/galera/"/>
     
   </entry>
   
   <entry>
     <title>kubernetes debug环境搭建</title>
-    <link href="http://www.mydreamdll.xyz/2020/03/02/kubernetes_debug%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    <id>http://www.mydreamdll.xyz/2020/03/02/kubernetes_debug%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
+    <link href="http://www.yorzorzy.pw/2020/03/02/kubernetes_debug%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>http://www.yorzorzy.pw/2020/03/02/kubernetes_debug%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
     <published>2020-03-02T10:25:56.103Z</published>
     <updated>2020-03-02T10:25:02.000Z</updated>
     
@@ -296,17 +296,17 @@
     </summary>
     
     
-      <category term="k8s" scheme="http://www.mydreamdll.xyz/categories/k8s/"/>
+      <category term="k8s" scheme="http://www.yorzorzy.pw/categories/k8s/"/>
     
     
-      <category term="k8s" scheme="http://www.mydreamdll.xyz/tags/k8s/"/>
+      <category term="k8s" scheme="http://www.yorzorzy.pw/tags/k8s/"/>
     
   </entry>
   
   <entry>
     <title>ES过程分析</title>
-    <link href="http://www.mydreamdll.xyz/2020/02/26/es%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/"/>
-    <id>http://www.mydreamdll.xyz/2020/02/26/es%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</id>
+    <link href="http://www.yorzorzy.pw/2020/02/26/es%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/"/>
+    <id>http://www.yorzorzy.pw/2020/02/26/es%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</id>
     <published>2020-02-26T12:51:46.449Z</published>
     <updated>2020-02-26T12:50:21.000Z</updated>
     
@@ -322,17 +322,17 @@
     </summary>
     
     
-      <category term="ElasticSearch" scheme="http://www.mydreamdll.xyz/categories/ElasticSearch/"/>
+      <category term="ElasticSearch" scheme="http://www.yorzorzy.pw/categories/ElasticSearch/"/>
     
     
-      <category term="ElasticSearch" scheme="http://www.mydreamdll.xyz/tags/ElasticSearch/"/>
+      <category term="ElasticSearch" scheme="http://www.yorzorzy.pw/tags/ElasticSearch/"/>
     
   </entry>
   
   <entry>
     <title>Prometheus 架构和源码学习</title>
-    <link href="http://www.mydreamdll.xyz/2020/02/18/prometheus%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://www.mydreamdll.xyz/2020/02/18/prometheus%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
+    <link href="http://www.yorzorzy.pw/2020/02/18/prometheus%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://www.yorzorzy.pw/2020/02/18/prometheus%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
     <published>2020-02-18T01:29:10.643Z</published>
     <updated>2020-02-18T01:29:10.643Z</updated>
     
@@ -348,17 +348,17 @@
     </summary>
     
     
-      <category term="prometheus" scheme="http://www.mydreamdll.xyz/categories/prometheus/"/>
+      <category term="prometheus" scheme="http://www.yorzorzy.pw/categories/prometheus/"/>
     
     
-      <category term="monitor" scheme="http://www.mydreamdll.xyz/tags/monitor/"/>
+      <category term="monitor" scheme="http://www.yorzorzy.pw/tags/monitor/"/>
     
   </entry>
   
   <entry>
     <title>influxdb集群代码分析</title>
-    <link href="http://www.mydreamdll.xyz/2020/02/17/influxdb%20%E9%9B%86%E7%BE%A4%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/"/>
-    <id>http://www.mydreamdll.xyz/2020/02/17/influxdb%20%E9%9B%86%E7%BE%A4%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/</id>
+    <link href="http://www.yorzorzy.pw/2020/02/17/influxdb%20%E9%9B%86%E7%BE%A4%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/"/>
+    <id>http://www.yorzorzy.pw/2020/02/17/influxdb%20%E9%9B%86%E7%BE%A4%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/</id>
     <published>2020-02-17T03:14:59.099Z</published>
     <updated>2020-02-17T03:13:55.000Z</updated>
     
@@ -374,17 +374,17 @@
     </summary>
     
     
-      <category term="influxdb" scheme="http://www.mydreamdll.xyz/categories/influxdb/"/>
+      <category term="influxdb" scheme="http://www.yorzorzy.pw/categories/influxdb/"/>
     
     
-      <category term="influxdb" scheme="http://www.mydreamdll.xyz/tags/influxdb/"/>
+      <category term="influxdb" scheme="http://www.yorzorzy.pw/tags/influxdb/"/>
     
   </entry>
   
   <entry>
     <title>发篇心灵鸡汤</title>
-    <link href="http://www.mydreamdll.xyz/2020/02/16/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"/>
-    <id>http://www.mydreamdll.xyz/2020/02/16/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/</id>
+    <link href="http://www.yorzorzy.pw/2020/02/16/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"/>
+    <id>http://www.yorzorzy.pw/2020/02/16/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/</id>
     <published>2020-02-16T11:47:41.228Z</published>
     <updated>2020-02-16T11:46:12.000Z</updated>
     
@@ -400,17 +400,17 @@
     </summary>
     
     
-      <category term="心灵鸡汤" scheme="http://www.mydreamdll.xyz/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"/>
+      <category term="心灵鸡汤" scheme="http://www.yorzorzy.pw/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"/>
     
     
-      <category term="心灵鸡汤" scheme="http://www.mydreamdll.xyz/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"/>
+      <category term="心灵鸡汤" scheme="http://www.yorzorzy.pw/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"/>
     
   </entry>
   
   <entry>
     <title>CTF 学习资料整理</title>
-    <link href="http://www.mydreamdll.xyz/2020/02/13/ctf%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/"/>
-    <id>http://www.mydreamdll.xyz/2020/02/13/ctf%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/</id>
+    <link href="http://www.yorzorzy.pw/2020/02/13/ctf%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/"/>
+    <id>http://www.yorzorzy.pw/2020/02/13/ctf%E8%B5%84%E6%96%99%E6%95%B4%E7%90%86/</id>
     <published>2020-02-13T08:32:50.116Z</published>
     <updated>2020-02-13T08:30:21.000Z</updated>
     
@@ -427,17 +427,17 @@
     </summary>
     
     
-      <category term="ctf" scheme="http://www.mydreamdll.xyz/categories/ctf/"/>
+      <category term="ctf" scheme="http://www.yorzorzy.pw/categories/ctf/"/>
     
     
-      <category term="ctf" scheme="http://www.mydreamdll.xyz/tags/ctf/"/>
+      <category term="ctf" scheme="http://www.yorzorzy.pw/tags/ctf/"/>
     
   </entry>
   
   <entry>
     <title>ElasticSearch基本原理介绍</title>
-    <link href="http://www.mydreamdll.xyz/2020/02/10/es%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/"/>
-    <id>http://www.mydreamdll.xyz/2020/02/10/es%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
+    <link href="http://www.yorzorzy.pw/2020/02/10/es%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://www.yorzorzy.pw/2020/02/10/es%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E4%BB%8B%E7%BB%8D/</id>
     <published>2020-02-10T01:59:02.217Z</published>
     <updated>2020-02-10T01:57:41.000Z</updated>
     
@@ -453,17 +453,17 @@
     </summary>
     
     
-      <category term="ElasticSearch" scheme="http://www.mydreamdll.xyz/categories/ElasticSearch/"/>
+      <category term="ElasticSearch" scheme="http://www.yorzorzy.pw/categories/ElasticSearch/"/>
     
     
-      <category term="ElasticSearch" scheme="http://www.mydreamdll.xyz/tags/ElasticSearch/"/>
+      <category term="ElasticSearch" scheme="http://www.yorzorzy.pw/tags/ElasticSearch/"/>
     
   </entry>
   
   <entry>
     <title>ptmalloc学习</title>
-    <link href="http://www.mydreamdll.xyz/2020/01/26/ptmalloc%E5%AD%A6%E4%B9%A0/"/>
-    <id>http://www.mydreamdll.xyz/2020/01/26/ptmalloc%E5%AD%A6%E4%B9%A0/</id>
+    <link href="http://www.yorzorzy.pw/2020/01/26/ptmalloc%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://www.yorzorzy.pw/2020/01/26/ptmalloc%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-01-26T11:02:18.842Z</published>
     <updated>2020-01-26T11:02:04.000Z</updated>
     
@@ -479,17 +479,17 @@
     </summary>
     
     
-      <category term="malloc" scheme="http://www.mydreamdll.xyz/categories/malloc/"/>
+      <category term="malloc" scheme="http://www.yorzorzy.pw/categories/malloc/"/>
     
     
-      <category term="malloc" scheme="http://www.mydreamdll.xyz/tags/malloc/"/>
+      <category term="malloc" scheme="http://www.yorzorzy.pw/tags/malloc/"/>
     
   </entry>
   
   <entry>
     <title>Linux Malloc底层分配原理【翻译】</title>
-    <link href="http://www.mydreamdll.xyz/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://www.mydreamdll.xyz/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</id>
+    <link href="http://www.yorzorzy.pw/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/"/>
+    <id>http://www.yorzorzy.pw/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</id>
     <published>2020-01-24T06:56:22.335Z</published>
     <updated>2020-01-24T06:56:01.000Z</updated>
     
@@ -505,17 +505,17 @@
     </summary>
     
     
-      <category term="malloc" scheme="http://www.mydreamdll.xyz/categories/malloc/"/>
+      <category term="malloc" scheme="http://www.yorzorzy.pw/categories/malloc/"/>
     
     
-      <category term="malloc" scheme="http://www.mydreamdll.xyz/tags/malloc/"/>
+      <category term="malloc" scheme="http://www.yorzorzy.pw/tags/malloc/"/>
     
   </entry>
   
   <entry>
     <title>pwn学习笔记1</title>
-    <link href="http://www.mydreamdll.xyz/2020/01/23/pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
-    <id>http://www.mydreamdll.xyz/2020/01/23/pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
+    <link href="http://www.yorzorzy.pw/2020/01/23/pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://www.yorzorzy.pw/2020/01/23/pwn%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</id>
     <published>2020-01-23T03:05:13.595Z</published>
     <updated>2020-01-23T03:04:09.000Z</updated>
     
@@ -531,10 +531,10 @@
     </summary>
     
     
-      <category term="pwn" scheme="http://www.mydreamdll.xyz/categories/pwn/"/>
+      <category term="pwn" scheme="http://www.yorzorzy.pw/categories/pwn/"/>
     
     
-      <category term="pwn" scheme="http://www.mydreamdll.xyz/tags/pwn/"/>
+      <category term="pwn" scheme="http://www.yorzorzy.pw/tags/pwn/"/>
     
   </entry>
   
