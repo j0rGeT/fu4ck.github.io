@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://www.yorzorzy.xyz/"/>
-  <updated>2021-04-27T07:07:37.336Z</updated>
+  <updated>2021-04-27T07:09:16.000Z</updated>
   <id>http://www.yorzorzy.xyz/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>journal block device</title>
+    <link href="http://www.yorzorzy.xyz/2021/04/27/journal%20block%20device/"/>
+    <id>http://www.yorzorzy.xyz/2021/04/27/journal%20block%20device/</id>
+    <published>2021-04-27T07:11:41.150Z</published>
+    <updated>2021-04-27T07:09:16.000Z</updated>
+    
+    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="journal-block-device"><a href="#journal-block-device" class="headerlink" title="journal block device"></a>journal block device</h2><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><h3 id="jbd是如何解决问题"><a href="#jbd是如何解决问题" class="headerlink" title="jbd是如何解决问题"></a>jbd是如何解决问题</h3><ul><li>提到一致性，大家会想到数据库里面的事务的概念，事务有四个基本属性</li></ul><ol><li>原子性<br>事务必须是原子工作单元；对于其数据修改，要么全部执行，要么全都不执行。</li><li>一致性<br>事务在完成时，必须使所有的数据都保持一致状态。</li><li>隔离性<br>由并发事务所做的修改必须与任何其他并发事务所做的修改隔离。事务识别数据时数据所处的状态，要么是另一并发事务修改它之前的状态，要么是第二个事务修改它之后的状态，事务不会识别中间状态的数据。</li><li>持久性<br>事务完成之后，他对于系统的影响是永久性的。该修改即使出现系统故障也将一直保持。</li></ol><ul><li>文件系统的开发者借用了数据库中事务的思想，将其应用于文件系统上，以期保证对文件系统操作的原子性、隔离性，尽量使文件系统处于一致性。</li></ul><h5 id="在磁盘上单独划分一个日志空间"><a href="#在磁盘上单独划分一个日志空间" class="headerlink" title="在磁盘上单独划分一个日志空间"></a>在磁盘上单独划分一个日志空间</h5><ul><li>日志，在这里指的是磁盘上存储事务数据的那个地方，即若干磁盘块。它可以以一个单独的文件形式存在，也可以由文件系统预留一个inode和一些磁盘块，也可以是单独的磁盘分区。总之就是磁盘上存储事务数据的那个地方。</li><li>提到日志时，可能还有另外一种含义，就是它是一种机制，用于管理内存中的缓存区、事务、磁盘日志数据读写等等所有这一切，统称为日志。读者注意根据上下文进行区分。</li></ul><h5 id="将内存事务的数据写到日志中"><a href="#将内存事务的数据写到日志中" class="headerlink" title="将内存事务的数据写到日志中"></a>将内存事务的数据写到日志中</h5><ul><li>文件系统可以选择定期（每隔5秒，或用户指定的时间间隔）或者立即将内存中的事务数据写到磁盘日志上，以备发生系统崩溃后可以利用日志中的数据恢复，重新使文件系统保持一致的状态。</li><li>这个间隔时间的选取，要注意性能的平衡。时间间隔越短，文件系统丢失数据的可能性就越少，一致性的时间点就越新，但是IO负担就越重，很可能就会影响系统的性能。反过来，时间间隔越大，文件系统丢失的数据可能就越多，一致性的时间点就越旧。但是IO负担就比较轻，不太会影响系统的性能。</li></ul><h5 id="文件系统某些操作抽象成原子操作"><a href="#文件系统某些操作抽象成原子操作" class="headerlink" title="文件系统某些操作抽象成原子操作"></a>文件系统某些操作抽象成原子操作</h5><ul><li>所谓原子操作，就是内部不再分割的操作，该操作要么完全完成，要么根本没有执行，不存在部分完成的状态。</li><li>那么，什么样的操作可以看成对文件系统的原子操作呢？往一个磁盘文件中追加写入1MB字节可以看成一个原子操作么？这个操作其实比较大，因为要写1MB的数据，要为文件分配1024个磁盘块，同时还要分配若干个索引块，也会涉及到很多的磁盘块位图、块组块的读写，非常复杂，时间也会比较长，中间出问题的机会就比较多，所以不适宜看做一个原子操作。</li><li>那么，什么样的操作可以看成对文件系统的原子操作呢？比如说为文件分配一个磁盘块，就看成一个原子操作就比较合适。分配一个磁盘块，可能需要修改一个inode块、一个磁盘块位图、最多三个间接索引块、块组块、超级块，一共最多7个磁盘块。将分配一个磁盘块看成一个原子操作，意味着上述修改7个磁盘块的操作要么都成功，要么都失败，不可能有第三种状态。</li></ul><h5 id="若干个原子操作组成一个事务"><a href="#若干个原子操作组成一个事务" class="headerlink" title="若干个原子操作组成一个事务"></a>若干个原子操作组成一个事务</h5><ul><li>实现日志文件系统时，可以将一个原子操作就作为一个事务来处理，但是这样实现的效率比较低。于是ext3将若干个原子操作组合成一个事务，对磁盘日志以事务为单位进行管理，以提高读写日志的效率。</li></ul><h5 id="从日志恢复数据"><a href="#从日志恢复数据" class="headerlink" title="从日志恢复数据"></a>从日志恢复数据</h5><ul><li>jbd的思想就是原来内核读写磁盘的逻辑保持不变，但是对于影响文件系统一致性的数据块（即元数据块，第四章会详细解释），及时地写到磁盘上的日志空间中去。这样，即使系统崩溃了，也能从日志中恢复数据，确保文件系统的一致性。如错误！未找到引用源。，其中绿色的箭头表示正常的磁盘读写，紫色的箭头表示由jbd将元数据块额外写一份到磁盘日志中，红色箭头表示恢复时，由jbd将日志中的数据写回磁盘的原始位置。</li></ul><p><img src="https://img-blog.csdnimg.cn/2019012111422743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIyNjEzNzU3,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>补习linux 文件系统知识</p><h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://blog.csdn.net/qq_22613757/article/details/86571646" target="_blank" rel="noopener">https://blog.csdn.net/qq_22613757/article/details/86571646</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
+      
+    
+    </summary>
+    
+    
+      <category term="学习笔记" scheme="http://www.yorzorzy.xyz/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+    
+      <category term="学习笔记" scheme="http://www.yorzorzy.xyz/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>minio存储</title>
@@ -492,32 +518,6 @@
     <updated>2020-01-26T11:02:04.000Z</updated>
     
     <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="ptmalloc学习"><a href="#ptmalloc学习" class="headerlink" title="ptmalloc学习"></a>ptmalloc学习</h2><p>ptmalloc2 是linux glibc中当前使用的内存堆分配。之前使用的dlmalloc，现在逐步都被支持多线程的ptmalloc来替代了。</p><p>我们之前学习过系统底层是调用的brk和mmap来实现内存分配的。</p><p>ptmalloc2多线程情况下分配内存的时候，每个线程有一个独立的heap segment和freelist数据结构保持于其他堆独立。这个行为我们称作为per thread arena;</p><p>需要注意的是，即使用户请求内存只有1000字节，堆内存分配的时候还是会提供132KB大小被创建。这种连续的堆内存区域我们称作为arena。主线程创建的我们称作为main arena;</p><p>如果当程序超过了这个arena区域可用空寂哦哦安的时候，他能够增加通过程序break位置的方式。top chunk大小可以适配 extra space空间。类似的如果有很多可用空间在top chunk中的时候，他可以缩小。</p><p>除了这个1ＭＢ的堆分配外，只有132KB的读写权限被设置，因此这个连续的内存区域被称作为thread arena;如果超过128KB（132*1024）请求大小，超过了malloc可用空间的时候，内存分配通过使用mmap系统调用来申请，无论请求来自于main arena还是thread arena; arena的限制来自于系统的cores数目；</p><p>32bit: Number of arena = 2 * number of cores;</p><p>63bit: Number of arena = 8 * number of cores;</p><p>heap的主要信息有下面这些：</p><p>heap_info： heap header信息，单线程thread arena能有多堆。</p><p>malloc_state: arena header</p><p>malloc_chunk:  chunk_header</p><p>main arena因为没有多heap，所以没有heap_info。不像thread arena，main arena header不是sbrk的 heap segment的一部分。他是一个全局变量，因此可以在libc.so data segment找到。</p><p><img src="https://docs.google.com/drawings/d/1367fdYcRTvkyfZ_s27yg6oJp5KYsVAuYqPf8szbRNc0/pub?w=960&h=720" alt="img"></p><p><img src="https://docs.google.com/drawings/d/1367fdYcRTvkyfZ_s27yg6oJp5KYsVAuYqPf8szbRNc0/pub?w=960&h=720" alt="img"></p><p><img src="https://docs.google.com/drawings/d/150bTi0uScQlnABDImLYS8rWyL82mmfpMxzRbx-45UKw/pub?w=960&h=720" alt="img"></p><p>chunk: 一个chunk包含在一个heap segment中，包括以下几个：</p><ol><li><p>allocated chunk</p><p><img src="https://docs.google.com/drawings/d/1eLkG-WF9U3O_ytNs6iFKHacqkjWZeY4KtLqxmd01EVs/pub?w=962&h=682" alt="img"></p></li><li><p>free chunk</p><p><img src="https://docs.google.com/drawings/d/1YrlnGa081NpO0D3wcoaJbGvhnPi3X6bBKMc3bN4-oZQ/pub?w=940&h=669" alt="img"></p><p>其中 bins是freelist的数据结构，在free chunk中被使用。</p><p>fast bin, unsorted bin, small bin, large bin</p><p>fastbinsY： 这个数组支持fastbins</p><p>bins: bin1  unsorted bin, bin2-bin63 small bin, bin64-bin126 large bin;</p><p>fastbin: chunk大小在16-80字节被称作为fast chunk;</p><p><img src="https://docs.google.com/drawings/d/144diIfbLqUmOPlAWbtP45mGsZlIl3PZWJvvH-cvQziU/pub?w=960&h=720" alt="img"></p><p>unsorted bin: </p><p>当释放小块或大块时，而不是将它们添加到各自的容器，将他们释放的空间放入unsortedbin中。这种方式给了glibc malloc重用最近释放的chunk的机会。因此，内存分配和释放会加快一点。因为寻找合适的垃圾箱所花费的时间减少了。</p><p><img src="https://docs.google.com/drawings/d/1Kf_eg7uB2mRjSOasTc4dIu5fuBpTAK0GxbnKVTkZd0Y/pub?w=1217&h=865" alt="img"></p><p>small bin: chunk小于512字节的被称作为small chunk;</p><p>large bin: chunk大于512字节的被称作为large chunk;</p></li><li><p>Top Chunk：</p><p>在top边界上的arena被称作为top chunk;</p></li><li><p>Last Remainder Chunk：</p><p>从最近的一个小请求分裂。最后的剩余块有助于改善引用的局部性，即小块的连续的malloc请求可能最终被分配到彼此接近的地方。</p></li></ol><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://sploitfun.wordpress.com/2015/02/10/understanding-glibc-malloc/comment-page-1/" target="_blank" rel="noopener">https://sploitfun.wordpress.com/2015/02/10/understanding-glibc-malloc/comment-page-1/</a></p><p><a href="https://www.cnblogs.com/alisecurity/p/5486458.html" target="_blank" rel="noopener">https://www.cnblogs.com/alisecurity/p/5486458.html</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;link rel=&quot;stylesheet&quot; class=&quot;aplayer-secondary-style-marker&quot; href=&quot;/assets/css/APlayer.min.css&quot;&gt;&lt;script src=&quot;/assets/js/APlayer.min.js&quot; cla
-      
-    
-    </summary>
-    
-    
-      <category term="malloc" scheme="http://www.yorzorzy.xyz/categories/malloc/"/>
-    
-    
-      <category term="malloc" scheme="http://www.yorzorzy.xyz/tags/malloc/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux Malloc底层分配原理【翻译】</title>
-    <link href="http://www.yorzorzy.xyz/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://www.yorzorzy.xyz/2020/01/24/linux%E5%86%85%E5%AD%98malloc%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0/</id>
-    <published>2020-01-24T06:56:22.335Z</published>
-    <updated>2020-01-24T06:56:01.000Z</updated>
-    
-    <content type="html"><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="/assets/css/APlayer.min.css"><script src="/assets/js/APlayer.min.js" class="aplayer-secondary-script-marker"></script><script class="meting-secondary-script-marker" src="/assets/js/Meting.min.js"></script><h2 id="Linux-Malloc底层分配原理【翻译】"><a href="#Linux-Malloc底层分配原理【翻译】" class="headerlink" title="Linux Malloc底层分配原理【翻译】"></a>Linux Malloc底层分配原理【翻译】</h2><p>linux中malloc函数还是通过syscall来分配内存的。通过调用brk或者mmap syscall函数来分配内存。</p><p><img src="https://docs.google.com/drawings/d/105HDvkEvIW2lsyaQjj758Lbyx6A-_K7jviheyzeAwl8/pub?w=480&h=238" alt="img"></p><p>brk函数：从内核分配内存（非0初始化）通过增加程序break位置来实现。初始化堆segment得开始与结束指向相同的位置。</p><p>如果ASLR关闭的时候，start_brk和brk将指向data/bss segment结束的位置。</p><p>如果ASLR打开的时候，start_brk和brk将等于data/bss segment结束的位置通过随机brk offset</p><p><img src="https://i2.wp.com/static.duartes.org/img/blogPosts/linuxFlexibleAddressSpaceLayout.png" alt="img"></p><p>mmap: malloc函数使用mmap来创建一个私有匿名映射segment.分配私有匿名的主要目的是分配一个新的内存（0填充的）这个新的内存将被调用进程的时候额外使用。</p><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://sploitfun.wordpress.com/2015/02/11/syscalls-used-by-malloc/" target="_blank" rel="noopener">https://sploitfun.wordpress.com/2015/02/11/syscalls-used-by-malloc/</a></p><p><a href="https://manybutfinite.com/post/anatomy-of-a-program-in-memory/" target="_blank" rel="noopener">https://manybutfinite.com/post/anatomy-of-a-program-in-memory/</a></p>]]></content>
     
     <summary type="html">
     
