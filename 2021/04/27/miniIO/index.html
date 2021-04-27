@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>minio存储 | Saar&#39;s Blog</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="Saar's Blog">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  <!--自定义看板娘-->
+  <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+  <script src="/live2d-widget/autoload.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"/>
+
+  
+
+  
+    
+<link rel="stylesheet" href="/style.css">
+
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Saar's Blog" type="application/atom+xml">
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>Saar's Blog</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header material">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="material"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          Saar's Blog
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;首页
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+    
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/2021/04/27/miniIO/">
+        minio存储
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    
+      <a href="http://www.yorzorzy.xyz" rel="nofollow">
+        
+          <i class="fas fa-user" aria-hidden="true"></i>
+        
+        <p>Saar</p>
+      </a>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2021-04-27</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/%E5%AD%98%E5%82%A8/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>存储</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+  
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+    <section class="article typo">
+      <div class="article-entry" itemprop="articleBody">
+        <h2 id="minio存储"><a href="#minio存储" class="headerlink" title="minio存储"></a>minio存储</h2><h3 id="部署安装"><a href="#部署安装" class="headerlink" title="部署安装"></a>部署安装</h3><p>源码安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone http://github.com/minio/minio</span><br></pre></td></tr></table></figure>
+
+<p>goland打开</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go run main.go server data1 data2 data3 data4 data5 data6 data7 data8</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:9000</span><br></pre></td></tr></table></figure>
+
+<h3 id="SDK"><a href="#SDK" class="headerlink" title="SDK"></a>SDK</h3><p>golang client：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"context"</span></span><br><span class="line">	<span class="string">"github.com/minio/minio-go/v7"</span></span><br><span class="line">	<span class="string">"github.com/minio/minio-go/v7/pkg/credentials"</span></span><br><span class="line">	<span class="string">"log"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	ctx := context.Background()</span><br><span class="line">	endpoint := <span class="string">"10.51.30.214:9000"</span></span><br><span class="line">	accessKeyID := <span class="string">"minioadmin"</span></span><br><span class="line">	secretAccessKey := <span class="string">"minioadmin"</span></span><br><span class="line">	useSSL := <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Initialize minio client object.</span></span><br><span class="line">	minioClient, err := minio.New(endpoint, &amp;minio.Options&#123;</span><br><span class="line">		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, <span class="string">""</span>),</span><br><span class="line">		Secure: useSSL,</span><br><span class="line">	&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalln(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Printf(<span class="string">"%#v\n"</span>, minioClient) <span class="comment">// minioClient is now set up</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Make a new bucket called mymusic.</span></span><br><span class="line">	bucketName := <span class="string">"mymusic"</span></span><br><span class="line">	location := <span class="string">"us-east-1"</span></span><br><span class="line"></span><br><span class="line">	err = minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions&#123;Region: location&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="comment">// Check to see if we already own this bucket (which happens if you run this twice)</span></span><br><span class="line">		exists, errBucketExists := minioClient.BucketExists(ctx, bucketName)</span><br><span class="line">		<span class="keyword">if</span> errBucketExists == <span class="literal">nil</span> &amp;&amp; exists &#123;</span><br><span class="line">			log.Printf(<span class="string">"We already own %s\n"</span>, bucketName)</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			log.Fatalln(err)</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		log.Printf(<span class="string">"Successfully created %s\n"</span>, bucketName)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Upload the zip file</span></span><br><span class="line">	objectName := <span class="string">"aaa.zip"</span></span><br><span class="line">	filePath := <span class="string">"aaa.zip"</span></span><br><span class="line">	contentType := <span class="string">"application/zip"</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Upload the zip file with FPutObject</span></span><br><span class="line">	n, err := minioClient.FPutObject(ctx, bucketName, objectName, filePath, minio.PutObjectOptions&#123;ContentType: contentType&#125;)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		log.Fatalln(err)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	log.Printf(<span class="string">"Successfully uploaded %s of size %d\n"</span>, objectName, n)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="对接k8s"><a href="#对接k8s" class="headerlink" title="对接k8s"></a>对接k8s</h3><p>安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl krew update</span><br><span class="line">kubectl krew install minio</span><br><span class="line">kubectl minio init</span><br></pre></td></tr></table></figure>
+
+<p>创建新租户</p>
+<p>配置至少16个pv</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kubectl minio tenant create minio-tenant-1 \</span><br><span class="line">     --servers 4                             \</span><br><span class="line">     --volumes 16                            \</span><br><span class="line">     --capacity 16Ti                         \</span><br><span class="line">     --namespace minio-tenant-1              \</span><br><span class="line">     --storageClassName local-storage        \</span><br></pre></td></tr></table></figure>
+
+<p>设置默认的存储StorageClass</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: storage.k8s.io/v1</span><br><span class="line">kind: StorageClass</span><br><span class="line">metadata:</span><br><span class="line">    name: local-storage</span><br><span class="line">provisioner: kubernetes.io/no-provisioner</span><br><span class="line">volumeBindingMode: WaitForFirstConsumer</span><br></pre></td></tr></table></figure>
+
+<p>docker-compose部署minio:</p>
+<p>docker-compose 文件如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">version: '3.7'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> starts 4 docker containers running minio server instances.</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> using nginx reverse proxy, load balancing, you can access</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> it through port 9000.</span></span><br><span class="line">services:</span><br><span class="line">  minio1:</span><br><span class="line">    image: minio/minio:RELEASE.2021-01-05T05-22-38Z</span><br><span class="line">    volumes:</span><br><span class="line">      - data1-1:/data1</span><br><span class="line">      - data1-2:/data2</span><br><span class="line">    expose:</span><br><span class="line">      - "9000"</span><br><span class="line">    environment:</span><br><span class="line">      MINIO_ROOT_USER: minio</span><br><span class="line">      MINIO_ROOT_PASSWORD: minio123</span><br><span class="line">    command: server http://minio&#123;1...4&#125;/data&#123;1...2&#125;</span><br><span class="line">    healthcheck:</span><br><span class="line">      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]</span><br><span class="line">      interval: 30s</span><br><span class="line">      timeout: 20s</span><br><span class="line">      retries: 3</span><br><span class="line"></span><br><span class="line">  minio2:</span><br><span class="line">    image: minio/minio:RELEASE.2021-01-05T05-22-38Z</span><br><span class="line">    volumes:</span><br><span class="line">      - data2-1:/data1</span><br><span class="line">      - data2-2:/data2</span><br><span class="line">    expose:</span><br><span class="line">      - "9000"</span><br><span class="line">    environment:</span><br><span class="line">      MINIO_ROOT_USER: minio</span><br><span class="line">      MINIO_ROOT_PASSWORD: minio123</span><br><span class="line">    command: server http://minio&#123;1...4&#125;/data&#123;1...2&#125;</span><br><span class="line">    healthcheck:</span><br><span class="line">      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]</span><br><span class="line">      interval: 30s</span><br><span class="line">      timeout: 20s</span><br><span class="line">      retries: 3</span><br><span class="line"></span><br><span class="line">  minio3:</span><br><span class="line">    image: minio/minio:RELEASE.2021-01-05T05-22-38Z</span><br><span class="line">    volumes:</span><br><span class="line">      - data3-1:/data1</span><br><span class="line">      - data3-2:/data2</span><br><span class="line">    expose:</span><br><span class="line">      - "9000"</span><br><span class="line">    environment:</span><br><span class="line">      MINIO_ROOT_USER: minio</span><br><span class="line">      MINIO_ROOT_PASSWORD: minio123</span><br><span class="line">    command: server http://minio&#123;1...4&#125;/data&#123;1...2&#125;</span><br><span class="line">    healthcheck:</span><br><span class="line">      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]</span><br><span class="line">      interval: 30s</span><br><span class="line">      timeout: 20s</span><br><span class="line">      retries: 3</span><br><span class="line"></span><br><span class="line">  minio4:</span><br><span class="line">    image: minio/minio:RELEASE.2021-01-05T05-22-38Z</span><br><span class="line">    volumes:</span><br><span class="line">      - data4-1:/data1</span><br><span class="line">      - data4-2:/data2</span><br><span class="line">    expose:</span><br><span class="line">      - "9000"</span><br><span class="line">    environment:</span><br><span class="line">      MINIO_ROOT_USER: minio</span><br><span class="line">      MINIO_ROOT_PASSWORD: minio123</span><br><span class="line">    command: server http://minio&#123;1...4&#125;/data&#123;1...2&#125;</span><br><span class="line">    healthcheck:</span><br><span class="line">      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]</span><br><span class="line">      interval: 30s</span><br><span class="line">      timeout: 20s</span><br><span class="line">      retries: 3</span><br><span class="line"></span><br><span class="line">  nginx:</span><br><span class="line">    image: nginx:1.19.2-alpine</span><br><span class="line">    volumes:</span><br><span class="line">      - ./nginx.conf:/etc/nginx/nginx.conf:ro</span><br><span class="line">    ports:</span><br><span class="line">      - "9000:9000"</span><br><span class="line">    depends_on:</span><br><span class="line">      - minio1</span><br><span class="line">      - minio2</span><br><span class="line">      - minio3</span><br><span class="line">      - minio4</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># By default this config uses default local driver,</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># For custom volumes replace with volume driver configuration.</span></span></span><br><span class="line">volumes:</span><br><span class="line">  data1-1:</span><br><span class="line">  data1-2:</span><br><span class="line">  data2-1:</span><br><span class="line">  data2-2:</span><br><span class="line">  data3-1:</span><br><span class="line">  data3-2:</span><br><span class="line">  data4-1:</span><br><span class="line">  data4-2:</span><br></pre></td></tr></table></figure>
+
+<p>执行启动minio</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker-compose pull</span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>特点：</p>
+<p>高性能：作为高性能对象存储，在标准硬件条件下它能达到55GB/s的读、35GG/s的写速率</p>
+<p>可扩容：不同MinIO集群可以组成联邦，并形成一个全局的命名空间，并跨越多个数据中心</p>
+<p>云原生：容器化、基于K8S的编排、多租户支持</p>
+<p>Amazon S3兼容：Minio使用Amazon S3 v2 / v4 API。可以使用Minio SDK，Minio Client，AWS SDK和AWS CLI访问Minio服务器。</p>
+<p>可对接后端存储: 除了Minio自己的文件系统，还支持DAS、 JBODs、NAS、Google云存储和Azure Blob存储。</p>
+<p>SDK支持: 基于Minio轻量的特点，它得到类似Java、Python或Go等语言的sdk支持</p>
+<p>Lambda计算: Minio服务器通过其兼容AWS SNS / SQS的事件通知服务触发Lambda功能。支持的目标是消息队列，如Kafka，NATS，AMQP，MQTT，Webhooks以及Elasticsearch，Redis，Postgres和MySQL等数据库。</p>
+<p>有操作页面</p>
+<p>功能简单: 这一设计原则让MinIO不容易出错、更快启动</p>
+<p>支持纠删码：MinIO使用纠删码、Checksum来防止硬件错误和静默数据污染。在最高冗余度配置下，即使丢失1/2的磁盘也能恢复数据</p>
+<p>Erasure Code</p>
+<p>副本（Replication）策略：</p>
+<p>副本，实打实的复制，常见的是三副本，意味着现实世界有三份一样的数据。代价稍高，偏计算类的场景基本都会用该策略，比如虚拟机VM、数据库。如果一个副本挂了，马上切到另外一个，漂移时间非常短。n副本存储效率永远是1/n。</p>
+<p>纠删码（Erasure Code）策略：</p>
+<p>纠删码，会把数据进行切分，同时计算校验块。以常见的reedsolomon（RS）纠删码为例，在6<em>数据块+3</em>校验块的情景，可以允许3个块（任意数据块+校验块数量之和为3）损坏。在偏纯存储的场景会用到，例如对象存储。n数据块+m校验块的纠删码配置，存储效率是n/n+m， 但是在重构（Reconstruct）的时候，需要消耗cpu资源，而且有一定延时。</p>
+<p>minio是一个对象存储服务，存储考虑的是低成本+高可用，其纠删码使用的是RS纠删码，对应的github仓库是<br><a href="https://github.com/klauspost/reedsolomon" target="_blank" rel="noopener">github.com/klauspost/reedsolomon</a><br>单核恢复能力超过1GB/s, 特定平台可以通过指令加速。</p>
+<p>Minio采用Reed-Solomon code将对象拆分成N/2数据和N/2 奇偶校验块。 这就意味着如果是12块盘，一个对象会被分成6个数据块、6个奇偶校验块，你可以丢失任意6块盘（不管其是存放的数据块还是奇偶校验块），你仍可以从剩下的盘中的数据进行恢复。</p>
+<p>位衰减又被称为数据腐化<code>Data Rot</code>、无声数据损坏<code>Silent Data Corruption</code>,是目前硬盘数据的一种严重数据丢失问题。硬盘上的数据可能会神不知鬼不觉就损坏了，也没有什么错误日志。正所谓明枪易躲，暗箭难防，这种背地里犯的错比硬盘直接咔咔宕了还危险。 不过不用怕，Minio纠删码采用了高速<a href="https://blog.minio.io/accelerating-blake2b-by-4x-using-simd-in-go-assembly-33ef16c8a56b#.jrp1fdwer" target="_blank" rel="noopener">BLAKE2</a> 基于哈希的校验和来防范位衰减。</p>
+<p><a href="https://blog.minio.io/accelerating-blake2b-by-4x-using-simd-in-go-assembly-33ef16c8a56b#.jrp1fdwer" target="_blank" rel="noopener">BLAKE2</a></p>
+<p>BLAKE算法于2008年提出，它包含两个版本，一种基于32位word用于产生最长256位的哈希结果，一种基于64位word用于产生最长512位的哈希结果，BLAKE算法核心操作是不断地将8个散列中间结果和16个输入word进行组合，从而产生下一轮组合的8个中间结果。按照最终截断的哈希长度，BLAKE-256和BLAKE-224使用32位字分别产生256位和224位的哈希结果（也称消息摘要），而BLAKE-512和BLAKE-384使用64位字并产生512位和384位哈希结果。</p>
+<p>BLAKE2算法基于BLAKE算法，于2012年被提出，BLAKE2不再向blake round函数中对输入字添加常量，修改了两个旋转常量及padding等，并在BLAKE2b（对应BLAKE-512）中将rounds的数量由16减少为12，在BLAKE2s（对应BLAKE-256）中将rounds数量由14减少为10，同样的，BLAKE2b产生1到64字节的消息摘要，BLAKE2s产生1到32字节的消息摘要，同时这两种算法也由对应的多核并行版本BLAKE2bp（4路并行）和BLAKE2sp（8路并行）。除了以上几种算法变种，BLAKE2还有一种BLAKE2x的变种，这种算法可以产生任意长度的消息摘要，详情请参考<a href="https://blake2.net/blake2x.pdf" target="_blank" rel="noopener">相应文档</a>。除了安全性方面的优势，据称BLAKE2算法在Intel CPU第六代微处理架构（Skylake）中的处理速度要优于MD5，SHA-1，SHA-2和SHA-3等算法</p>
+<p>BLAKE系列算法被广泛应用于区块链数字货币领域，下面介绍3中典型数字货币：</p>
+<p>1 decred<br>以blake256为核心哈希算法，其主页为：<a href="https://decred.org/" target="_blank" rel="noopener">https://decred.org/</a></p>
+<p>2 sia<br>以blake2b为核心哈希算法，其主页为：<a href="https://sia.tech/" target="_blank" rel="noopener">https://sia.tech/</a></p>
+<p>3 verge<br>以blake2s为核心哈希算法，其主页为：<a href="https://vergecurrency.com/" target="_blank" rel="noopener">https://vergecurrency.com/</a></p>
+<p>至于具体哈希算法在各个币种应用细节，请参考相关钱包的源代码。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>继续学习</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://www.jianshu.com/p/c2b43ff67df0" target="_blank" rel="noopener">https://www.jianshu.com/p/c2b43ff67df0</a></p>
+
+      </div>
+      
+      
+        <br>
+        
+
+
+  <section class='meta' id="footer-meta">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-04-27T07:07:37+00:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>更新于 2021年4月27日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%AD%98%E5%82%A8/" rel="nofollow"><i class="fas fa-tag" aria-hidden="true"></i><p>存储</p></a></div>
+
+
+        
+      
+        
+          
+
+        
+      
+    </div>
+  </section>
+
+
+      
+      
+          <div class="prev-next">
+              
+              
+                  <section class="next">
+                      <span class="art-item-right" aria-hidden="true">
+                          <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                          <h4>
+                              <a href="/2021/01/28/rabbitmq%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%902/" rel="prev" title="rabbitmq源码学习二">
+                                  
+                                      rabbitmq源码学习二
+                                  
+                              </a>
+                          </h4>
+                          
+                              
+                              <h6 class="tags">
+                                  <a class="tag" href="/tags/rabbitmq/"><i class="fas fa-tag fa-fw" aria-hidden="true"></i> rabbitmq</a>
+                              </h6>
+                          
+                      </span>
+                  </section>
+              
+          </div>
+      
+    </section>
+  </article>
+
+
+
+  <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'minio存储',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+      
+        
+          
+          
+            
+              <section class='widget author'>
+  <div class='content material'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='/images/avatar.jpg'/>
+      </div>
+    
+    
+      <div class='text'>
+        
+        
+        
+          <p><span id="jinrishici-sentence">Saar's Blog</span></p>
+          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+        
+      </div>
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/fu4ck"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget toc-wrapper'>
+    
+<header class='material'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <!-- <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div> -->
+  
+</header>
+
+    <div class='content material'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#minio存储"><span class="toc-text">minio存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#部署安装"><span class="toc-text">部署安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-text">启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SDK"><span class="toc-text">SDK</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对接k8s"><span class="toc-text">对接k8s</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考资料"><span class="toc-text">参考资料</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              <section class='widget grid'>
+  
+<header class='material'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content material'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/categories/" href="/categories/"
+          
+            rel="nofollow"
+          
+          
+          id="categories">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget category'>
+    
+<header class='material'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/ElasticSearch/" href="/categories/ElasticSearch/"><div class='name'>ElasticSearch</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/ctf/" href="/categories/ctf/"><div class='name'>ctf</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/docker/" href="/categories/docker/"><div class='name'>docker</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/golang/" href="/categories/golang/"><div class='name'>golang</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/influxdb/" href="/categories/influxdb/"><div class='name'>influxdb</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/k8s/" href="/categories/k8s/"><div class='name'>k8s</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/malloc/" href="/categories/malloc/"><div class='name'>malloc</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/monitor/" href="/categories/monitor/"><div class='name'>monitor</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/mysql/" href="/categories/mysql/"><div class='name'>mysql</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/prometheus/" href="/categories/prometheus/"><div class='name'>prometheus</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/pwn/" href="/categories/pwn/"><div class='name'>pwn</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/rabbitmq/" href="/categories/rabbitmq/"><div class='name'>rabbitmq</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/redis/" href="/categories/redis/"><div class='name'>redis</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/tsdb/" href="/categories/tsdb/"><div class='name'>tsdb</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/"><div class='name'>分布式</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%AD%98%E5%82%A8/" href="/categories/%E5%AD%98%E5%82%A8/"><div class='name'>存储</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" href="/categories/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/"><div class='name'>心灵鸡汤</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><div class='name'>深度学习</div><div class='badge'>(2)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+            
+              
+  <section class='widget tagcloud'>
+    
+<header class='material'>
+  <div><i class="fas fa-tags fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/tags/"
+    title="/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content material'>
+      <a href="/tags/ElasticSearch/" style="font-size: 17.33px; color: #828282">ElasticSearch</a> <a href="/tags/ctf/" style="font-size: 14px; color: #999">ctf</a> <a href="/tags/galera/" style="font-size: 14px; color: #999">galera</a> <a href="/tags/golang/" style="font-size: 17.33px; color: #828282">golang</a> <a href="/tags/influxdb/" style="font-size: 17.33px; color: #828282">influxdb</a> <a href="/tags/k8s/" style="font-size: 20.67px; color: #6c6c6c">k8s</a> <a href="/tags/malloc/" style="font-size: 17.33px; color: #828282">malloc</a> <a href="/tags/monitor/" style="font-size: 24px; color: #555">monitor</a> <a href="/tags/mysql/" style="font-size: 14px; color: #999">mysql</a> <a href="/tags/pwn/" style="font-size: 14px; color: #999">pwn</a> <a href="/tags/rabbitmq/" style="font-size: 17.33px; color: #828282">rabbitmq</a> <a href="/tags/redis/" style="font-size: 14px; color: #999">redis</a> <a href="/tags/runc/" style="font-size: 14px; color: #999">runc</a> <a href="/tags/tsdb/" style="font-size: 14px; color: #999">tsdb</a> <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" style="font-size: 17.33px; color: #828282">分布式</a> <a href="/tags/%E5%AD%98%E5%82%A8/" style="font-size: 14px; color: #999">存储</a> <a href="/tags/%E5%BF%83%E7%81%B5%E9%B8%A1%E6%B1%A4/" style="font-size: 14px; color: #999">心灵鸡汤</a> <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 17.33px; color: #828282">深度学习</a>
+    </div>
+  </section>
+
+
+            
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+          
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/fu4ck"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('') {
+          $('').backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.xjh.me/desktop/bg/nature/65253358_p0.jpg", "http://img.xjh.me/desktop/bg/nature/56245464_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63606459_p0.jpg", "http://img.xjh.me/desktop/bg/nature/63190697_p0.jpg", "http://img.xjh.me/desktop/bg/nature/59322814_p0.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+  
+<script src="/js/search.js"></script>
+
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
